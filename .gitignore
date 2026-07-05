@@ -1,0 +1,18 @@
+# =========================================================================
+# Cheffe Kamano — Fichiers ignorés par git
+# À placer à la RACINE du dépôt (website - Cheffe Kamano/), pas dans site/.
+# =========================================================================
+
+# macOS
+.DS_Store
+._*
+
+# Windows
+Thumbs.db
+
+# Éditeurs (décommente si tu ne veux pas versionner tes réglages VS Code)
+# .vscode/
+
+# Fichiers temporaires
+*.swp
+*.tmp

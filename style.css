@@ -1,0 +1,40 @@
+/* =========================================================================
+   Cheffe Kamano — Feuille de style
+   Stub Partie 1 : variables de la charte figée + reset minimal.
+   Le style des sections viendra en Partie 2.
+   ========================================================================= */
+
+/* --- Variables de la charte (figée en Partie 1) ------------------------- */
+:root {
+  /* Couleurs de marque */
+  --noir:        #1C1714;  /* texte, base */
+  --blanc:       #FFFFFF;  /* fond principal */
+  --bordeaux:    #6E1F2A;  /* accent chaud, action principale */
+  --or:          #CDB98C;  /* accent, filets, détails (or champagne) */
+
+  /* Neutres dérivés du noir (pas de nouvelle couleur) */
+  --texte-secondaire: rgba(28, 23, 20, 0.55);
+  --bordure:          rgba(28, 23, 20, 0.12);
+
+  /* Typographies */
+  --police-titres: "Cormorant Garamond", Georgia, serif;
+  --police-corps:  "Mulish", system-ui, sans-serif;
+}
+
+/* --- Reset minimal ------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--police-corps);
+  color: var(--noir);
+  background: var(--blanc);
+  line-height: 1.7;
+}
+
+/* Le style complet des sections arrive en Partie 2. */

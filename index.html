@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<!-- =========================================================================
+     Cheffe Kamano — Site vitrine (mono-page)
+     Squelette HTML de base — Partie 1
+     Structure : Hero > Histoire > Spécialités > Galerie > Services >
+                 Témoignages > Contact > Footer
+     Stack : HTML / CSS / JS vanilla, responsive.
+     ========================================================================= -->
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <!-- Responsive : indispensable pour desktop / tablette / mobile -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Cheffe Kamano — Cuisine à domicile & traiteur | Lausanne</title>
+  <meta name="description" content="Cheffe Kamano, cuisine à domicile et traiteur à Lausanne et environs. Gastronomie africaine et européenne, événements privés et professionnels sur mesure.">
+
+  <!-- Favicon (à créer avec le logo — dette) -->
+  <link rel="icon" href="favicon.ico">
+
+  <!-- TEMPORAIRE — pour prévisualiser Cormorant + Mulish en local.
+       À REMPLACER au build par des polices auto-hébergées (pleine propriété). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,500&family=Mulish:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Feuille de style du site -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Lien d'évitement (accessibilité clavier / lecteurs d'écran) -->
+  <a class="skip-link" href="#hero">Aller au contenu</a>
+
+  <!-- =====================================================================
+       EN-TÊTE — nom seul, pas de menu de navigation visible (choix validé).
+       ===================================================================== -->
+  <header class="site-header">
+    <p class="site-header__brand">Cheffe Kamano</p>
+  </header>
+
+  <main>
+
+    <!-- =================================================================
+         1 · HERO — nom, devise, appel à l'action, photo professionnelle
+         ================================================================= -->
+    <section id="hero" class="hero reveal" aria-labelledby="hero-titre">
+      <div class="container hero__inner">
+        <h1 id="hero-titre" class="hero__titre">Cheffe Kamano</h1>
+        <p class="hero__devise">Du feu dans les saveurs</p>
+
+        <!-- Appel à l'action principal : WhatsApp (canal prioritaire) -->
+        <a class="btn btn--principal" href="https://wa.me/XXXXXXXXXXX">
+          Réserver une prestation
+        </a>
+
+        <!-- Photo professionnelle de la cheffe (média à venir — dette) -->
+        <!-- <img class="hero__photo" src="images/cheffe.jpg" alt="Portrait de Cheffe Kamano"> -->
+      </div>
+    </section>
+
+    <!-- =================================================================
+         2 · HISTOIRE — parcours, CFC, distinctions, texte de présentation
+         ================================================================= -->
+    <section id="histoire" class="histoire reveal" aria-labelledby="histoire-titre">
+      <div class="container">
+        <h2 id="histoire-titre" class="section__titre">Mon histoire</h2>
+        <!-- Contenu : présentation rédigée par elle, CFC, distinctions
+             (GastroVaud, mérites du centre patronal, École de Montreux),
+             le pâté en croûte comme signature, sa vision. -->
+      </div>
+    </section>
+
+    <!-- =================================================================
+         3 · SPÉCIALITÉS — cuisine, plats signatures, ce qui la distingue
+         ================================================================= -->
+    <section id="specialites" class="specialites reveal" aria-labelledby="specialites-titre">
+      <div class="container">
+        <h2 id="specialites-titre" class="section__titre">Spécialités</h2>
+        <!-- Contenu : cuisine française / européenne / africaine révisitée,
+             plats signatures, sourcing (marchés, producteurs locaux). -->
+      </div>
+    </section>
+
+    <!-- =================================================================
+         4 · GALERIE — photos de plats et d'événements (remontée : la photo
+         est l'argument de vente le plus fort en gastronomie)
+         ================================================================= -->
+    <section id="galerie" class="galerie reveal" aria-labelledby="galerie-titre">
+      <div class="container">
+        <h2 id="galerie-titre" class="section__titre">Galerie</h2>
+        <!-- Contenu : grille de photos de plats + événements (médias à venir). -->
+      </div>
+    </section>
+
+    <!-- =================================================================
+         5 · SERVICES — prestations proposées + infos pratiques
+         ================================================================= -->
+    <section id="services" class="services reveal" aria-labelledby="services-titre">
+      <div class="container">
+        <h2 id="services-titre" class="section__titre">Services</h2>
+        <!-- Contenu : chef à domicile, traiteur, à emporter/livré, cours,
+             cocktails & buffets, occasions, minimum 6 convives, délai, devis. -->
+      </div>
+    </section>
+
+    <!-- =================================================================
+         6 · TÉMOIGNAGES — avis clients
+         ================================================================= -->
+    <section id="temoignages" class="temoignages reveal" aria-labelledby="temoignages-titre">
+      <div class="container">
+        <h2 id="temoignages-titre" class="section__titre">Témoignages</h2>
+        <!-- Contenu : avis clients (accord écrit à obtenir — dette). -->
+      </div>
+    </section>
+
+    <!-- =================================================================
+         7 · CONTACT — canaux, réservation, zone, paiement
+         ================================================================= -->
+    <section id="contact" class="contact reveal" aria-labelledby="contact-titre">
+      <div class="container">
+        <h2 id="contact-titre" class="section__titre">Contact</h2>
+        <!-- Contenu : WhatsApp / téléphone / e-mail (à récupérer — dette),
+             réseaux, sur réservation, zone Lausanne, paiement (espèces, virement). -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =====================================================================
+       PIED DE PAGE — réseaux, nom, mentions
+       ===================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <p class="site-footer__brand">Cheffe Kamano</p>
+      <!-- Réseaux : Instagram, Facebook, TikTok (@CheffeKamano) -->
+      <!-- Mentions légales / année -->
+    </div>
+  </footer>
+
+  <!-- Bouton WhatsApp flottant (présent sur toute la page) -->
+  <a class="whatsapp-flottant" href="https://wa.me/XXXXXXXXXXX" aria-label="Contacter par WhatsApp">
+    <!-- Icône WhatsApp à intégrer (SVG) -->
+  </a>
+
+  <!-- Script du site (révélation au scroll, etc.) -->
+  <script src="script.js" defer></script>
+</body>
+</html>

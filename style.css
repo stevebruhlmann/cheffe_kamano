@@ -10,7 +10,7 @@
   --noir:        #1C1714;  /* texte, base */
   --blanc:       #FFFFFF;  /* fond principal */
   --bordeaux:    #6E1F2A;  /* accent chaud, action principale */
-  --or:          #CDB98C;  /* accent, filets, détails (or champagne) */
+  --or:          #A88A5A;  /* accent, filets, détails (or satiné) */
 
   /* Neutres dérivés du noir (pas de nouvelle couleur) */
   --texte-secondaire: rgba(28, 23, 20, 0.55);

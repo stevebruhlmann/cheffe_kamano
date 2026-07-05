@@ -1,6 +1,7 @@
 /* =========================================================================
    Cheffe Kamano — Feuille de style
-   Stub Partie 1 : variables de la charte figée + reset minimal.
+   Variables de la charte (P1) + mise à jour P2 : fond noir, polices
+   Poiret One + Quicksand, neutres rebasés sur le blanc.
    Le style des sections viendra en Partie 2.
    ========================================================================= */
 
@@ -12,13 +13,13 @@
   --bordeaux:    #6E1F2A;  /* accent chaud, action principale */
   --or:          #A88A5A;  /* accent, filets, détails (or satiné) */
 
-  /* Neutres dérivés du noir (pas de nouvelle couleur) */
-  --texte-secondaire: rgba(28, 23, 20, 0.55);
-  --bordure:          rgba(28, 23, 20, 0.12);
+  /* Neutres dérivés du blanc — fond sombre, texte clair (mis à jour P2) */
+  --texte-secondaire: rgba(255, 255, 255, 0.55);
+  --bordure:          rgba(255, 255, 255, 0.12);
 
   /* Typographies */
-  --police-titres: "Cormorant Garamond", Georgia, serif;
-  --police-corps:  "Mulish", system-ui, sans-serif;
+  --police-titres: "Poiret One", system-ui, sans-serif;   /* 1 seul poids (400) — varier par taille/espacement/couleur, jamais de faux gras */
+  --police-corps:  "Quicksand", system-ui, sans-serif;    /* utilisée en Light (300) pour le corps */
 }
 
 /* --- Reset minimal ------------------------------------------------------ */
@@ -31,10 +32,129 @@
 }
 
 body {
-  font-family: var(--police-corps);
-  color: var(--noir);
-  background: var(--blanc);
-  line-height: 1.7;
+  font-family:      var(--police-corps);
+  font-weight:      300;             /* Quicksand Light pour tout le corps */
+  color:            var(--blanc);    /* texte clair sur fond sombre */
+  background-color: var(--noir);     /* fond dominant noir #1C1714 — validé P2 */
+  line-height:      1.7;
 }
 
-/* Le style complet des sections arrive en Partie 2. */
+/* =========================================================================
+   UTILITAIRES — classes partagées entre toutes les sections
+   ========================================================================= */
+
+/* Contrainte de largeur + centrage horizontal */
+.container {
+  width:         100%;
+  max-width:     1100px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+/* Respect de l'accessibilité : désactive toutes les animations
+   pour les personnes sensibles aux mouvements */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation:  none !important;
+  }
+}
+
+
+/* =========================================================================
+   EN-TÊTE — nom du site, flottant en surimpression sur le hero
+   ========================================================================= */
+
+.site-header {
+  position:   fixed;          /* reste visible pendant tout le défilement */
+  top:        0;
+  left:       0;
+  width:      100%;
+  z-index:    100;
+  padding:    24px 32px;
+  background: transparent;
+}
+
+.site-header__brand {
+  font-family:    var(--police-titres);
+  font-size:      1rem;
+  font-weight:    400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color:          var(--blanc);
+}
+
+
+/* =========================================================================
+   HERO — plein écran, contenu ancré en bas à gauche
+   ========================================================================= */
+
+.hero {
+  position:    relative;
+  min-height:  100vh;           /* plein écran */
+  display:     flex;
+  align-items: flex-end;        /* contenu ancré en bas */
+
+  background-image:    linear-gradient(
+                         to top,
+                         rgba(28, 23, 20, 0.75) 0%,    /* bas sombre : lisibilité du texte */
+                         rgba(28, 23, 20, 0.15) 60%,   /* milieu semi-transparent */
+                         rgba(28, 23, 20, 0.35) 100%   /* haut légèrement assombri */
+                       ),
+                       url("photos/cheffe_k.png");
+  background-size:     cover;
+  background-position: center top;   /* ajustable selon le cadrage de la photo */
+}
+
+.hero__inner {
+  padding-bottom: 80px;         /* espace au-dessus du bord bas */
+}
+
+.hero__titre {
+  font-family:    var(--police-titres);
+  /* clamp(min, fluide, max) : la taille s'adapte à la largeur d'écran */
+  font-size:      clamp(3rem, 8vw, 7rem);
+  font-weight:    400;          /* Poiret One — 1 seul poids disponible */
+  letter-spacing: 0.08em;
+  line-height:    1.1;
+  color:          var(--blanc);
+  margin-bottom:  0.3em;
+}
+
+.hero__devise {
+  font-family:    var(--police-corps);
+  font-size:      clamp(0.85rem, 2vw, 1.1rem);
+  font-weight:    300;          /* Quicksand Light */
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color:          var(--or);    /* accent doré pour la devise */
+  margin-bottom:  2.5rem;
+}
+
+
+/* =========================================================================
+   BOUTONS — base partagée + variantes
+   ========================================================================= */
+
+.btn {
+  display:         inline-block;
+  font-family:     var(--police-corps);
+  font-size:       0.9rem;
+  font-weight:     400;
+  letter-spacing:  0.15em;
+  text-transform:  uppercase;
+  text-decoration: none;
+  padding:         0.85em 2em;
+  border:          none;
+  cursor:          pointer;
+  transition:      opacity 0.2s ease;
+}
+
+.btn--principal {
+  color:            var(--blanc);
+  background-color: var(--bordeaux);
+}
+
+.btn--principal:hover {
+  opacity: 0.85;
+}

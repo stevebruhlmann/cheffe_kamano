@@ -158,3 +158,76 @@ body {
 .btn--principal:hover {
   opacity: 0.85;
 }
+
+/* =========================================================================
+   SECTION HISTOIRE — parcours, distinctions, plat signature
+   Disposition : centrée, aérée. Distinctions : 3 blocs filet or.
+   ========================================================================= */
+
+.histoire {
+  padding-block: 120px;         /* espace généreux haut et bas */
+}
+
+.histoire__inner {
+  max-width:  780px;            /* colonne de texte plus étroite que container */
+  text-align: center;
+}
+
+/* Titre de section — partagé par toutes les sections */
+.section__titre {
+  font-family:    var(--police-titres);
+  font-size:      clamp(1.8rem, 4vw, 3rem);
+  font-weight:    400;
+  letter-spacing: 0.1em;
+  color:          var(--blanc);
+  margin-bottom:  2.5rem;
+}
+
+/* Texte d'introduction — extrait du brief de Marceline */
+.histoire__intro {
+  font-size:     clamp(1rem, 2vw, 1.2rem);
+  font-weight:   300;
+  color:         rgba(255, 255, 255, 0.82);   /* blanc adouci */
+  line-height:   1.9;
+  margin-bottom: 1.8rem;
+}
+
+/* Texte complémentaire — parcours + plat signature */
+.histoire__corps {
+  font-size:     clamp(0.9rem, 1.8vw, 1.05rem);
+  font-weight:   300;
+  color:         var(--texte-secondaire);     /* blanc atténué */
+  line-height:   1.9;
+  margin-bottom: 4rem;
+}
+
+/* Grille des 3 distinctions */
+.histoire__distinctions {
+  display:   flex;
+  gap:       2rem;
+  flex-wrap: wrap;              /* passe en colonne sur mobile */
+  justify-content: center;
+}
+
+/* Bloc distinction individuel */
+.distinction {
+  flex:             1 1 180px;  /* s'étire mais pas en dessous de 180px */
+  border-left:      2px solid var(--or);
+  padding-left:     1.2rem;
+  text-align:       left;
+}
+
+.distinction__titre {
+  font-family:    var(--police-titres);
+  font-size:      1rem;
+  font-weight:    400;
+  letter-spacing: 0.08em;
+  color:          var(--or);
+  margin-bottom:  0.3rem;
+}
+
+.distinction__detail {
+  font-size:   0.85rem;
+  font-weight: 300;
+  color:       var(--texte-secondaire);
+}

@@ -609,3 +609,141 @@ body {
   margin:       0;
   letter-spacing: 0.04em;
 }
+
+/* =========================================================================
+   SECTION CONTACT — 2 colonnes : actions gauche / réseaux+pratique droite
+   ========================================================================= */
+.contact {
+  padding-block: 120px;
+}
+
+/* Grille 2 colonnes — passe en 1 colonne sur tablette/mobile */
+.contact__inner {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;
+  gap:                   4rem;
+  margin-top:            3rem;
+  align-items:           start;
+}
+
+/* --- Colonne gauche --- */
+
+.contact__accroche {
+  font-family:   var(--police-corps);
+  font-weight:   300;
+  font-size:     1rem;
+  color:         rgba(255, 255, 255, 0.55);
+  line-height:   1.9;
+  margin-bottom: 2rem;
+}
+
+/* Bouton WhatsApp — style proche du btn--principal */
+.contact__whatsapp {
+  display:         inline-block;
+  background:      var(--bordeaux);
+  color:           var(--blanc);
+  font-family:     var(--police-corps);
+  font-weight:     400;
+  font-size:       0.9rem;
+  letter-spacing:  0.1em;
+  padding:         0.85rem 1.75rem;
+  border-radius:   4px;
+  text-decoration: none;
+  margin-bottom:   1.25rem;
+  transition:      opacity 0.2s ease;
+}
+
+.contact__whatsapp:hover {
+  opacity: 0.85;
+}
+
+/* Lien e-mail — discret, souligné or */
+.contact__email {
+  display:         block;
+  font-family:     var(--police-corps);
+  font-weight:     300;
+  font-size:       0.9rem;
+  color:           var(--or);
+  text-decoration: none;
+  border-bottom:   1px solid rgba(168, 138, 90, 0.35);
+  padding-bottom:  2px;
+  width:           fit-content;
+  transition:      opacity 0.2s ease;
+}
+
+.contact__email:hover {
+  opacity: 0.7;
+}
+
+/* --- Colonne droite --- */
+
+.contact__reseaux-titre {
+  font-family:    var(--police-titres);
+  font-size:      0.75rem;
+  letter-spacing: 0.18em;
+  color:          rgba(255, 255, 255, 0.40);
+  margin-bottom:  0.9rem;
+}
+
+/* Liste réseaux — sans puces natives */
+.contact__reseaux {
+  list-style:    none;
+  padding:       0;
+  margin:        0 0 2rem;
+  display:       flex;
+  flex-direction: column;
+  gap:           0.55rem;
+}
+
+.contact__reseau-lien {
+  font-family:     var(--police-corps);
+  font-weight:     300;
+  font-size:       0.9rem;
+  color:           var(--or);
+  text-decoration: none;
+  letter-spacing:  0.06em;
+  transition:      opacity 0.2s ease;
+}
+
+.contact__reseau-lien:hover {
+  opacity: 0.7;
+}
+
+/* Infos pratiques — séparées par un filet discret */
+.contact__pratique {
+  border-top:    1px solid rgba(255, 255, 255, 0.08);
+  padding-top:   1.25rem;
+  display:       flex;
+  flex-direction: column;
+  gap:           0.65rem;
+}
+
+.contact__pratique-item {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     baseline;
+}
+
+.contact__pratique-item dt {
+  font-family:  var(--police-corps);
+  font-weight:  300;
+  font-size:    0.82rem;
+  color:        rgba(255, 255, 255, 0.35);
+}
+
+.contact__pratique-item dd {
+  font-family:  var(--police-corps);
+  font-weight:  300;
+  font-size:    0.82rem;
+  color:        rgba(255, 255, 255, 0.70);
+  margin:       0;              /* reset du margin-left natif du dd */
+  text-align:   right;
+}
+
+/* --- Responsive : tablette et mobile --- */
+@media (max-width: 768px) {
+  .contact__inner {
+    grid-template-columns: 1fr;
+    gap:                   2.5rem;
+  }
+}

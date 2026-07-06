@@ -39,6 +39,12 @@ body {
   line-height:      1.7;
 }
 
+/* Lien d'évitement — toujours invisible, hors écran */
+.skip-link {
+  position: absolute;
+  left:     -100vw;
+}
+
 /* =========================================================================
    UTILITAIRES — classes partagées entre toutes les sections
    ========================================================================= */
@@ -62,30 +68,6 @@ body {
 
 
 /* =========================================================================
-   EN-TÊTE — nom du site, flottant en surimpression sur le hero
-   ========================================================================= */
-
-.site-header {
-  position:   fixed;          /* reste visible pendant tout le défilement */
-  top:        0;
-  left:       0;
-  width:      100%;
-  z-index:    100;
-  padding:    24px 32px;
-  background: transparent;
-}
-
-.site-header__brand {
-  font-family:    var(--police-titres);
-  font-size:      1rem;
-  font-weight:    400;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color:          var(--blanc);
-}
-
-
-/* =========================================================================
    HERO — plein écran, contenu ancré en bas à gauche
    ========================================================================= */
 
@@ -93,7 +75,8 @@ body {
   position:    relative;
   min-height:  100vh;           /* plein écran */
   display:     flex;
-  align-items: flex-end;        /* contenu ancré en bas */
+  align-items: flex-start;      /* contenu ancré en haut */
+  border:      2px solid blue;   /* DEBUG — à supprimer après vérif */
 
   background-image:    linear-gradient(
                          to top,
@@ -107,7 +90,31 @@ body {
 }
 
 .hero__inner {
-  padding-bottom: 80px;         /* espace au-dessus du bord bas */
+  position:      absolute;
+  left:          200px;
+  top:           160px;
+  max-width:     800px;
+  margin-inline: 0;
+  padding-inline: 0;             /* annule le padding-inline: 24px de .container */
+  border:        2px solid red;  /* DEBUG — à supprimer après vérif */
+  text-align:    left;
+}
+
+/* Tablette */
+@media (max-width: 1024px) {
+  .hero__inner {
+    left: 60px;
+    top:  130px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .hero__inner {
+    left:      24px;
+    top:       110px;
+    max-width: calc(100vw - 48px);
+  }
 }
 
 .hero__titre {
@@ -119,6 +126,7 @@ body {
   line-height:    1.1;
   color:          var(--blanc);
   margin-bottom:  0.3em;
+  white-space:    nowrap;   /* Cheffe Kamano reste sur une seule ligne */
 }
 
 .hero__devise {

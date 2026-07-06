@@ -548,3 +548,64 @@ body {
   margin:       0;                   /* reset du margin-left natif du dd */
   text-align:   right;
 }
+
+/* =========================================================================
+   PIED DE PAGE
+   ========================================================================= */
+.site-footer {
+  border-top:   1px solid rgba(168, 138, 90, 0.35); /* filet or atténué */
+  padding-block: 3rem;
+  text-align:   center;
+}
+
+.site-footer__inner {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            1.25rem;
+}
+
+/* Nom de la marque */
+.site-footer__brand {
+  font-family:    var(--police-titres);
+  font-size:      1.4rem;
+  letter-spacing: 0.16em;
+  color:          var(--blanc);
+  margin:         0;
+}
+
+/* Liens réseaux */
+.site-footer__reseaux {
+  display:     flex;
+  align-items: center;
+  gap:         0.75rem;
+}
+
+.site-footer__lien {
+  font-family:  var(--police-corps);
+  font-weight:  300;
+  font-size:    0.85rem;
+  color:        var(--or);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  transition:   opacity 0.2s ease;
+}
+
+.site-footer__lien:hover {
+  opacity: 0.7;
+}
+
+.site-footer__sep {
+  color:     rgba(168, 138, 90, 0.4);
+  font-size: 0.75rem;
+}
+
+/* Mentions légales */
+.site-footer__mentions {
+  font-family:  var(--police-corps);
+  font-weight:  300;
+  font-size:    0.78rem;
+  color:        rgba(255, 255, 255, 0.30);
+  margin:       0;
+  letter-spacing: 0.04em;
+}

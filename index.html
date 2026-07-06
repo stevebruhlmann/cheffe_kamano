@@ -224,16 +224,37 @@
 
   </main>
 
-  <!-- =====================================================================
-       PIED DE PAGE — réseaux, nom, mentions
-       ===================================================================== -->
-  <footer class="site-footer">
-    <div class="container">
-      <p class="site-footer__brand">Cheffe Kamano</p>
-      <!-- Réseaux : Instagram, Facebook, TikTok (@CheffeKamano) -->
-      <!-- Mentions légales / année -->
-    </div>
-  </footer>
+<!-- =====================================================================
+     PIED DE PAGE — réseaux, nom, mentions
+     ===================================================================== -->
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+
+    <p class="site-footer__brand">Cheffe Kamano</p>
+
+    <!-- Liens réseaux sociaux — @CheffeKamano -->
+    <nav class="site-footer__reseaux" aria-label="Réseaux sociaux">
+      <a href="https://instagram.com/CheffeKamano"
+         class="site-footer__lien"
+         target="_blank" rel="noopener">Instagram</a>
+      <span class="site-footer__sep" aria-hidden="true">·</span>
+      <a href="https://facebook.com/CheffeKamano"
+         class="site-footer__lien"
+         target="_blank" rel="noopener">Facebook</a>
+      <span class="site-footer__sep" aria-hidden="true">·</span>
+      <a href="https://tiktok.com/@CheffeKamano"
+         class="site-footer__lien"
+         target="_blank" rel="noopener">TikTok</a>
+    </nav>
+
+    <!-- Mentions — année injectée par script.js -->
+    <p class="site-footer__mentions">
+      &copy; <span class="footer-annee"></span> Cheffe Kamano
+      &nbsp;—&nbsp; Tous droits réservés
+    </p>
+
+  </div>
+</footer>
 
   <!-- Bouton WhatsApp flottant (présent sur toute la page) -->
   <a class="whatsapp-flottant" href="https://wa.me/XXXXXXXXXXX" aria-label="Contacter par WhatsApp">

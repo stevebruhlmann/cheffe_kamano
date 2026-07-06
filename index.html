@@ -120,13 +120,45 @@
     </section>
 
     <!-- =================================================================
-         4 · GALERIE — photos de plats et d'événements (remontée : la photo
-         est l'argument de vente le plus fort en gastronomie)
-         ================================================================= -->
+        4 · GALERIE — photos de plats et d'événements
+            7 photos dans photos/ — remplacer les alt au besoin.
+            Item 1 et 7 : format large (2 colonnes).
+        ================================================================= -->
     <section id="galerie" class="galerie reveal" aria-labelledby="galerie-titre">
       <div class="container">
         <h2 id="galerie-titre" class="section__titre">Galerie</h2>
-        <!-- Contenu : grille de photos de plats + événements (médias à venir). -->
+
+        <div class="galerie__grille">
+
+          <figure class="galerie__item galerie__item--large">
+            <img src="photos/plat_1.png" alt="Plat signature — Cheffe Kamano" class="galerie__img">
+          </figure>
+
+          <figure class="galerie__item">
+            <img src="photos/plat_4.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+          </figure>
+
+          <figure class="galerie__item">
+            <img src="photos/plat_3.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+          </figure>
+
+          <figure class="galerie__item">
+            <img src="photos/plat_2.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+          </figure>
+
+          <figure class="galerie__item">
+            <img src="photos/plat_5.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+          </figure>
+
+          <figure class="galerie__item">
+            <img src="photos/plat_6.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+          </figure>
+
+          <figure class="galerie__item galerie__item--large">
+            <img src="photos/plat_7.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+          </figure>
+
+        </div><!-- /.galerie__grille -->
       </div>
     </section>
 
@@ -202,12 +234,52 @@
     </section>
 
     <!-- =================================================================
-         6 · TÉMOIGNAGES — avis clients
-         ================================================================= -->
+        6 · TÉMOIGNAGES — avis clients
+        ================================================================= -->
     <section id="temoignages" class="temoignages reveal" aria-labelledby="temoignages-titre">
       <div class="container">
         <h2 id="temoignages-titre" class="section__titre">Témoignages</h2>
-        <!-- Contenu : avis clients (accord écrit à obtenir — dette). -->
+
+        <!-- 3 témoignages génériques — à remplacer par vrais avis (accord clients requis) -->
+        <div class="temoignages__grille">
+
+          <figure class="temoignage placeholder">
+            <blockquote class="temoignage__citation">
+              Une expérience gastronomique inoubliable. Les plats étaient d'une
+              finesse remarquable, et l'attention portée à chaque détail nous a
+              vraiment touchés.
+            </blockquote>
+            <figcaption class="temoignage__auteur">
+              <span class="temoignage__nom">Sophie M.</span>
+              <span class="temoignage__occasion">Dîner privé — Lausanne</span>
+            </figcaption>
+          </figure>
+
+          <figure class="temoignage placeholder">
+            <blockquote class="temoignage__citation">
+              Cheffe Kamano a sublimé notre réception de mariage. Ses menus
+              alliant cuisine africaine et européenne ont émerveillé tous
+              nos invités.
+            </blockquote>
+            <figcaption class="temoignage__auteur">
+              <span class="temoignage__nom">Laurent &amp; Amina K.</span>
+              <span class="temoignage__occasion">Mariage — Pully</span>
+            </figcaption>
+          </figure>
+
+          <figure class="temoignage placeholder">
+            <blockquote class="temoignage__citation">
+              Le cours de cuisine était passionnant. La cheffe partage son
+              savoir avec générosité et pédagogie. Nous repartons avec des
+              techniques et des souvenirs précieux.
+            </blockquote>
+            <figcaption class="temoignage__auteur">
+              <span class="temoignage__nom">Claire &amp; Thomas B.</span>
+              <span class="temoignage__occasion">Cours de cuisine — Lausanne</span>
+            </figcaption>
+          </figure>
+
+        </div><!-- /.temoignages__grille -->
       </div>
     </section>
 

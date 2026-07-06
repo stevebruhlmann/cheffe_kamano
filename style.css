@@ -747,3 +747,172 @@ body {
     gap:                   2.5rem;
   }
 }
+
+/* =========================================================================
+   SECTION TÉMOIGNAGES — grille de 3 cartes citation
+   ========================================================================= */
+.temoignages {
+  padding-block: 120px;
+}
+
+/* Grille 3 cartes — passe en 1 colonne sur tablette/mobile */
+.temoignages__grille {
+  display:               grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:                   1.5rem;
+  margin-top:            3rem;
+}
+
+/* Carte individuelle */
+.temoignage {
+  border:        1px solid rgba(168, 138, 90, 0.30);
+  border-radius: 6px;
+  padding:       1.75rem;
+  margin:        0;              /* reset du margin natif de <figure> */
+  display:       flex;
+  flex-direction: column;
+  gap:           1.25rem;
+}
+
+/* Grand guillemet ouvrant en or */
+.temoignage::before {
+  content:     '"';
+  font-family: var(--police-titres);
+  font-size:   3rem;
+  color:       var(--or);
+  line-height: 1;
+}
+
+/* Texte de la citation */
+.temoignage__citation {
+  font-family:  var(--police-corps);
+  font-weight:  300;
+  font-size:    0.95rem;
+  color:        rgba(255, 255, 255, 0.72);
+  line-height:  1.85;
+  margin:       0;
+  font-style:   normal;          /* annule l'italique natif du blockquote */
+}
+
+/* Bloc auteur */
+.temoignage__auteur {
+  display:        flex;
+  flex-direction: column;
+  gap:            3px;
+  margin-top:     auto;          /* pousse l'auteur en bas de la carte */
+}
+
+/* Nom du client */
+.temoignage__nom {
+  font-family:    var(--police-titres);
+  font-size:      0.9rem;
+  letter-spacing: 0.08em;
+  color:          var(--blanc);
+}
+
+/* Occasion — discret, en or */
+.temoignage__occasion {
+  font-family:  var(--police-corps);
+  font-weight:  300;
+  font-size:    0.8rem;
+  color:        rgba(168, 138, 90, 0.70);
+}
+
+/* --- Responsive : tablette et mobile --- */
+@media (max-width: 768px) {
+  .temoignages__grille {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================================
+   SECTION GALERIE — grille 3 colonnes, 1 item featured
+   ========================================================================= */
+.galerie {
+  padding-block: 120px;
+}
+
+/* Grille principale */
+.galerie__grille {
+  display:             grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows:      280px;        /* hauteur uniforme des rangées */
+  gap:                 0.75rem;
+  margin-top:          3rem;
+}
+
+/* Item standard */
+.galerie__item {
+  margin:       0;                   /* reset natif <figure> */
+  overflow:     hidden;
+  border-radius: 4px;
+}
+
+/* Item featured — occupe 2 colonnes */
+.galerie__item--large {
+  grid-column: span 2;
+}
+
+/* Image : couvre tout l'item sans déformation */
+.galerie__img {
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+  display:    block;
+  transition: transform 0.4s ease;
+}
+
+.galerie__item:hover .galerie__img {
+  transform: scale(1.04);            /* léger zoom au survol */
+}
+
+/* État placeholder — visible tant que src est vide */
+.galerie__item.placeholder .galerie__img {
+  background:  rgba(255, 255, 255, 0.04);
+  border:      1px solid rgba(168, 138, 90, 0.25);
+  border-radius: 4px;
+}
+
+/* Texte de substitution sur les placeholders via pseudo-élément */
+.galerie__item.placeholder {
+  position: relative;
+}
+
+.galerie__item.placeholder::after {
+  content:     'Photo à venir';
+  position:    absolute;
+  inset:       0;
+  display:     flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--police-corps);
+  font-weight: 300;
+  font-size:   0.75rem;
+  color:       rgba(168, 138, 90, 0.40);
+  letter-spacing: 0.12em;
+  pointer-events: none;
+}
+
+/* --- Responsive : tablette --- */
+@media (max-width: 900px) {
+  .galerie__grille {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows:        220px;
+  }
+
+  .galerie__item--large {
+    grid-column: span 2;
+  }
+}
+
+/* --- Responsive : mobile --- */
+@media (max-width: 600px) {
+  .galerie__grille {
+    grid-template-columns: 1fr;
+    grid-auto-rows:        200px;
+  }
+
+  .galerie__item--large {
+    grid-column: span 1;
+  }
+}

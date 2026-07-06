@@ -286,3 +286,265 @@ body {
     gap:                   2.5rem;
   }
 }
+
+/* =========================================================================
+   SECTION SERVICES — liste 2 colonnes implicites + bloc infos pratiques
+   ========================================================================= */
+.services {
+  padding-block: 120px;              /* respiration identique aux autres sections */
+}
+
+/* --- Liste des services --- */
+.services__liste {
+  margin-top:  3rem;
+  border-top:  1px solid rgba(255, 255, 255, 0.10);  /* filet de séparation haut */
+}
+
+/* Une ligne par service : nom gauche / précisions droite */
+.services__item {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;    /* deux colonnes implicites sans séparateur visible */
+  align-items:           start;
+  padding:               1.1rem 0;
+  border-bottom:         1px solid rgba(255, 255, 255, 0.10);
+}
+
+/* Nom du service — colonne gauche */
+.services__nom {
+  font-family:    var(--police-titres);
+  font-size:      1.15rem;
+  letter-spacing: 0.08em;
+  color:          var(--blanc);
+}
+
+/* Précisions — colonne droite */
+.services__detail {
+  font-family:  var(--police-corps);
+  font-weight:  300;
+  font-size:    0.95rem;
+  color:        rgba(255, 255, 255, 0.55);
+  line-height:  1.7;
+}
+
+/* --- Bloc infos pratiques --- */
+.services__pratique {
+  margin-top:    2.5rem;
+  border:        1px solid rgba(168, 138, 90, 0.45);  /* --or atténué : CSS natif sans opacité sur var() */
+  border-radius: 8px;
+  padding:       1.5rem 2rem;
+}
+
+.services__pratique-titre {
+  font-family:    var(--police-titres);
+  color:          var(--or);
+  font-size:      0.85rem;
+  letter-spacing: 0.16em;
+  text-align:     center;
+  margin-bottom:  1.25rem;
+}
+
+/* Grille 2×2 pour les 4 infos pratiques */
+.services__pratique-grille {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;
+  gap:                   0.75rem 3rem;
+}
+
+.services__pratique-item {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     baseline;
+  gap:             1rem;
+}
+
+/* Libellé (dt) — discret */
+.services__pratique-item dt {
+  font-family:  var(--police-corps);
+  font-weight:  300;
+  font-size:    0.85rem;
+  color:        rgba(255, 255, 255, 0.40);
+}
+
+/* Valeur (dd) — lisible */
+.services__pratique-item dd {
+  font-family:  var(--police-corps);
+  font-weight:  300;
+  font-size:    0.85rem;
+  color:        rgba(255, 255, 255, 0.82);
+  margin:       0;                   /* reset du margin-left natif du dd */
+  text-align:   right;
+}/* =========================================================================
+   SECTION SERVICES — liste 2 colonnes implicites + bloc infos pratiques
+   ========================================================================= */
+.services {
+  padding-block: 120px;              /* respiration identique aux autres sections */
+}
+
+/* --- Liste des services --- */
+.services__liste {
+  margin-top:  3rem;
+  border-top:  1px solid rgba(255, 255, 255, 0.10);  /* filet de séparation haut */
+}
+
+/* Une ligne par service : nom gauche / précisions droite */
+.services__item {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;    /* deux colonnes implicites sans séparateur visible */
+  align-items:           start;
+  padding:               1.1rem 0;
+  border-bottom:         1px solid rgba(255, 255, 255, 0.10);
+}
+
+/* Nom du service — colonne gauche */
+.services__nom {
+  font-family:    var(--police-titres);
+  font-size:      1.15rem;
+  letter-spacing: 0.08em;
+  color:          var(--blanc);
+}
+
+/* Précisions — colonne droite */
+.services__detail {
+  font-family:  var(--police-corps);
+  font-weight:  300;
+  font-size:    0.95rem;
+  color:        rgba(255, 255, 255, 0.55);
+  line-height:  1.7;
+}
+
+/* --- Bloc infos pratiques --- */
+.services__pratique {
+  margin-top:    2.5rem;
+  border:        1px solid rgba(168, 138, 90, 0.45);  /* --or atténué : CSS natif sans opacité sur var() */
+  border-radius: 8px;
+  padding:       1.5rem 2rem;
+}
+
+.services__pratique-titre {
+  font-family:    var(--police-titres);
+  color:          var(--or);
+  font-size:      0.85rem;
+  letter-spacing: 0.16em;
+  text-align:     center;
+  margin-bottom:  1.25rem;
+}
+
+/* Grille 2×2 pour les 4 infos pratiques */
+.services__pratique-grille {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;
+  gap:                   0.75rem 3rem;
+}
+
+.services__pratique-item {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     baseline;
+  gap:             1rem;
+}
+
+/* Libellé (dt) — discret */
+.services__pratique-item dt {
+  font-family:  var(--police-corps);
+  font-weight:  300;
+  font-size:    0.85rem;
+  color:        rgba(255, 255, 255, 0.40);
+}
+
+/* Valeur (dd) — lisible */
+.services__pratique-item dd {
+  font-family:  var(--police-corps);
+  font-weight:  300;
+  font-size:    0.85rem;
+  color:        rgba(255, 255, 255, 0.82);
+  margin:       0;                   /* reset du margin-left natif du dd */
+  text-align:   right;
+}
+
+/* =========================================================================
+   SECTION SERVICES — liste 2 colonnes implicites + bloc infos pratiques
+   ========================================================================= */
+.services {
+  padding-block: 120px;              /* respiration identique aux autres sections */
+}
+
+/* --- Liste des services --- */
+.services__liste {
+  margin-top:  3rem;
+  border-top:  1px solid rgba(255, 255, 255, 0.10);  /* filet de séparation haut */
+}
+
+/* Une ligne par service : nom gauche / précisions droite */
+.services__item {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;    /* deux colonnes implicites sans séparateur visible */
+  align-items:           start;
+  padding:               1.1rem 0;
+  border-bottom:         1px solid rgba(255, 255, 255, 0.10);
+}
+
+/* Nom du service — colonne gauche */
+.services__nom {
+  font-family:    var(--police-titres);
+  font-size:      1.15rem;
+  letter-spacing: 0.08em;
+  color:          var(--blanc);
+}
+
+/* Précisions — colonne droite */
+.services__detail {
+  font-family:  var(--police-corps);
+  font-weight:  300;
+  font-size:    0.95rem;
+  color:        rgba(255, 255, 255, 0.55);
+  line-height:  1.7;
+}
+
+/* --- Bloc infos pratiques --- */
+.services__pratique {
+  margin-top:    2.5rem;
+  border:        1px solid rgba(168, 138, 90, 0.45);  /* --or atténué : CSS natif sans opacité sur var() */
+  border-radius: 8px;
+  padding:       1.5rem 2rem;
+}
+
+.services__pratique-titre {
+  font-family:    var(--police-titres);
+  color:          var(--or);
+  font-size:      0.85rem;
+  letter-spacing: 0.16em;
+  text-align:     center;
+  margin-bottom:  1.25rem;
+}
+
+/* Grille 2×2 pour les 4 infos pratiques */
+.services__pratique-grille {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;
+  gap:                   0.75rem 3rem;
+}
+
+.services__pratique-item {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     baseline;
+  gap:             1rem;
+}
+
+/* Libellé (dt) — discret */
+.services__pratique-item dt {
+  font-family:  var(--police-corps);
+  font-weight:  300;
+  font-size:    0.85rem;
+  color:        rgba(255, 255, 255, 0.40);
+}
+
+/* Valeur (dd) — lisible */
+.services__pratique-item dd {
+  font-family:  var(--police-corps);
+  font-weight:  300;
+  font-size:    0.85rem;
+  color:        rgba(255, 255, 255, 0.82);
+  margin:       0;                   /* reset du margin-left natif du dd */
+  text-align:   right;
+}

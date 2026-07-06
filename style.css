@@ -76,7 +76,7 @@ body {
   min-height:  100vh;           /* plein écran */
   display:     flex;
   align-items: flex-start;      /* contenu ancré en haut */
-  border:      2px solid blue;   /* DEBUG — à supprimer après vérif */
+  /*border:      2px solid blue;   /* DEBUG — à supprimer après vérif */
 
   background-image:    linear-gradient(
                          to top,
@@ -96,7 +96,7 @@ body {
   max-width:     800px;
   margin-inline: 0;
   padding-inline: 0;             /* annule le padding-inline: 24px de .container */
-  border:        2px solid red;  /* DEBUG — à supprimer après vérif */
+  /*border:        2px solid red;  /* DEBUG — à supprimer après vérif */
   text-align:    left;
 }
 
@@ -238,4 +238,51 @@ body {
   font-size:   0.85rem;
   font-weight: 300;
   color:       var(--texte-secondaire);
+}
+
+/* =========================================================================
+   SECTION SPÉCIALITÉS — 2 colonnes : texte à gauche, liste plats à droite
+   ========================================================================= */
+
+.specialites {
+  padding-block: 120px;              /* même respiration que Histoire */
+}
+
+/* Grille 2 colonnes — passe en 1 colonne sur tablette/mobile */
+.specialites__grille {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;    /* deux colonnes égales sur desktop */
+  gap:                   4rem;
+  margin-top:            3rem;
+}
+
+/* Colonne gauche : texte d'accroche */
+.specialites__texte p {
+  font-size:     clamp(1rem, 2vw, 1.15rem);
+  font-weight:   300;
+  color:         rgba(255, 255, 255, 0.82);
+  line-height:   1.9;
+  margin-bottom: 1.5rem;
+}
+
+/* Colonne droite : liste des plats, sans puces natives */
+.specialites__plats {
+  list-style: none;                  /* retire les puces par défaut */
+}
+
+.specialites__plats li {
+  font-family:    var(--police-titres);
+  font-size:      1.15rem;
+  color:          var(--blanc);
+  padding:        0.9rem 0 0.9rem 1.5rem;   /* espace + retrait pour le filet */
+  border-left:    2px solid var(--or);       /* filet or devant chaque plat */
+  margin-bottom:  0.8rem;
+}
+
+/* --- Responsive : tablette et mobile --- */
+@media (max-width: 768px) {
+  .specialites__grille {
+    grid-template-columns: 1fr;      /* une seule colonne */
+    gap:                   2.5rem;
+  }
 }

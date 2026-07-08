@@ -39,23 +39,26 @@
 
   <main>
 
-    <!-- =================================================================
-         1 · HERO — nom, devise, appel à l'action, photo professionnelle
-         ================================================================= -->
-    <section id="hero" class="hero reveal" aria-labelledby="hero-titre">
-      <div class="container hero__inner">
-        <h1 id="hero-titre" class="hero__titre">Cheffe Kamano</h1>
-        <p class="hero__devise">Du feu dans les saveurs</p>
-
-        <!-- Appel à l'action principal : WhatsApp (canal prioritaire) -->
-        <a class="btn btn--principal" href="https://wa.me/XXXXXXXXXXX">
-          Réserver une prestation
-        </a>
-
-        <!-- Photo professionnelle de la cheffe (média à venir — dette) -->
-        <!-- Photo de couverture : gérée en background CSS (.hero) -->
-      </div>
-    </section>
+     <!-- =================================================================
+          1 · HERO — nom, devise, appel à l'action, photo professionnelle
+          Animation d'entrée N8 : cascade CSS au chargement
+          (hero-anim--1 → titre, --2 → devise, --3 → bouton)
+          ================================================================= -->
+     <section id="hero" class="hero reveal" aria-labelledby="hero-titre">
+       <div class="container hero__inner">
+         <!-- Titre principal : 1er élément de la cascade d'entrée -->
+         <h1 id="hero-titre" class="hero__titre hero-anim hero-anim--1">Cheffe Kamano</h1>
+         <!-- Devise : 2e élément de la cascade d'entrée -->
+         <p class="hero__devise hero-anim hero-anim--2">Du feu dans les saveurs</p>
+         <!-- Appel à l'action principal : WhatsApp (canal prioritaire) -->
+         <!-- Bouton : 3e et dernier élément de la cascade d'entrée -->
+         <a class="btn btn--principal hero-anim hero-anim--3" href="https://wa.me/XXXXXXXXXXX">
+           Réserver une prestation
+         </a>
+         <!-- Photo professionnelle de la cheffe (média à venir — dette) -->
+         <!-- Photo de couverture : gérée en background CSS (.hero) -->
+       </div>
+     </section>
 
     <!-- =================================================================
          2 · HISTOIRE — parcours, CFC, distinctions, texte de présentation

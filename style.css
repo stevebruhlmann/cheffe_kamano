@@ -57,6 +57,41 @@ body {
   padding-inline: 24px;
 }
 
+/* =========================================================================
+   ANIMATION D'ENTRÉE HERO — N8 « Ouverture chorégraphiée »
+   Cascade au chargement : titre (--1) → devise (--2) → bouton (--3)
+   CSS-only, aucun JS requis.
+   ========================================================================= */
+
+/* État initial : invisible + décalé vers le bas */
+.hero-anim {
+  opacity:   0;
+  transform: translateY(24px);
+  animation: hero-entree 1s ease forwards;
+}
+
+/* Délais de cascade */
+.hero-anim--1 { animation-delay: 0.2s; }   /* titre  */
+.hero-anim--2 { animation-delay: 0.7s; }   /* devise */
+.hero-anim--3 { animation-delay: 1.2s; }   /* bouton */
+
+/* Image-clé : monte en fondu jusqu'à la position naturelle */
+@keyframes hero-entree {
+  to {
+    opacity:   1;
+    transform: none;
+  }
+}
+
+/* Accessibilité : si animation coupée, les éléments restent visibles
+   (sans ce patch, ils resteraient bloqués à opacity:0) */
+@media (prefers-reduced-motion: reduce) {
+  .hero-anim {
+    opacity:   1;
+    transform: none;
+  }
+}
+
 /* Respect de l'accessibilité : désactive toutes les animations
    pour les personnes sensibles aux mouvements */
 @media (prefers-reduced-motion: reduce) {

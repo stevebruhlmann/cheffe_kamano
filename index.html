@@ -42,23 +42,34 @@
      <!-- =================================================================
           1 · HERO — nom, devise, appel à l'action, photo professionnelle
           Animation d'entrée N8 : cascade CSS au chargement
-          (hero-anim--1 → titre, --2 → devise, --3 → bouton)
+          (hero-anim--1 → titre, --2 → bouton)
           ================================================================= -->
-     <section id="hero" class="hero reveal" aria-labelledby="hero-titre">
        <div class="container hero__inner">
          <!-- Titre principal : 1er élément de la cascade d'entrée -->
          <h1 id="hero-titre" class="hero__titre hero-anim hero-anim--1">Cheffe Kamano</h1>
-         <!-- Devise : 2e élément de la cascade d'entrée -->
-         <p class="hero__devise hero-anim hero-anim--2">Du feu dans les saveurs</p>
          <!-- Appel à l'action principal : WhatsApp (canal prioritaire) -->
-         <!-- Bouton : 3e et dernier élément de la cascade d'entrée -->
-         <a class="btn btn--principal hero-anim hero-anim--3" href="https://wa.me/XXXXXXXXXXX">
+         <!-- Bouton : 2e et dernier élément de la cascade d'entrée -->
+         <a class="btn btn--principal hero-anim hero-anim--2" href="https://wa.me/XXXXXXXXXXX">
            Réserver une prestation
          </a>
          <!-- Photo professionnelle de la cheffe (média à venir — dette) -->
          <!-- Photo de couverture : gérée en background CSS (.hero) -->
        </div>
      </section>
+       
+     <!-- =================================================================
+         2 · DEVISE — « Du feu dans les saveurs »
+         Texte centré, grand format, gradient couleurs feu + lueur.
+         Entrée : fondu au scroll (.reveal → IntersectionObserver).
+         Sortie : fondu quand Histoire arrive par le bas (à venir).
+         ================================================================= -->
+    <section id="devise" class="devise reveal" aria-label="Devise de la cheffe">
+      <div class="container">
+        <div class="devise__wrapper">
+          <p class="devise__texte">Du feu dans les saveurs</p>
+        </div>
+      </div>
+    </section>
 
     <!-- =================================================================
          2 · HISTOIRE — parcours, CFC, distinctions, texte de présentation
@@ -119,49 +130,6 @@
           </ul>
 
         </div>
-      </div>
-    </section>
-
-    <!-- =================================================================
-        4 · GALERIE — photos de plats et d'événements
-            7 photos dans photos/ — remplacer les alt au besoin.
-            Item 1 et 7 : format large (2 colonnes).
-        ================================================================= -->
-    <section id="galerie" class="galerie reveal" aria-labelledby="galerie-titre">
-      <div class="container">
-        <h2 id="galerie-titre" class="section__titre">Galerie</h2>
-
-        <div class="galerie__grille">
-
-          <figure class="galerie__item galerie__item--large">
-            <img src="photos/plat_1.png" alt="Plat signature — Cheffe Kamano" class="galerie__img">
-          </figure>
-
-          <figure class="galerie__item">
-            <img src="photos/plat_4.png" alt="Plat — Cheffe Kamano" class="galerie__img">
-          </figure>
-
-          <figure class="galerie__item">
-            <img src="photos/plat_3.png" alt="Plat — Cheffe Kamano" class="galerie__img">
-          </figure>
-
-          <figure class="galerie__item">
-            <img src="photos/plat_2.png" alt="Plat — Cheffe Kamano" class="galerie__img">
-          </figure>
-
-          <figure class="galerie__item">
-            <img src="photos/plat_5.png" alt="Plat — Cheffe Kamano" class="galerie__img">
-          </figure>
-
-          <figure class="galerie__item">
-            <img src="photos/plat_6.png" alt="Plat — Cheffe Kamano" class="galerie__img">
-          </figure>
-
-          <figure class="galerie__item galerie__item--large">
-            <img src="photos/plat_7.png" alt="Plat — Cheffe Kamano" class="galerie__img">
-          </figure>
-
-        </div><!-- /.galerie__grille -->
       </div>
     </section>
 
@@ -233,6 +201,49 @@
           </dl>
         </div><!-- /.services__pratique -->
 
+      </div>
+    </section>
+
+    <!-- =================================================================
+        4 · GALERIE — photos de plats et d'événements
+            7 photos dans photos/ — remplacer les alt au besoin.
+            Item 1 et 7 : format large (2 colonnes).
+        ================================================================= -->
+    <section id="galerie" class="galerie reveal" aria-labelledby="galerie-titre">
+      <div class="container">
+        <h2 id="galerie-titre" class="section__titre">Galerie</h2>
+
+        <div class="galerie__grille">
+
+          <figure class="galerie__item galerie__item--large">
+            <img src="photos/plat_1.png" alt="Plat signature — Cheffe Kamano" class="galerie__img">
+          </figure>
+
+          <figure class="galerie__item">
+            <img src="photos/plat_4.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+          </figure>
+
+          <figure class="galerie__item">
+            <img src="photos/plat_3.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+          </figure>
+
+          <figure class="galerie__item">
+            <img src="photos/plat_2.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+          </figure>
+
+          <figure class="galerie__item">
+            <img src="photos/plat_5.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+          </figure>
+
+          <figure class="galerie__item">
+            <img src="photos/plat_6.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+          </figure>
+
+          <figure class="galerie__item galerie__item--large">
+            <img src="photos/plat_7.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+          </figure>
+
+        </div><!-- /.galerie__grille -->
       </div>
     </section>
 

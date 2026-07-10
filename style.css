@@ -72,8 +72,7 @@ body {
 
 /* Délais de cascade */
 .hero-anim--1 { animation-delay: 0.2s; }   /* titre  */
-.hero-anim--2 { animation-delay: 0.7s; }   /* devise */
-.hero-anim--3 { animation-delay: 1.2s; }   /* bouton */
+.hero-anim--2 { animation-delay: 0.9s; }   /* bouton */
 
 /* Image-clé : monte en fondu jusqu'à la position naturelle */
 @keyframes hero-entree {
@@ -106,22 +105,57 @@ body {
    HERO — plein écran, contenu ancré en bas à gauche
    ========================================================================= */
 
-.hero {
-  position:    relative;
-  min-height:  100vh;           /* plein écran */
-  display:     flex;
-  align-items: flex-start;      /* contenu ancré en haut */
-  /*border:      2px solid blue;   /* DEBUG — à supprimer après vérif */
+/* =========================================================================
+   SCÈNE D'INTRODUCTION — Hero + Devise épinglés, chorégraphie au scroll
+   .intro      : conteneur haut (250vh) = course de scroll de la scène
+   .intro__pin : cadre collé en haut (sticky) — tout se joue dans 100vh
+   Couches en absolute empilées : bg (dessous) < hero < devise (dessus)
+   ========================================================================= */
 
+.intro {
+  position: relative;
+  height:   400vh;        /* course : chorégraphie (début) + longue pause Devise + recouvrement */
+  z-index:  1;            /* sous « Histoire », qui recouvrira (couche C) */
+}
+
+.intro__pin {
+  position: sticky;
+  top:      0;
+  height:   100vh;
+  overflow: hidden;       /* rien ne déborde du cadre épinglé */
+}
+
+/* Couche 1 — image de fond (le N&B s'applique ICI, isolé du texte) */
+.intro__bg {
+  position: absolute;
+  inset:    0;
   background-image:    linear-gradient(
                          to top,
-                         rgba(28, 23, 20, 0.75) 0%,    /* bas sombre : lisibilité du texte */
-                         rgba(28, 23, 20, 0.15) 60%,   /* milieu semi-transparent */
-                         rgba(28, 23, 20, 0.35) 100%   /* haut légèrement assombri */
+                         rgba(28, 23, 20, 0.75) 0%,
+                         rgba(28, 23, 20, 0.15) 60%,
+                         rgba(28, 23, 20, 0.35) 100%
                        ),
                        url("photos/cheffe_k.png");
   background-size:     cover;
-  background-position: center top;   /* ajustable selon le cadrage de la photo */
+  background-position: center top;
+  /* filter piloté par JS en couche B : grayscale(0) → grayscale(1) */
+}
+
+/* Couche 2 — contenu Hero (ancrage géré par .hero__inner, inchangé) */
+.intro__hero {
+  position: absolute;
+  inset:    0;
+  /* opacity pilotée par JS en couche B : 1 → 0 */
+}
+
+/* Couche 3 — Devise, centrée par-dessus */
+.intro__devise {
+  position:        absolute;
+  inset:           0;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  opacity:         0;     /* invisible au départ, révélée par JS (couche B) */
 }
 
 .hero__inner {
@@ -164,14 +198,84 @@ body {
   white-space:    nowrap;   /* Cheffe Kamano reste sur une seule ligne */
 }
 
-.hero__devise {
-  font-family:    var(--police-corps);
-  font-size:      clamp(0.85rem, 2vw, 1.1rem);
-  font-weight:    300;          /* Quicksand Light */
-  letter-spacing: 0.25em;
+/* =========================================================================
+   SECTION DEVISE — « Du feu dans les saveurs »
+   Texte centré, grande typographie, gradient couleurs feu + lueur chaude.
+   min-height 60vh : présence visuelle forte sans occuper tout l'écran.
+   ========================================================================= */
+
+/* Texte feu : gradient or → orange brûlé → bordeaux, appliqué en clip sur le texte */
+.devise__texte {
+  font-family:    var(--police-titres);
+  font-size:      clamp(2.4rem, 7vw, 6rem);
+  font-weight:    400;
+  letter-spacing: 0.12em;
+  line-height:    1.2;
   text-transform: uppercase;
-  color:          var(--or);    /* accent doré pour la devise */
-  margin-bottom:  2.5rem;
+
+  background: linear-gradient(
+    135deg,
+    var(--or)       0%,
+    #E8780A         40%,
+    var(--bordeaux) 80%,
+    var(--or)       100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip:         text;
+  color:                   transparent;
+
+  /* Vacillement de type flamme — variations resserrées, plancher relevé */
+  animation: devise-lueur 4.5s ease-in-out infinite;
+}
+
+/* Vacillement de type flamme : dérive du dégradé feu + variations d'intensité
+   de la lueur, paliers irréguliers pour un effet naturel. Boucle fluide
+   (0% et 100% identiques). */
+@keyframes devise-lueur {
+  0% {
+    background-position: 30% 50%;
+    filter: drop-shadow(0 0 28px rgba(232, 120, 10, 0.80))
+            drop-shadow(0 0 56px rgba(232, 120, 10, 0.45))
+            drop-shadow(0 0 100px rgba(168, 138, 90, 0.38));
+  }
+  18% {
+    background-position: 48% 50%;
+    filter: drop-shadow(0 0 22px rgba(232, 120, 10, 0.68))
+            drop-shadow(0 0 46px rgba(232, 120, 10, 0.36))
+            drop-shadow(0 0 88px rgba(168, 138, 90, 0.30));
+  }
+  38% {
+    background-position: 62% 50%;
+    filter: drop-shadow(0 0 32px rgba(232, 120, 10, 0.88))
+            drop-shadow(0 0 62px rgba(232, 120, 10, 0.52))
+            drop-shadow(0 0 112px rgba(168, 138, 90, 0.44));
+  }
+  58% {
+    background-position: 55% 50%;
+    filter: drop-shadow(0 0 24px rgba(232, 120, 10, 0.74))
+            drop-shadow(0 0 50px rgba(232, 120, 10, 0.42))
+            drop-shadow(0 0 94px rgba(168, 138, 90, 0.34));
+  }
+  78% {
+    background-position: 40% 50%;
+    filter: drop-shadow(0 0 30px rgba(232, 120, 10, 0.85))
+            drop-shadow(0 0 58px rgba(232, 120, 10, 0.48))
+            drop-shadow(0 0 106px rgba(168, 138, 90, 0.41));
+  }
+  100% {
+    background-position: 30% 50%;
+    filter: drop-shadow(0 0 28px rgba(232, 120, 10, 0.80))
+            drop-shadow(0 0 56px rgba(232, 120, 10, 0.45))
+            drop-shadow(0 0 100px rgba(168, 138, 90, 0.38));
+  }
+}
+
+@media (max-width: 600px) {
+  .devise {
+    min-height:   40vh;
+    padding-block: 64px;
+  }
 }
 
 
@@ -208,7 +312,11 @@ body {
    ========================================================================= */
 
 .histoire {
-  padding-block: 120px;         /* espace généreux haut et bas */
+  padding-block: 120px;              /* espace généreux haut et bas */
+  position:      relative;
+  z-index:       2;                  /* passe AU-DESSUS de la scène intro (z-index:1) */
+  background-color: var(--noir);     /* opaque : masque la scène qu'elle recouvre */
+  margin-top:    -100vh;             /* démarre 1 écran plus tôt → monte par-dessus la scène épinglée */
 }
 
 .histoire__inner {
@@ -281,6 +389,9 @@ body {
 
 .specialites {
   padding-block: 120px;              /* même respiration que Histoire */
+  position:      relative;
+  z-index:       2;                  /* même plan que Histoire → au-dessus de la scène intro */
+  background-color: var(--noir);     /* opaque : prolonge le recouvrement, aucun trou */
 }
 
 /* Grille 2 colonnes — passe en 1 colonne sur tablette/mobile */
@@ -320,180 +431,6 @@ body {
     grid-template-columns: 1fr;      /* une seule colonne */
     gap:                   2.5rem;
   }
-}
-
-/* =========================================================================
-   SECTION SERVICES — liste 2 colonnes implicites + bloc infos pratiques
-   ========================================================================= */
-.services {
-  padding-block: 120px;              /* respiration identique aux autres sections */
-}
-
-/* --- Liste des services --- */
-.services__liste {
-  margin-top:  3rem;
-  border-top:  1px solid rgba(255, 255, 255, 0.10);  /* filet de séparation haut */
-}
-
-/* Une ligne par service : nom gauche / précisions droite */
-.services__item {
-  display:               grid;
-  grid-template-columns: 1fr 1fr;    /* deux colonnes implicites sans séparateur visible */
-  align-items:           start;
-  padding:               1.1rem 0;
-  border-bottom:         1px solid rgba(255, 255, 255, 0.10);
-}
-
-/* Nom du service — colonne gauche */
-.services__nom {
-  font-family:    var(--police-titres);
-  font-size:      1.15rem;
-  letter-spacing: 0.08em;
-  color:          var(--blanc);
-}
-
-/* Précisions — colonne droite */
-.services__detail {
-  font-family:  var(--police-corps);
-  font-weight:  300;
-  font-size:    0.95rem;
-  color:        rgba(255, 255, 255, 0.55);
-  line-height:  1.7;
-}
-
-/* --- Bloc infos pratiques --- */
-.services__pratique {
-  margin-top:    2.5rem;
-  border:        1px solid rgba(168, 138, 90, 0.45);  /* --or atténué : CSS natif sans opacité sur var() */
-  border-radius: 8px;
-  padding:       1.5rem 2rem;
-}
-
-.services__pratique-titre {
-  font-family:    var(--police-titres);
-  color:          var(--or);
-  font-size:      0.85rem;
-  letter-spacing: 0.16em;
-  text-align:     center;
-  margin-bottom:  1.25rem;
-}
-
-/* Grille 2×2 pour les 4 infos pratiques */
-.services__pratique-grille {
-  display:               grid;
-  grid-template-columns: 1fr 1fr;
-  gap:                   0.75rem 3rem;
-}
-
-.services__pratique-item {
-  display:         flex;
-  justify-content: space-between;
-  align-items:     baseline;
-  gap:             1rem;
-}
-
-/* Libellé (dt) — discret */
-.services__pratique-item dt {
-  font-family:  var(--police-corps);
-  font-weight:  300;
-  font-size:    0.85rem;
-  color:        rgba(255, 255, 255, 0.40);
-}
-
-/* Valeur (dd) — lisible */
-.services__pratique-item dd {
-  font-family:  var(--police-corps);
-  font-weight:  300;
-  font-size:    0.85rem;
-  color:        rgba(255, 255, 255, 0.82);
-  margin:       0;                   /* reset du margin-left natif du dd */
-  text-align:   right;
-}/* =========================================================================
-   SECTION SERVICES — liste 2 colonnes implicites + bloc infos pratiques
-   ========================================================================= */
-.services {
-  padding-block: 120px;              /* respiration identique aux autres sections */
-}
-
-/* --- Liste des services --- */
-.services__liste {
-  margin-top:  3rem;
-  border-top:  1px solid rgba(255, 255, 255, 0.10);  /* filet de séparation haut */
-}
-
-/* Une ligne par service : nom gauche / précisions droite */
-.services__item {
-  display:               grid;
-  grid-template-columns: 1fr 1fr;    /* deux colonnes implicites sans séparateur visible */
-  align-items:           start;
-  padding:               1.1rem 0;
-  border-bottom:         1px solid rgba(255, 255, 255, 0.10);
-}
-
-/* Nom du service — colonne gauche */
-.services__nom {
-  font-family:    var(--police-titres);
-  font-size:      1.15rem;
-  letter-spacing: 0.08em;
-  color:          var(--blanc);
-}
-
-/* Précisions — colonne droite */
-.services__detail {
-  font-family:  var(--police-corps);
-  font-weight:  300;
-  font-size:    0.95rem;
-  color:        rgba(255, 255, 255, 0.55);
-  line-height:  1.7;
-}
-
-/* --- Bloc infos pratiques --- */
-.services__pratique {
-  margin-top:    2.5rem;
-  border:        1px solid rgba(168, 138, 90, 0.45);  /* --or atténué : CSS natif sans opacité sur var() */
-  border-radius: 8px;
-  padding:       1.5rem 2rem;
-}
-
-.services__pratique-titre {
-  font-family:    var(--police-titres);
-  color:          var(--or);
-  font-size:      0.85rem;
-  letter-spacing: 0.16em;
-  text-align:     center;
-  margin-bottom:  1.25rem;
-}
-
-/* Grille 2×2 pour les 4 infos pratiques */
-.services__pratique-grille {
-  display:               grid;
-  grid-template-columns: 1fr 1fr;
-  gap:                   0.75rem 3rem;
-}
-
-.services__pratique-item {
-  display:         flex;
-  justify-content: space-between;
-  align-items:     baseline;
-  gap:             1rem;
-}
-
-/* Libellé (dt) — discret */
-.services__pratique-item dt {
-  font-family:  var(--police-corps);
-  font-weight:  300;
-  font-size:    0.85rem;
-  color:        rgba(255, 255, 255, 0.40);
-}
-
-/* Valeur (dd) — lisible */
-.services__pratique-item dd {
-  font-family:  var(--police-corps);
-  font-weight:  300;
-  font-size:    0.85rem;
-  color:        rgba(255, 255, 255, 0.82);
-  margin:       0;                   /* reset du margin-left natif du dd */
-  text-align:   right;
 }
 
 /* =========================================================================
@@ -949,5 +886,29 @@ body {
 
   .galerie__item--large {
     grid-column: span 1;
+  }
+}
+
+/* =========================================================================
+   REVEAL AU SCROLL — état initial + état visible
+   Déclenché par IntersectionObserver dans script.js.
+   ========================================================================= */
+
+.reveal {
+  opacity:    0;
+  transform:  translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.is-visible {
+  opacity:   1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity:    1;
+    transform:  none;
+    transition: none;
   }
 }

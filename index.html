@@ -39,42 +39,43 @@
 
   <main>
 
-     <!-- =================================================================
-          1 · HERO — nom, devise, appel à l'action, photo professionnelle
-          Animation d'entrée N8 : cascade CSS au chargement
-          (hero-anim--1 → titre, --2 → bouton)
-          ================================================================= -->
-       <div class="container hero__inner">
-         <!-- Titre principal : 1er élément de la cascade d'entrée -->
-         <h1 id="hero-titre" class="hero__titre hero-anim hero-anim--1">Cheffe Kamano</h1>
-         <!-- Appel à l'action principal : WhatsApp (canal prioritaire) -->
-         <!-- Bouton : 2e et dernier élément de la cascade d'entrée -->
-         <a class="btn btn--principal hero-anim hero-anim--2" href="https://wa.me/XXXXXXXXXXX">
-           Réserver une prestation
-         </a>
-         <!-- Photo professionnelle de la cheffe (média à venir — dette) -->
-         <!-- Photo de couverture : gérée en background CSS (.hero) -->
-       </div>
-     </section>
-       
-     <!-- =================================================================
-         2 · DEVISE — « Du feu dans les saveurs »
-         Texte centré, grand format, gradient couleurs feu + lueur.
-         Entrée : fondu au scroll (.reveal → IntersectionObserver).
-         Sortie : fondu quand Histoire arrive par le bas (à venir).
+<!-- =================================================================
+         1 · SCÈNE D'INTRODUCTION — Hero + Devise superposés, épinglés
+         La scène mesure 250vh : cette hauteur donne la « course » de
+         scroll qui pilotera la chorégraphie (Hero N&B → Devise en fondu).
+         3 couches empilées dans un cadre collé en haut (.intro__pin) :
+           .intro__bg     → image de fond (le N&B s'appliquera ICI seul)
+           .intro__hero   → « Cheffe Kamano » + bouton (fondu sortie)
+           .intro__devise → texte feu (fondu entrée, par-dessus)
          ================================================================= -->
-    <section id="devise" class="devise reveal" aria-label="Devise de la cheffe">
-      <div class="container">
-        <div class="devise__wrapper">
+    <section id="intro" class="intro" aria-labelledby="hero-titre">
+      <div class="intro__pin">
+
+        <!-- Couche 1 : image de fond (grayscale piloté au scroll) -->
+        <div class="intro__bg" aria-hidden="true"></div>
+
+        <!-- Couche 2 : contenu Hero (cascade N8 au chargement conservée) -->
+        <div class="intro__hero">
+          <div class="container hero__inner">
+            <h1 id="hero-titre" class="hero__titre hero-anim hero-anim--1">Cheffe Kamano</h1>
+            <a class="btn btn--principal hero-anim hero-anim--2" href="https://wa.me/XXXXXXXXXXX">
+              Réserver une prestation
+            </a>
+          </div>
+        </div>
+
+        <!-- Couche 3 : Devise — apparaît par-dessus le Hero N&B -->
+        <div class="intro__devise">
           <p class="devise__texte">Du feu dans les saveurs</p>
         </div>
-      </div>
+
+      </div><!-- /.intro__pin -->
     </section>
 
     <!-- =================================================================
          2 · HISTOIRE — parcours, CFC, distinctions, texte de présentation
          ================================================================= -->
-    <section id="histoire" class="histoire reveal" aria-labelledby="histoire-titre">
+      <section id="histoire" class="histoire" aria-labelledby="histoire-titre">
       <div class="container histoire__inner">
         <h2 id="histoire-titre" class="section__titre">Mon histoire</h2>
 
@@ -106,7 +107,7 @@
     <!-- =================================================================
          3 · SPÉCIALITÉS — cuisine, plats signatures, ce qui la distingue
          ================================================================= -->
-    <section id="specialites" class="specialites reveal" aria-labelledby="specialites-titre">
+      <section id="specialites" class="specialites" aria-labelledby="specialites-titre">
       <div class="container specialites__inner">
         <h2 id="specialites-titre" class="section__titre">Spécialités</h2>
 

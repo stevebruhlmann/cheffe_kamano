@@ -51,8 +51,10 @@
     <section id="intro" class="intro" aria-labelledby="hero-titre">
       <div class="intro__pin">
 
-        <!-- Couche 1 : image de fond (grayscale piloté au scroll) -->
-        <div class="intro__bg" aria-hidden="true"></div>
+        <!-- Couche 1a : image couleur (toujours visible en dessous) -->
+        <div class="intro__bg intro__bg--couleur" aria-hidden="true"></div>
+        <!-- Couche 1b : image N&B (opacity 0→1 au scroll, par-dessus) -->
+        <div class="intro__bg intro__bg--nb" aria-hidden="true"></div>
 
         <!-- Couche 2 : contenu Hero (cascade N8 au chargement conservée) -->
         <div class="intro__hero">

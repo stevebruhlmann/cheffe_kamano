@@ -33,20 +33,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ------------------------------------------------------------------
      Chorégraphie d'introduction — pilotée par la progression du scroll
-     Dans la scène .intro (250vh), on calcule une progression p (0 → 1) :
-       phase 1 (0   → 0.5) : le Hero fond (opacity 1→0) EN MÊME TEMPS
-                             que l'image passe en N&B (grayscale 0→1)
-       phase 2 (0.4 → 0.8) : la Devise apparaît en fondu par-dessus
+     Dans la scène .intro (400vh), on calcule une progression p (0 → 1) :
+       phase 1 (0    → 0.3) : Hero s'efface + crossfade vers la couche N&B
+       phase 2 (0.25 → 0.5) : Devise apparaît, puis pause jusqu'au recouvrement
      Calculs throttlés via requestAnimationFrame pour rester fluide.
      ------------------------------------------------------------------ */
   const intro       = document.querySelector('.intro');
-  const introBg     = document.querySelector('.intro__bg');
+  const introBgNb   = document.querySelector('.intro__bg--nb');
   const introHero   = document.querySelector('.intro__hero');
   const introDevise = document.querySelector('.intro__devise');
 
   const motionOff = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (intro && introBg && introHero && introDevise) {
+  if (intro && introBgNb && introHero && introDevise) {
 
     if (motionOff) {
       /* Accessibilité : pas d'anim au scroll → on montre la Devise, état statique */
@@ -62,14 +61,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const scrolled   = -intro.getBoundingClientRect().top;
         const p          = clamp(scrolled / scrollable, 0, 1);
 
-        /* Phase 1 — Hero fond + image N&B, synchronisés (0 → 0.3).
-           En devenant N&B, l'image est aussi assombrie (brightness) et
-           décontrastée (contrast) → noirs moins profonds, fond feutré qui
-           met la lueur de la Devise en valeur. */
+        /* Phase 1 — Hero fond + crossfade N&B, synchronisés (0 → 0.3).
+           La couche N&B (pré-calculée au chargement) monte en opacity pendant
+           que le Hero s'efface → aucun recalcul de filtre à chaque frame. */
         const p1 = clamp(p / 0.3, 0, 1);
-        introHero.style.opacity = String(1 - p1);
-        /*introBg.style.filter    = `grayscale(${p1}) brightness(${1 - p1 * 0.35}) contrast(${1 - p1 * 0.25})`;*/
-        introBg.style.filter    = `grayscale(${p1}) brightness(${1 - p1 * 0.35}) contrast(${1 - p1 * 0.25})`;
+        introHero.style.opacity  = String(1 - p1);
+        introBgNb.style.opacity  = String(p1);        /* crossfade vers la couche N&B */
         
 
         /* Phase 2 — Devise en fondu (0.25 → 0.5), puis PAUSE jusqu'au recouvrement */

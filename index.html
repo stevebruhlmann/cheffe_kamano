@@ -82,10 +82,13 @@
         <h2 id="histoire-titre" class="section__titre">Mon histoire</h2>
 
         <!-- Texte de présentation — rédigé par Marceline (source : brief) -->
-        <p class="histoire__intro">Je suis Cheffe Kamano à domicile et traiteur, spécialisée dans la cuisine africaine et européenne. Passionnée par la gastronomie, je mets mon savoir-faire au service de vos événements privés et professionnels. Chaque menu est imaginé avec soin, en privilégiant des produits de qualité, des saveurs authentiques et une présentation élégante.</p>
+        <p class="histoire__intro">Je suis la Cheffe Kamano à domicile et traiteur, spécialisée dans la cuisine africaine et européenne. Passionnée par la gastronomie, je mets mon savoir-faire au service de vos événements privés et professionnels. Chaque menu est imaginé avec soin, en privilégiant des produits de qualité, des saveurs authentiques et une présentation élégante.</p>
 
-        <!-- Parcours + plat signature -->
-        <p class="histoire__corps">Titulaire d'un CFC de cuisine, j'ai construit mon parcours dans l'exigence et l'amour du détail. Mon plat signature — le pâté en croûte — résume ce que je suis : technique, patience, précision et créativité réunies dans une même assiette.</p>
+        <!-- Parcours -->
+        <p class="histoire__corps">Titulaire d'un CFC de cuisine, j'ai construit mon parcours dans l'exigence et l'amour du détail.</p>
+
+        <!-- Signature — résumé de ce qui la caractérise, mis en valeur (nouveau, P7) -->
+        <p class="histoire__signature">"Dans chaque assiette, j'apporte la même exigence :<br class="signature__saut"> technique, patience, précision, créativité."</p>
 
         <!-- Distinctions — 3 blocs côte à côte, filet or à gauche -->
         <div class="histoire__distinctions">
@@ -113,26 +116,38 @@
       <div class="container specialites__inner">
         <h2 id="specialites-titre" class="section__titre">Spécialités</h2>
 
-        <!-- Deux colonnes : texte à gauche, liste des plats à droite -->
-        <div class="specialites__grille">
+        <!-- Accroche + sourcing, au-dessus du bloc scrollytelling (source : brief) -->
+        <div class="specialites__texte">
+          <p>Une cuisine qui marie la gastronomie française et européenne aux saveurs de l'Afrique, revisitées avec précision et élégance.</p>
+          <p>Chaque assiette naît d'une sélection personnelle : marchés, producteurs locaux et commerces spécialisés, pour des produits de caractère.</p>
+        </div>
 
-          <!-- Colonne gauche : accroche + sourcing (source : brief) -->
-          <div class="specialites__texte">
-            <p>Une cuisine qui marie la gastronomie française et européenne aux saveurs de l'Afrique, revisitées avec précision et élégance.</p>
-            <p>Chaque assiette naît d'une sélection personnelle : marchés, producteurs locaux et commerces spécialisés, pour des produits de caractère.</p>
+        <!-- Bloc scrollytelling : image sticky à gauche (crossfade), plats déclencheurs à droite (P7) -->
+        <div class="specialites__scroll">
+
+          <!-- Colonne gauche : image sticky, 6 photos superposées, une seule visible à la fois -->
+          <div class="specialites__image-wrap">
+            <div class="specialites__image-inner">
+              <img src="photos/specialite_01.jpg" alt="Pâté en croûte signature — Cheffe Kamano" class="specialites__image is-active" data-plat="1">
+              <img src="photos/specialite_02.jpg" alt="Carpaccio de filet de bœuf — Cheffe Kamano" class="specialites__image" data-plat="2">
+              <img src="photos/specialite_03.jpg" alt="Ballotine de volaille — Cheffe Kamano" class="specialites__image" data-plat="3">
+              <img src="photos/specialite_04.jpg" alt="Sauces signature — Cheffe Kamano" class="specialites__image" data-plat="4">
+              <img src="photos/specialite_05.jpg" alt="Menus dégustation — Cheffe Kamano" class="specialites__image" data-plat="5">
+              <img src="photos/specialite_06.jpg" alt="Cuisine africaine gastronomique revisitée — Cheffe Kamano" class="specialites__image" data-plat="6">
+            </div>
           </div>
 
-          <!-- Colonne droite : 6 plats signatures, filet or devant chaque nom -->
+          <!-- Colonne droite : 6 plats signatures, filet or devant chaque nom, déclenchent le crossfade -->
           <ul class="specialites__plats">
-            <li>Pâté en croûte signature</li>
-            <li>Carpaccio de filet de bœuf</li>
-            <li>Ballotine de volaille</li>
-            <li>Sauces signature</li>
-            <li>Menus dégustation</li>
-            <li>Cuisine africaine gastronomique revisitée</li>
+            <li data-plat="1" class="is-active">Pâté en croûte signature</li>
+            <li data-plat="2">Carpaccio de filet de bœuf</li>
+            <li data-plat="3">Ballotine de volaille</li>
+            <li data-plat="4">Sauces signature</li>
+            <li data-plat="5">Menus dégustation</li>
+            <li data-plat="6">Cuisine africaine gastronomique revisitée</li>
           </ul>
 
-        </div>
+        </div>    
       </div>
     </section>
 
@@ -154,7 +169,7 @@
           <div class="services__item">
             <span class="services__nom">Traiteur</span>
             <span class="services__detail">
-              Mariages · Anniversaires · Baptêmes<br>
+              Mariages · Anniversaires · Baptêmes · Cocktails dînatoires<br>
               Fêtes · Réceptions d'entreprise
             </span>
           </div>
@@ -169,14 +184,8 @@
 
           <div class="services__item">
             <span class="services__nom">Cours de cuisine</span>
-            <!-- Précisions à obtenir auprès de Marceline (générique) -->
-            <span class="services__detail placeholder">Cours individuels et en groupe (générique)</span>
-          </div>
-
-          <div class="services__item">
-            <span class="services__nom">Cocktails &amp; buffets</span>
-            <!-- Précisions à obtenir auprès de Marceline (générique) -->
-            <span class="services__detail placeholder">Cocktails dînatoires et buffets sur mesure (générique)</span>
+            <!-- Détail réel en attente de Marceline — formulation neutre validée (P7) -->
+            <span class="services__detail">Renseignements sur demande</span>
           </div>
 
         </div><!-- /.services__liste -->
@@ -195,10 +204,10 @@
             </div>
             <div class="services__pratique-item">
               <dt>Réservation</dt>
-              <dd>Plusieurs jours à l'avance</dd>
+              <dd>Plusieurs jours à l'avance · Espèces ou virement</dd>
             </div>
             <div class="services__pratique-item">
-              <dt>Zone</dt>
+              <dt>Zone de prestation / livraison</dt>
               <dd>Lausanne &amp; environs</dd>
             </div>
           </dl>
@@ -219,31 +228,31 @@
         <div class="galerie__grille">
 
           <figure class="galerie__item galerie__item--large">
-            <img src="photos/plat_1.png" alt="Plat signature — Cheffe Kamano" class="galerie__img">
+            <img src="photos/galerie_01.jpg" alt="Photo Instagram — Cheffe Kamano" class="galerie__img">
           </figure>
 
           <figure class="galerie__item">
-            <img src="photos/plat_4.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+            <img src="photos/galerie_02.jpg" alt="Photo Instagram — Cheffe Kamano" class="galerie__img">
           </figure>
 
           <figure class="galerie__item">
-            <img src="photos/plat_3.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+            <img src="photos/galerie_03.jpg" alt="Photo Instagram — Cheffe Kamano" class="galerie__img">
           </figure>
 
           <figure class="galerie__item">
-            <img src="photos/plat_2.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+            <img src="photos/galerie_04.jpg" alt="Photo Instagram — Cheffe Kamano" class="galerie__img">
           </figure>
 
           <figure class="galerie__item">
-            <img src="photos/plat_5.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+            <img src="photos/galerie_05.jpg" alt="Photo Instagram — Cheffe Kamano" class="galerie__img">
           </figure>
 
           <figure class="galerie__item">
-            <img src="photos/plat_6.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+            <img src="photos/galerie_06.jpg" alt="Photo Instagram — Cheffe Kamano" class="galerie__img">
           </figure>
 
           <figure class="galerie__item galerie__item--large">
-            <img src="photos/plat_7.png" alt="Plat — Cheffe Kamano" class="galerie__img">
+            <img src="photos/galerie_07.jpg" alt="Photo Instagram — Cheffe Kamano" class="galerie__img">
           </figure>
 
         </div><!-- /.galerie__grille -->
@@ -311,16 +320,17 @@
 
           <!-- Colonne gauche : accroche + boutons de contact -->
           <div class="contact__actions">
-            <!-- Texte d'accroche — à personnaliser avec Marceline (générique) -->
+            <!-- Texte d'accroche — à personnaliser avec Marceline -->
             <p class="contact__accroche placeholder">
-              Vous avez un projet ou souhaitez en savoir plus ?
-              Contactez-moi directement — je vous réponds rapidement. (générique)
+              Vous avez un projet ou souhaitez en savoir plus ?<br>
+              <strong>Contactez-moi directement</strong> — je vous réponds rapidement.
             </p>
 
             <!-- Bouton WhatsApp — numéro à récupérer auprès de Marceline (placeholder) -->
             <a href="https://wa.me/XXXXXXXXXXX"
               class="contact__whatsapp placeholder"
               target="_blank" rel="noopener">
+              <img src="logos/logo_whatsapp_white.svg" alt="" class="contact__whatsapp-icone">
               WhatsApp &nbsp;·&nbsp; +41 XX XXX XX XX
             </a>
 
@@ -331,37 +341,24 @@
             </a>
           </div>
 
-          <!-- Colonne droite : réseaux sociaux + infos pratiques -->
+          <!-- Colonne droite : réseaux sociaux -->
           <div class="contact__aside">
 
             <p class="contact__reseaux-titre">Suivez-moi</p>
             <ul class="contact__reseaux">
-              <li><a href="https://instagram.com/CheffeKamano"
+              <li><a href="https://www.instagram.com/________cheffe_kamano/"
                     class="contact__reseau-lien"
-                    target="_blank" rel="noopener">@CheffeKamano — Instagram</a></li>
-              <li><a href="https://facebook.com/CheffeKamano"
+                    target="_blank" rel="noopener">
+                <img src="logos/logo_ig_white.svg" alt="" class="contact__reseau-icone">
+                @CheffeKamano — Instagram
+              </a></li>
+              <li><a href="https://www.facebook.com/profile.php?id=100066550612241"
                     class="contact__reseau-lien"
-                    target="_blank" rel="noopener">@CheffeKamano — Facebook</a></li>
-              <li><a href="https://tiktok.com/@CheffeKamano"
-                    class="contact__reseau-lien"
-                    target="_blank" rel="noopener">@CheffeKamano — TikTok</a></li>
+                    target="_blank" rel="noopener">
+                <img src="logos/logo_facebook_white.png" alt="" class="contact__reseau-icone">
+                @CheffeKamano — Facebook
+              </a></li>
             </ul>
-
-            <!-- Infos pratiques secondaires -->
-            <dl class="contact__pratique">
-              <div class="contact__pratique-item">
-                <dt>Zone</dt>
-                <dd>Lausanne &amp; environs</dd>
-              </div>
-              <div class="contact__pratique-item">
-                <dt>Réservation</dt>
-                <dd>Sur réservation</dd>
-              </div>
-              <div class="contact__pratique-item">
-                <dt>Paiement</dt>
-                <dd>Espèces · Virement</dd>
-              </div>
-            </dl>
 
           </div>
         </div><!-- /.contact__inner -->
@@ -378,25 +375,12 @@
 
     <p class="site-footer__brand">Cheffe Kamano</p>
 
-    <!-- Liens réseaux sociaux — @CheffeKamano -->
-    <nav class="site-footer__reseaux" aria-label="Réseaux sociaux">
-      <a href="https://instagram.com/CheffeKamano"
-         class="site-footer__lien"
-         target="_blank" rel="noopener">Instagram</a>
-      <span class="site-footer__sep" aria-hidden="true">·</span>
-      <a href="https://facebook.com/CheffeKamano"
-         class="site-footer__lien"
-         target="_blank" rel="noopener">Facebook</a>
-      <span class="site-footer__sep" aria-hidden="true">·</span>
-      <a href="https://tiktok.com/@CheffeKamano"
-         class="site-footer__lien"
-         target="_blank" rel="noopener">TikTok</a>
-    </nav>
+    <!-- Réseaux sociaux retirés du Footer (P7) — déjà bien visibles en Contact, doublon supprimé -->
 
     <!-- Mentions — année injectée par script.js -->
     <p class="site-footer__mentions">
       &copy; <span class="footer-annee"></span> Cheffe Kamano
-      &nbsp;—&nbsp; Tous droits réservés (v. 5.0)
+      &nbsp;—&nbsp; Tous droits réservés
     </p>
 
   </div>

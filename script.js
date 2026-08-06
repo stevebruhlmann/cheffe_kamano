@@ -32,6 +32,38 @@ document.addEventListener("DOMContentLoaded", () => {
     .forEach(el => revealObserver.observe(el));
 
   /* ------------------------------------------------------------------
+     Spécialités — scrollytelling image sticky + liste de plats (P7)
+     rootMargin "-45% 0px -45% 0px" : ne déclenche que quand un plat
+     traverse la bande centrale de l'écran (±10% autour du milieu).
+     Contrairement à .reveal, on NE unobserve PAS : l'effet doit se
+     redéclencher dans les deux sens du scroll (haut ↔ bas).
+     ------------------------------------------------------------------ */
+  const specialitesItems  = document.querySelectorAll('.specialites__plats li[data-plat]');
+  const specialitesImages = document.querySelectorAll('.specialites__image[data-plat]');
+
+  if (specialitesItems.length && specialitesImages.length) {
+
+    const activatePlat = (platId) => {
+      specialitesItems.forEach(li => li.classList.toggle('is-active', li.dataset.plat === platId));
+      specialitesImages.forEach(img => img.classList.toggle('is-active', img.dataset.plat === platId));
+    };
+
+    const specialitesObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          activatePlat(entry.target.dataset.plat);
+        }
+      });
+    }, {
+      root:       null,
+      rootMargin: '-45% 0px -45% 0px',
+      threshold:  0
+    });
+
+    specialitesItems.forEach(li => specialitesObserver.observe(li));
+  }
+
+  /* ------------------------------------------------------------------
      Chorégraphie d'introduction — pilotée par la progression du scroll
      Dans la scène .intro (400vh), on calcule une progression p (0 → 1) :
        phase 1 (0    → 0.3) : Hero s'efface + crossfade vers la couche N&B

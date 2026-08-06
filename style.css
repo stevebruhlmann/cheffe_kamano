@@ -303,14 +303,14 @@ body {
 }
 
 .histoire__inner {
-  max-width:  780px;            /* colonne de texte plus étroite que container */
+  max-width:  860px;            /* élargie (P7) : évite le mot seul en fin de paragraphe */
   text-align: center;
 }
 
-/* Titre de section — partagé par toutes les sections */
+/* Titre de section — partagé par toutes les sections (agrandi P7) */
 .section__titre {
   font-family:    var(--police-titres);
-  font-size:      clamp(1.8rem, 4vw, 3rem);
+  font-size:      clamp(2.2rem, 5vw, 4.5rem);
   font-weight:    400;
   letter-spacing: 0.1em;
   color:          var(--blanc);
@@ -326,14 +326,73 @@ body {
   margin-bottom: 1.8rem;
 }
 
-/* Texte complémentaire — parcours + plat signature */
+/* Texte complémentaire — parcours */
 .histoire__corps {
   font-size:     clamp(0.9rem, 1.8vw, 1.05rem);
   font-weight:   300;
   color:         var(--texte-secondaire);     /* blanc atténué */
   line-height:   1.9;
-  margin-bottom: 4rem;
+  margin-bottom: 1.5rem;                      /* réduit : suivi de près par la signature */
 }
+
+/* Ligne signature — résumé mis en valeur, accent or (nouveau, P7) */
+.histoire__signature {
+  font-family:    var(--police-titres);       /* Poiret One, cohérent avec les titres */
+  font-size:      clamp(1.3rem, 2vw, 1.4rem);   /* taille sûre par défaut, ne déborde jamais */
+  font-weight:    400;
+  letter-spacing: 0.03em;
+  color:          var(--or);
+  line-height:    1.7;
+  margin-bottom:  4rem;
+
+  /* Desktop : sur une seule ligne, centrée indépendamment de la largeur
+     de la colonne .histoire__inner (860px) — casse volontairement la
+     contrainte du parent pour tenir sur une ligne (P7) */
+  white-space:    nowrap;
+  width:          max-content;
+  margin-left:    50%;
+  transform:      translateX(-50%);
+}
+
+/* Saut de ligne forcé dans la signature — masqué sur desktop (une seule ligne),
+   réactivé sous 1024px pour couper au bon endroit, après « exigence : » (P7) */
+.signature__saut {
+  display: none;
+}
+
+/* Sous 1024px : la signature repasse en retour à la ligne normal,
+   coupée après « exigence : » (P7) */
+@media (max-width: 1024px) {
+  .histoire__signature {
+    white-space: normal;
+    width:       auto;
+    margin-left: 0;
+    transform:   none;
+  }
+
+  .signature__saut {
+    display: inline;
+  }
+
+  /* Titres de section — palier tablette (P7) */
+  .section__titre {
+    font-size: clamp(1.9rem, 4.5vw, 3rem);
+  }
+}
+
+/* Grand desktop uniquement : la place est garantie, on peut agrandir (P7) */
+@media (min-width: 1440px) {
+  .histoire__signature {
+    font-size: clamp(1.6rem, 2.2vw, 1.9rem);
+  }
+}
+
+/* Titres de section — palier mobile (P7) */
+@media (max-width: 600px) {
+  .section__titre {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+  }
+} 
 
 /* Grille des 3 distinctions */
 .histoire__distinctions {
@@ -377,42 +436,96 @@ body {
   background-color: var(--noir);     /* opaque : prolonge le recouvrement, aucun trou */
 }
 
-/* Grille 2 colonnes — passe en 1 colonne sur tablette/mobile */
-.specialites__grille {
-  display:               grid;
-  grid-template-columns: 1fr 1fr;    /* deux colonnes égales sur desktop */
-  gap:                   4rem;
-  margin-top:            3rem;
-}
-
-/* Colonne gauche : texte d'accroche */
+/* Texte d'accroche, au-dessus du bloc scrollytelling */
 .specialites__texte p {
   font-size:     clamp(1rem, 2vw, 1.15rem);
   font-weight:   300;
   color:         rgba(255, 255, 255, 0.82);
   line-height:   1.9;
   margin-bottom: 1.5rem;
+  max-width:     720px;               /* colonne de lecture confortable */
+}
+
+/* Bloc scrollytelling — grille 2 colonnes, passe en 1 colonne sur tablette/mobile (P7) */
+.specialites__scroll {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;
+  gap:                   4rem;
+  margin-top:            3rem;
+  align-items:           start;      /* nécessaire pour que le sticky fonctionne dans la grille */
+}
+
+/* Colonne gauche : conteneur sticky — reste fixé pendant que la liste défile (P7) */
+.specialites__image-wrap {
+  position:  sticky;
+  top:       100px;
+  height:    85vh;
+  max-height: 700px;
+}
+
+/* Conteneur interne — position:relative pour empiler les 6 images en absolute (P7) */
+.specialites__image-inner {
+  position:      relative;
+  width:         100%;
+  height:        100%;
+  overflow:      hidden;
+  border-radius: 4px;
+}
+
+/* Les 6 photos sont superposées ; seule celle avec .is-active est visible (P7) */
+.specialites__image {
+  position:   absolute;
+  inset:      0;
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+  opacity:    0;
+  transition: opacity 0.6s ease;
+}
+
+.specialites__image.is-active {
+  opacity: 1;
 }
 
 /* Colonne droite : liste des plats, sans puces natives */
 .specialites__plats {
-  list-style: none;                  /* retire les puces par défaut */
+  list-style: none;
 }
 
+/* Chaque plat occupe une bande verticale généreuse : donne au scroll assez
+   de distance pour que le crossfade ait le temps de se voir (P7) */
 .specialites__plats li {
   font-family:    var(--police-titres);
   font-size:      1.15rem;
   color:          var(--blanc);
-  padding:        0.9rem 0 0.9rem 1.5rem;   /* espace + retrait pour le filet */
-  border-left:    2px solid var(--or);       /* filet or devant chaque plat */
-  margin-bottom:  0.8rem;
+  padding:        0.9rem 0 0.9rem 1.5rem;
+  border-left:    2px solid var(--or);
+  min-height:     28vh;                      /* distance de scroll par plat (P7) */
+  display:        flex;
+  align-items:    center;
+  opacity:        0.35;                      /* atténué par défaut (P7) */
+  transition:     opacity 0.4s ease;
+}
+
+/* Plat actif — celui affiché dans l'image sticky (P7) */
+.specialites__plats li.is-active {
+  opacity: 1;
 }
 
 /* --- Responsive : tablette et mobile --- */
 @media (max-width: 768px) {
-  .specialites__grille {
-    grid-template-columns: 1fr;      /* une seule colonne */
+  .specialites__scroll {
+    grid-template-columns: 1fr;
     gap:                   2.5rem;
+  }
+
+  .specialites__image-wrap {
+    top:    24px;
+    height: 50vh;
+  }
+
+  .specialites__plats li {
+    min-height: 20vh;
   }
 }
 
@@ -529,32 +642,6 @@ body {
   margin:         0;
 }
 
-/* Liens réseaux */
-.site-footer__reseaux {
-  display:     flex;
-  align-items: center;
-  gap:         0.75rem;
-}
-
-.site-footer__lien {
-  font-family:  var(--police-corps);
-  font-weight:  300;
-  font-size:    0.85rem;
-  color:        var(--or);
-  text-decoration: none;
-  letter-spacing: 0.06em;
-  transition:   opacity 0.2s ease;
-}
-
-.site-footer__lien:hover {
-  opacity: 0.7;
-}
-
-.site-footer__sep {
-  color:     rgba(168, 138, 90, 0.4);
-  font-size: 0.75rem;
-}
-
 /* Mentions légales */
 .site-footer__mentions {
   font-family:  var(--police-corps);
@@ -612,6 +699,18 @@ body {
   opacity: 0.85;
 }
 
+/* Bouton WhatsApp — icône + texte alignés (P7) */
+.contact__whatsapp {
+  display:      inline-flex;
+  align-items:  center;
+  gap:          0.6rem;
+}
+
+.contact__whatsapp-icone {
+  width:  20px;
+  height: 20px;
+}
+
 /* Lien e-mail — discret, souligné or */
 .contact__email {
   display:         block;
@@ -632,12 +731,13 @@ body {
 
 /* --- Colonne droite --- */
 
+/* "Suivez-moi" — agrandi, accrocheur (P7) */
 .contact__reseaux-titre {
   font-family:    var(--police-titres);
-  font-size:      0.75rem;
-  letter-spacing: 0.18em;
-  color:          rgba(255, 255, 255, 0.40);
-  margin-bottom:  0.9rem;
+  font-size:      2rem;
+  letter-spacing: 0.1em;
+  color:          var(--or);
+  margin-bottom:  1.2rem;
 }
 
 /* Liste réseaux — sans puces natives */
@@ -647,21 +747,32 @@ body {
   margin:        0 0 2rem;
   display:       flex;
   flex-direction: column;
-  gap:           0.55rem;
+  gap:           0.9rem;
 }
 
 .contact__reseau-lien {
   font-family:     var(--police-corps);
   font-weight:     300;
-  font-size:       0.9rem;
+  font-size:       1rem;
   color:           var(--or);
   text-decoration: none;
   letter-spacing:  0.06em;
   transition:      opacity 0.2s ease;
+
+  /* Icône + texte alignés (P7) */
+  display:     flex;
+  align-items: center;
+  gap:         0.7rem;
 }
 
 .contact__reseau-lien:hover {
   opacity: 0.7;
+}
+
+/* Taille des logos réseaux (P7) */
+.contact__reseau-icone {
+  width:  24px;
+  height: 24px;
 }
 
 /* Infos pratiques — séparées par un filet discret */

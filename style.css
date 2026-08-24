@@ -5,21 +5,97 @@
    Le style des sections viendra en Partie 2.
    ========================================================================= */
 
-/* --- Variables de la charte (figée en Partie 1) ------------------------- */
+/* =========================================================================
+   JETONS — repris de tokens.css (charte v1.2).
+   Décision du 24.08.2026 : le site passe en fond crème. Le charbon devient
+   un fond de bandeau, plus le fond de la page.
+   Aucune couleur ne s'écrit en dur dans une règle de mise en page :
+   on passe toujours par un jeton de rôle.
+   ========================================================================= */
+
 :root {
-  /* Couleurs de marque */
-  --noir:        #1C1714;  /* texte, base */
-  --blanc:       #FFFFFF;  /* fond principal */
-  --bordeaux:    #6E1F2A;  /* accent chaud, action principale */
-  --or:          #A88A5A;  /* accent, filets, détails (or satiné) */
+  /* --- Primitives : couleurs de marque, valeurs exactes ---------------- */
+  --kmk-creme:        #FBF8F3;  /* fond de page par défaut */
+  --kmk-creme-papier: #F2EFEA;  /* blocs posés sur le crème */
+  --kmk-charbon:      #1C1714;  /* texte courant, fonds sombres */
+  --kmk-charbon-doux: #4a423c;  /* paragraphes sur fond clair */
+  --kmk-bordeaux:     #6E1F2A;  /* sur crème uniquement */
+  --kmk-bordeaux-clr: #8E2A36;  /* variante sur charbon */
+  --kmk-or:           #A88A5A;  /* filets, surtitres — jamais de texte */
+  --kmk-gris-chaud:   #8B7A68;  /* IMPRIMÉ SEULEMENT — 3,9:1 à l'écran,
+                                   ne porte aucun texte : voir texte-faible */
+  --kmk-blanc:        #EDE6DA;  /* texte sur charbon */
 
-  /* Neutres dérivés du blanc — fond sombre, texte clair (mis à jour P2) */
-  --texte-secondaire: rgba(255, 255, 255, 0.55);
-  --bordure:          rgba(255, 255, 255, 0.12);
+  /* --- Typographie ----------------------------------------------------- */
+  --kmk-font-titre:   'Poiret One', cursive;
+  --kmk-font-texte:   'Quicksand', sans-serif;
 
-  /* Typographies */
-  --police-titres: "Poiret One", system-ui, sans-serif;   /* 1 seul poids (400) — varier par taille/espacement/couleur, jamais de faux gras */
-  --police-corps:  "Quicksand", system-ui, sans-serif;    /* utilisée en Light (300) pour le corps */
+  /* --- Espacement : multiples de 4, rythme vertical sur 8 -------------- */
+  --kmk-espace-1: 4px;
+  --kmk-espace-2: 8px;
+  --kmk-espace-3: 12px;
+  --kmk-espace-4: 20px;
+  --kmk-espace-5: 32px;
+  --kmk-espace-6: 56px;
+  --kmk-espace-7: 88px;
+
+  /* --- Rayon et ombre : aucune valeur. Angles vifs, pas d'ombre. ------- */
+  --kmk-rayon: 0;
+
+  /* --- Mouvement : plafond de la charte -------------------------------- */
+  --kmk-transition: 150ms ease;
+
+  /* --- Alias hérités (P1/P2) — encore consommés par des règles non
+         migrées. --or part au lot 1B, les polices au lot 4. ------------- */
+  --police-titres: var(--kmk-font-titre);
+  --police-corps:  var(--kmk-font-texte);
+  --bordeaux:      var(--kmk-bordeaux);
+  --or:            var(--kmk-or);
+}
+
+/* =========================================================================
+   JETONS DE RÔLE — fond crème, état par défaut du site.
+   Un rôle dit à quoi sert la couleur, pas laquelle elle est. Une section
+   sombre porte data-fond="charbon" : les jetons changent de valeur, aucune
+   règle de mise en page n'est dupliquée.
+   Les quatre niveaux de texte passent tous le seuil AA de 4,5:1.
+   ========================================================================= */
+
+:root,
+[data-fond="creme"] {
+  --kmk-fond:         #FBF8F3;
+  --kmk-fond-alt:     #F2EFEA;
+
+  --kmk-texte-fort:   #1C1714;               /* titres            17,0:1 */
+  --kmk-texte:        #1C1714;               /* texte courant     17,0:1 */
+  --kmk-texte-second: #4a423c;               /* textes d'appui     9,3:1 */
+  --kmk-texte-faible: #7A6A58;               /* mentions 12–13px   4,9:1 */
+
+  --kmk-filet:        rgba(28, 23, 20, .14);
+  --kmk-filet-appuye: #A88A5A;
+
+  --kmk-accent:       #6E1F2A;               /* bordeaux plein sur crème */
+  --kmk-accent-texte: #FBF8F3;               /* texte posé sur l'accent */
+  --kmk-voile-photo:  rgba(28, 23, 20, .58); /* jamais sous .55 */
+}
+
+/* Fond charbon — bandeaux seulement : scène d'intro, témoignages, pied de
+   page. Se pose sur la section, jamais sur <html>. */
+[data-fond="charbon"] {
+  --kmk-fond:         #1C1714;
+  --kmk-fond-alt:     #241E1A;
+
+  --kmk-texte-fort:   #F2EFEA;                  /*                15,3:1 */
+  --kmk-texte:        #EDE6DA;                  /*                13,8:1 */
+  --kmk-texte-second: rgba(237, 230, 218, .72); /*                 7,9:1 */
+  --kmk-texte-faible: rgba(237, 230, 218, .60); /*                 5,9:1 */
+
+  --kmk-filet:        rgba(237, 230, 218, .16);
+  --kmk-filet-appuye: rgba(168, 138, 90, .55);
+
+  --kmk-accent:       #8E2A36;               /* bordeaux clair sur charbon */
+  --kmk-accent-texte: #F2EFEA;
+  --kmk-voile-photo:  rgba(28, 23, 20, .58);
 }
 
 /* --- Reset minimal ------------------------------------------------------ */
@@ -34,8 +110,8 @@
 body {
   font-family:      var(--police-corps);
   font-weight:      300;             /* Quicksand Light pour tout le corps */
-  color:            var(--blanc);    /* texte clair sur fond sombre */
-  background-color: var(--noir);     /* fond dominant noir #1C1714 — validé P2 */
+  color:            var(--kmk-texte);    /* texte courant, s'adapte au fond via data-fond */
+  background-color: var(--kmk-fond);     /* fond de la page, crème par défaut (v1.2) */
   line-height:      1.7;
 }
 
@@ -218,7 +294,7 @@ body {
   font-weight:    400;          /* Poiret One — 1 seul poids disponible */
   letter-spacing: 0.08em;
   line-height:    1.1;
-  color:          var(--blanc);
+  color:          var(--kmk-texte-fort);
   margin-bottom:  0.3em;
   white-space:    nowrap;   /* Cheffe Kamano reste sur une seule ligne */
 }
@@ -281,8 +357,8 @@ body {
 }
 
 .btn--principal {
-  color:            var(--blanc);
-  background-color: var(--bordeaux);
+  color:            var(--kmk-accent-texte);
+  background-color: var(--kmk-accent);
 }
 
 .btn--principal:hover {
@@ -298,7 +374,7 @@ body {
   padding-block: 120px;              /* espace généreux haut et bas */
   position:      relative;
   z-index:       2;                  /* passe AU-DESSUS de la scène intro (z-index:1) */
-  background-color: var(--noir);     /* opaque : masque la scène qu'elle recouvre */
+  background-color: var(--kmk-fond);     /* opaque : masque la scène qu'elle recouvre */
   margin-top:    -100vh;             /* démarre 1 écran plus tôt → monte par-dessus la scène épinglée */
 }
 
@@ -313,7 +389,7 @@ body {
   font-size:      clamp(2.2rem, 5vw, 4.5rem);
   font-weight:    400;
   letter-spacing: 0.1em;
-  color:          var(--blanc);
+  color:          var(--kmk-texte-fort);
   margin-bottom:  2.5rem;
 }
 
@@ -321,7 +397,7 @@ body {
 .histoire__intro {
   font-size:     clamp(1rem, 2vw, 1.2rem);
   font-weight:   300;
-  color:         rgba(255, 255, 255, 0.82);   /* blanc adouci */
+  color:         var(--kmk-texte);   /* texte courant, s'adapte au fond via data-fond */
   line-height:   1.9;
   margin-bottom: 1.8rem;
 }
@@ -330,7 +406,7 @@ body {
 .histoire__corps {
   font-size:     clamp(0.9rem, 1.8vw, 1.05rem);
   font-weight:   300;
-  color:         var(--texte-secondaire);     /* blanc atténué */
+  color:         ;     /* texte d'appui, s'adapte au fond via data-fond */
   line-height:   1.9;
   margin-bottom: 1.5rem;                      /* réduit : suivi de près par la signature */
 }
@@ -422,7 +498,7 @@ body {
 .distinction__detail {
   font-size:   0.85rem;
   font-weight: 300;
-  color:       var(--texte-secondaire);
+  color:       ;
 }
 
 /* =========================================================================
@@ -433,14 +509,14 @@ body {
   padding-block: 120px;              /* même respiration que Histoire */
   position:      relative;
   z-index:       2;                  /* même plan que Histoire → au-dessus de la scène intro */
-  background-color: var(--noir);     /* opaque : prolonge le recouvrement, aucun trou */
+  background-color: var(--kmk-fond);     /* opaque : prolonge le recouvrement, aucun trou */
 }
 
 /* Texte d'accroche, au-dessus du bloc scrollytelling */
 .specialites__texte p {
   font-size:     clamp(1rem, 2vw, 1.15rem);
   font-weight:   300;
-  color:         rgba(255, 255, 255, 0.82);
+  color:         var(--kmk-texte);
   line-height:   1.9;
   margin-bottom: 1.5rem;
   max-width:     720px;               /* colonne de lecture confortable */
@@ -497,7 +573,7 @@ body {
 .specialites__plats li {
   font-family:    var(--police-titres);
   font-size:      1.15rem;
-  color:          var(--blanc);
+  color:          var(--kmk-texte);
   padding:        0.9rem 0 0.9rem 1.5rem;
   border-left:    2px solid var(--or);
   min-height:     28vh;                      /* distance de scroll par plat (P7) */
@@ -539,7 +615,7 @@ body {
 /* --- Liste des services --- */
 .services__liste {
   margin-top:  3rem;
-  border-top:  1px solid rgba(255, 255, 255, 0.10);  /* filet de séparation haut */
+  border-top:  1px solid var(--kmk-filet);  /* filet de séparation haut */
 }
 
 /* Une ligne par service : nom gauche / précisions droite */
@@ -548,7 +624,7 @@ body {
   grid-template-columns: 1fr 1fr;    /* deux colonnes implicites sans séparateur visible */
   align-items:           start;
   padding:               1.1rem 0;
-  border-bottom:         1px solid rgba(255, 255, 255, 0.10);
+  border-bottom:         1px solid var(--kmk-filet);
 }
 
 /* Nom du service — colonne gauche */
@@ -556,7 +632,7 @@ body {
   font-family:    var(--police-titres);
   font-size:      1.15rem;
   letter-spacing: 0.08em;
-  color:          var(--blanc);
+  color:          var(--kmk-texte);
 }
 
 /* Précisions — colonne droite */
@@ -564,7 +640,7 @@ body {
   font-family:  var(--police-corps);
   font-weight:  300;
   font-size:    0.95rem;
-  color:        rgba(255, 255, 255, 0.55);
+  color:        ;
   line-height:  1.7;
 }
 
@@ -604,7 +680,7 @@ body {
   font-family:  var(--police-corps);
   font-weight:  300;
   font-size:    0.85rem;
-  color:        rgba(255, 255, 255, 0.40);
+  color:        var(--kmk-texte-second);
 }
 
 /* Valeur (dd) — lisible */
@@ -612,7 +688,7 @@ body {
   font-family:  var(--police-corps);
   font-weight:  300;
   font-size:    0.85rem;
-  color:        rgba(255, 255, 255, 0.82);
+  color:        var(--kmk-texte-second);
   margin:       0;                   /* reset du margin-left natif du dd */
   text-align:   right;
 }
@@ -621,9 +697,10 @@ body {
    PIED DE PAGE
    ========================================================================= */
 .site-footer {
-  border-top:   1px solid rgba(168, 138, 90, 0.35); /* filet or atténué */
+  border-top:   1px solid var(--kmk-filet-appuye);  /* filet or */
   padding-block: 3rem;
   text-align:   center;
+  background-color: var(--kmk-fond);   /* bandeau charbon via data-fond */
 }
 
 .site-footer__inner {
@@ -638,7 +715,7 @@ body {
   font-family:    var(--police-titres);
   font-size:      1.4rem;
   letter-spacing: 0.16em;
-  color:          var(--blanc);
+  color:          var(--kmk-texte-fort);
   margin:         0;
 }
 
@@ -647,7 +724,7 @@ body {
   font-family:  var(--police-corps);
   font-weight:  300;
   font-size:    0.78rem;
-  color:        rgba(255, 255, 255, 0.30);
+  color:        var(--kmk-texte-faible);
   margin:       0;
   letter-spacing: 0.04em;
 }
@@ -674,7 +751,7 @@ body {
   font-family:   var(--police-corps);
   font-weight:   300;
   font-size:     1rem;
-  color:         rgba(255, 255, 255, 0.55);
+  color:         var(--kmk-texte-second);
   line-height:   1.9;
   margin-bottom: 2rem;
 }
@@ -682,8 +759,8 @@ body {
 /* Bouton WhatsApp — style proche du btn--principal */
 .contact__whatsapp {
   display:         inline-block;
-  background:      var(--bordeaux);
-  color:           var(--blanc);
+  background:      var(--kmk-accent);
+  color:           var(--kmk-accent-texte);
   font-family:     var(--police-corps);
   font-weight:     400;
   font-size:       0.9rem;
@@ -777,7 +854,7 @@ body {
 
 /* Infos pratiques — séparées par un filet discret */
 .contact__pratique {
-  border-top:    1px solid rgba(255, 255, 255, 0.08);
+  border-top:    1px solid var(--kmk-filet);
   padding-top:   1.25rem;
   display:       flex;
   flex-direction: column;
@@ -794,14 +871,14 @@ body {
   font-family:  var(--police-corps);
   font-weight:  300;
   font-size:    0.82rem;
-  color:        rgba(255, 255, 255, 0.35);
+  color:        var(--kmk-texte-second);
 }
 
 .contact__pratique-item dd {
   font-family:  var(--police-corps);
   font-weight:  300;
   font-size:    0.82rem;
-  color:        rgba(255, 255, 255, 0.70);
+  color:        var(--kmk-texte-second);
   margin:       0;              /* reset du margin-left natif du dd */
   text-align:   right;
 }
@@ -819,6 +896,7 @@ body {
    ========================================================================= */
 .temoignages {
   padding-block: 120px;
+  background-color: var(--kmk-fond);   /* bandeau charbon via data-fond */
 }
 
 /* Grille 3 cartes — passe en 1 colonne sur tablette/mobile */
@@ -854,7 +932,7 @@ body {
   font-family:  var(--police-corps);
   font-weight:  300;
   font-size:    0.95rem;
-  color:        rgba(255, 255, 255, 0.72);
+  color:        var(--kmk-texte-second);
   line-height:  1.85;
   margin:       0;
   font-style:   normal;          /* annule l'italique natif du blockquote */
@@ -873,7 +951,7 @@ body {
   font-family:    var(--police-titres);
   font-size:      0.9rem;
   letter-spacing: 0.08em;
-  color:          var(--blanc);
+  color:          var(--kmk-texte);
 }
 
 /* Occasion — discret, en or */
@@ -934,7 +1012,7 @@ body {
 
 /* État placeholder — visible tant que src est vide */
 .galerie__item.placeholder .galerie__img {
-  background:  rgba(255, 255, 255, 0.04);
+  background:  var(--kmk-fond-alt);
   border:      1px solid rgba(168, 138, 90, 0.25);
   border-radius: 4px;
 }
@@ -1059,7 +1137,7 @@ body {
   font-size:      clamp(2.4rem, 6vw, 3.6rem);
   font-weight:    400;
   letter-spacing: 0.08em;
-  color:          var(--blanc);
+  color:          var(--kmk-texte-fort);
   text-align:     center;
   margin-bottom:  0.75rem;
 }
@@ -1068,7 +1146,7 @@ body {
   font-family: var(--police-corps);
   font-weight: 300;
   font-size:   1.15rem;
-  color:       var(--texte-secondaire);
+  color:       ;
   text-align:  center;
   line-height: 1.8;
   margin-bottom: 3rem;
@@ -1101,7 +1179,7 @@ body {
 .avis-message--erreur {
   background: rgba(110, 31, 42, 0.15);
   border:     1px solid rgba(110, 31, 42, 0.55);
-  color:      var(--blanc);
+  color:      var(--kmk-texte);
 }
 
 /* Signature de remerciement — point 6, effet petit mot manuscrit */
@@ -1132,7 +1210,7 @@ body {
   font-weight:    400;
   font-size:      1rem;
   letter-spacing: 0.06em;
-  color:          var(--texte-secondaire);
+  color:          ;
 }
 
 .avis-champ input[type="text"],
@@ -1140,10 +1218,10 @@ body {
   font-family:   var(--police-corps);
   font-weight:   300;
   font-size:     1.15rem;
-  color:         var(--blanc);
-  background:    rgba(255, 255, 255, 0.04);
+  color:         var(--kmk-texte);
+  background:    var(--kmk-fond-alt);
   border:        none;
-  border-bottom: 1px solid var(--bordure);
+  border-bottom: 1px solid var(--kmk-filet);
   border-radius: 4px 4px 0 0;
   padding:       0.6rem 0.75rem;
   transition:    border-color 0.2s ease, background-color 0.2s ease;
@@ -1160,14 +1238,14 @@ body {
   font-family: var(--police-corps);
   font-weight: 300;
   font-size:   0.85rem;
-  color:       rgba(255, 255, 255, 0.40);
+  color:       var(--kmk-texte-second);
 }
 
 .avis-champ-compteur {
   font-family: var(--police-corps);
   font-weight: 300;
   font-size:   0.75rem;
-  color:       rgba(255, 255, 255, 0.35);
+  color:       var(--kmk-texte-second);
   text-align:  right;
 }
 
@@ -1190,7 +1268,7 @@ body {
 .avis-champ--case label {
   font-size:   0.95rem;
   line-height: 1.6;
-  color:       var(--texte-secondaire);
+  color:       ;
 }
 
 .avis-champ--case label a {
@@ -1213,8 +1291,8 @@ body {
   letter-spacing:  0.15em;
   text-transform:  uppercase;
   text-decoration: none;
-  color:           var(--blanc);
-  background-color: var(--bordeaux);
+  color:           var(--kmk-accent-texte);
+  background-color: var(--kmk-accent);
   padding:         0.85em 2em;
   border:          none;
   border-radius:   4px;
@@ -1252,7 +1330,7 @@ body {
   position:   absolute;
   inset:      0;
   width:      0%;
-  background: var(--bordeaux);
+  background: var(--kmk-accent);
   z-index:    0;
   animation:  avis-bouton-remplissage 3.5s linear forwards;
 }

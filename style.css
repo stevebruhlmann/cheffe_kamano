@@ -289,7 +289,7 @@ body {
 .hero__titre {
   font-family:    var(--police-titres);
   /* clamp(min, fluide, max) : la taille s'adapte à la largeur d'écran */
-  font-size:      clamp(3rem, 8vw, 7rem);
+  font-size:      clamp(2.125rem, 5vw, 3.375rem);  /* 34 → 54px, spec charte */
   font-weight:    400;          /* Poiret One — 1 seul poids disponible */
   letter-spacing: 0.08em;
   line-height:    1.1;
@@ -344,8 +344,8 @@ body {
 .btn {
   display:         inline-block;
   font-family:     var(--police-corps);
-  font-size:       0.9rem;
-  font-weight:     400;
+  font-size:       0.95rem;
+  font-weight:     15px;
   letter-spacing:  0.15em;
   text-transform:  uppercase;
   text-decoration: none;
@@ -385,8 +385,8 @@ body {
 /* Titre de section — partagé par toutes les sections (agrandi P7) */
 .section__titre {
   font-family:    var(--police-titres);
-  font-size:      clamp(2.2rem, 5vw, 4.5rem);
-  font-weight:    400;
+  font-size:      clamp(1.625rem, 3.4vw, 2.25rem);  /* 26 → 36px, spec charte */
+  line-height:    1.15;  font-weight:    400;
   letter-spacing: 0.1em;
   color:          var(--kmk-texte-fort);
   margin-bottom:  2.5rem;
@@ -394,18 +394,18 @@ body {
 
 /* Texte d'introduction — extrait du brief de Marceline */
 .histoire__intro {
-  font-size:     clamp(1rem, 2vw, 1.2rem);
+  font-size:     clamp(1.0625rem, 2vw, 1.2rem);
   font-weight:   300;
-  color:         var(--kmk-texte);   /* texte courant, s'adapte au fond via data-fond */
+  color:         var(--kmk-texte);
   line-height:   1.9;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.8rem;
 }
 
 /* Texte complémentaire — parcours */
 .histoire__corps {
   font-size:     clamp(0.9rem, 1.8vw, 1.05rem);
   font-weight:   300;
-  color:         ;     /* texte d'appui, s'adapte au fond via data-fond */
+  color:         var(--kmk-texte);     /* texte d'appui, s'adapte au fond via data-fond */
   line-height:   1.9;
   margin-bottom: 1.5rem;                      /* réduit : suivi de près par la signature */
 }
@@ -413,7 +413,7 @@ body {
 /* Ligne signature — résumé mis en valeur, accent or (nouveau, P7) */
 .histoire__signature {
   font-family:    var(--police-titres);       /* Poiret One, cohérent avec les titres */
-  font-size:      clamp(1.3rem, 2vw, 1.4rem);   /* taille sûre par défaut, ne déborde jamais */
+  font-size:      clamp(1.5rem, 2vw, 1.4rem);   /* taille sûre par défaut, ne déborde jamais */
   font-weight:    400;
   letter-spacing: 0.03em;
   color:          var(--kmk-accent);
@@ -433,40 +433,6 @@ body {
    réactivé sous 1024px pour couper au bon endroit, après « exigence : » (P7) */
 .signature__saut {
   display: none;
-}
-
-/* Sous 1024px : la signature repasse en retour à la ligne normal,
-   coupée après « exigence : » (P7) */
-@media (max-width: 1024px) {
-  .histoire__signature {
-    white-space: normal;
-    width:       auto;
-    margin-left: 0;
-    transform:   none;
-  }
-
-  .signature__saut {
-    display: inline;
-  }
-
-  /* Titres de section — palier tablette (P7) */
-  .section__titre {
-    font-size: clamp(1.9rem, 4.5vw, 3rem);
-  }
-}
-
-/* Grand desktop uniquement : la place est garantie, on peut agrandir (P7) */
-@media (min-width: 1440px) {
-  .histoire__signature {
-    font-size: clamp(1.6rem, 2.2vw, 1.9rem);
-  }
-}
-
-/* Titres de section — palier mobile (P7) */
-@media (max-width: 600px) {
-  .section__titre {
-    font-size: clamp(1.5rem, 6vw, 2rem);
-  }
 } 
 
 /* Grille des 3 distinctions */
@@ -486,8 +452,8 @@ body {
 }
 
 .distinction__titre {
-  font-family:    var(--police-titres);
-  font-size:      1rem;
+  font-family:    var(--police-corps);
+  font-size:      0.8125rem;
   font-weight:    400;
   letter-spacing: 0.08em;
   color:          var(--kmk-texte-fort);
@@ -497,7 +463,7 @@ body {
 .distinction__detail {
   font-size:   0.85rem;
   font-weight: 300;
-  color:       ;
+  color:       var(--kmk-texte-second) ;
 }
 
 /* =========================================================================
@@ -570,12 +536,13 @@ body {
 /* Chaque plat occupe une bande verticale généreuse : donne au scroll assez
    de distance pour que le crossfade ait le temps de se voir (P7) */
 .specialites__plats li {
-  font-family:    var(--police-titres);
-  font-size:      1.15rem;
+  font-family:    var(--police-corps);
+  font-weight:    300;
+  font-size:      1.0625rem;
   color:          var(--kmk-texte);
-  padding:        1rem 0 1rem 1.5rem;
+  padding:        0.9rem 0 0.9rem 1.5rem;
   border-left:    2px solid var(--kmk-filet-appuye);
-  min-height:     28vh;                      /* distance de scroll par plat (P7) */
+  min-height:     28vh;
   display:        flex;
   align-items:    center;
   opacity:        0.35;                      /* atténué par défaut (P7) */
@@ -628,8 +595,9 @@ body {
 
 /* Nom du service — colonne gauche */
 .services__nom {
-  font-family:    var(--police-titres);
-  font-size:      1.15rem;
+  font-family:    var(--police-corps);
+  font-weight:    300;
+  font-size:      1.0625rem;
   letter-spacing: 0.08em;
   color:          var(--kmk-texte);
 }
@@ -638,8 +606,8 @@ body {
 .services__detail {
   font-family:  var(--police-corps);
   font-weight:  300;
-  font-size:    0.95rem;
-  color:        ;
+  font-size:    1.0625rem;
+  color:        var(--kmk-texte-second);
   line-height:  1.7;
 }
 
@@ -654,7 +622,7 @@ body {
 .services__pratique-titre {
   font-family:    var(--police-titres);
   color:          var(--kmk-texte-fort);
-  font-size:      0.85rem;
+  font-size:      1.5rem;
   letter-spacing: 0.16em;
   text-align:     center;
   margin-bottom:  1.25rem;
@@ -762,7 +730,7 @@ body {
   color:           var(--kmk-accent-texte);
   font-family:     var(--police-corps);
   font-weight:     400;
-  font-size:       0.9rem;
+  font-size:       1.0625rem;
   letter-spacing:  0.1em;
   padding:         0.85rem 1.75rem;
   border-radius:   var(--kmk-rayon);
@@ -792,7 +760,7 @@ body {
   display:         block;
   font-family:     var(--police-corps);
   font-weight:     300;
-  font-size:       0.9rem;
+  font-size:       1.0625rem;
   color:           var(--kmk-accent);
   text-decoration: none;
   border-bottom:   1px solid var(--kmk-filet-appuye);
@@ -810,7 +778,7 @@ body {
 /* "Suivez-moi" — agrandi, accrocheur (P7) */
 .contact__reseaux-titre {
   font-family:    var(--police-titres);
-  font-size:      2rem;
+  font-size:      1.5rem;
   letter-spacing: 0.1em;
   color:          var(--kmk-texte-fort);
   margin-bottom:  1.25rem;
@@ -921,7 +889,7 @@ body {
 .temoignage__citation {
   font-family:  var(--police-corps);
   font-weight:  300;
-  font-size:    0.95rem;
+  font-size:    1.0625rem;
   color:        var(--kmk-texte-second);
   line-height:  1.85;
   margin:       0;
@@ -938,8 +906,9 @@ body {
 
 /* Nom du client */
 .temoignage__nom {
-  font-family:    var(--police-titres);
-  font-size:      0.9rem;
+  font-family:    var(--police-corps);
+  font-weight:    400;
+  font-size:      0.8125rem;
   letter-spacing: 0.08em;
   color:          var(--kmk-texte);
 }
@@ -1124,19 +1093,21 @@ body {
 
 .avis-titre {
   font-family:    var(--police-titres);
-  font-size:      clamp(2.4rem, 6vw, 3.6rem);
+  font-size:      clamp(2.125rem, 5vw, 3.375rem);
   font-weight:    400;
   letter-spacing: 0.08em;
   color:          var(--kmk-texte-fort);
   text-align:     center;
   margin-bottom:  0.75rem;
+  line-height: 1.1;
+
 }
 
 .avis-intro {
   font-family: var(--police-corps);
   font-weight: 300;
-  font-size:   1.15rem;
-  color:       ;
+  font-size:   1.0625rem;
+  color:       var(--kmk-texte);
   text-align:  center;
   line-height: 1.8;
   margin-bottom: 3rem;
@@ -1154,7 +1125,7 @@ body {
 .avis-message {
   font-family:   var(--police-corps);
   font-weight:   300;
-  font-size:     1.05rem;
+  font-size:     1.0625rem;
   padding:       1rem 1.25rem;
   border-radius: var(--kmk-rayon);
   line-height:   1.6;
@@ -1200,14 +1171,14 @@ body {
   font-weight:    400;
   font-size:      1rem;
   letter-spacing: 0.06em;
-  color:          ;
+  color:          var(--kmk-texte-fort);
 }
 
 .avis-champ input[type="text"],
 .avis-champ textarea {
   font-family:   var(--police-corps);
   font-weight:   300;
-  font-size:     1.15rem;
+  font-size:     1.0625rem;
   color:         var(--kmk-texte);
   background:    var(--kmk-fond-alt);
   border:        none;
@@ -1256,9 +1227,9 @@ body {
 }
 
 .avis-champ--case label {
-  font-size:   0.95rem;
-  line-height: 1.6;
-  color:       ;
+  font-size:   1.0625rem;
+  line-height: 1.7;
+  color:       var(--kmk-texte);
 }
 
 .avis-champ--case label a {
@@ -1351,9 +1322,9 @@ body {
   display:         block;
   text-align:      center;
   margin-top:       2.5rem;
-  font-family:      var(--police-titres);   /* Poiret One, cohérent avec les titres du site */
-  font-weight:      400;
-  font-size:        1.1rem;
+  font-family:      var(--police-corps);   /* Quicksand — sort du plancher Poiret (<24px) */
+  font-weight:      300;
+  font-size:        1.0625rem;
   letter-spacing:   0.05em;
   color:            var(--kmk-accent);
   text-decoration:  none;

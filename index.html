@@ -15,8 +15,8 @@
   <title>Cheffe Kamano — Cuisine à domicile & traiteur | Lausanne</title>
   <meta name="description" content="Cheffe Kamano, cuisine à domicile et traiteur à Lausanne et environs. Gastronomie africaine et européenne, événements privés et professionnels sur mesure.">
 
-  <!-- Favicon (à créer avec le logo — dette) -->
-  <link rel="icon" href="favicon.ico">
+  <!-- Favicon — monogramme or sur charbon, SVG (jamais de PNG) -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
 <!-- TEMPORAIRE — pour prévisualiser Poiret One + Quicksand en local.
      À REMPLACER au build par des polices auto-hébergées (woff2, pleine propriété).
@@ -30,6 +30,37 @@
 </head>
 
 <body>
+
+  <!-- =====================================================================
+       DÉFINITIONS DU LOGO KMK — posées une seule fois, ne dessinent rien.
+       Déclarent #kmkK et #kmkM, réutilisables partout par <use>.
+       Géométrie figée (maille 36×48, angle 53,13°, fûts 5, diagonales 5,4) :
+       ne jamais recalculer ni arrondir. Source : LOGO-KMK.md
+       La couleur se pilote par style="color:…" sur chaque <use>.
+       ===================================================================== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <clipPath id="kmkCut" clipPathUnits="userSpaceOnUse">
+      <rect x="-24" y="0" width="264" height="96"></rect>
+    </clipPath>
+    <g id="kmkK" fill="none" stroke="currentColor" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="1.5">
+      <line x1="0" y1="0" x2="0" y2="96" stroke-width="5"></line>
+      <line x1="216" y1="0" x2="216" y2="96" stroke-width="5"></line>
+      <g clip-path="url(#kmkCut)" stroke-width="5.4">
+        <line x1="38.4" y1="-3.2" x2="0" y2="48"></line>
+        <line x1="0" y1="48" x2="38.4" y2="99.2"></line>
+        <line x1="177.6" y1="-3.2" x2="216" y2="48"></line>
+        <line x1="216" y1="48" x2="177.6" y2="99.2"></line>
+      </g>
+    </g>
+    <g id="kmkM" fill="none" stroke="currentColor" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="1.5">
+      <line x1="72" y1="0" x2="72" y2="96" stroke-width="5"></line>
+      <line x1="144" y1="0" x2="144" y2="96" stroke-width="5"></line>
+      <g clip-path="url(#kmkCut)">
+        <polyline points="70.475,-3.2 108,46.83 145.525,-3.2" stroke-width="5.4"></polyline>
+      </g>
+    </g>
+  </defs></svg>
+
   <!-- Lien d'évitement (accessibilité clavier / lecteurs d'écran) -->
   <a class="skip-link" href="#hero">Aller au contenu</a>
 
@@ -373,7 +404,21 @@
 <footer class="site-footer" data-fond="charbon">
   <div class="container site-footer__inner">
 
-    <p class="site-footer__brand">Cheffe Kamano</p>
+    <!-- Lockup complet 320 px, version couleur sur charbon : K or, M bordeaux clair.
+         Ligne de service justifiée à la largeur du nom par textLength. -->
+    <svg class="site-footer__logo" viewBox="-6 -6 526 96"
+         role="img" aria-label="Cheffe Kamano, services de cuisine gastronomique">
+      <use href="#kmkK" style="color:var(--kmk-or)"></use>
+      <use href="#kmkM" style="color:var(--kmk-bordeaux-clr)"></use>
+      <line x1="258" y1="0" x2="258" y2="96"
+            style="stroke:var(--kmk-texte); stroke-width:0.9; stroke-opacity:.4"></line>
+      <text x="300" y="29.07"
+            style="fill:var(--kmk-texte); font-family:var(--police-titres); font-size:38px; letter-spacing:.14em">CHEFFE</text>
+      <text x="300" y="66"
+            style="fill:var(--kmk-texte); font-family:var(--police-titres); font-size:38px; letter-spacing:.14em">KAMANO</text>
+      <text x="300" y="88" textLength="205.59" lengthAdjust="spacing"
+            style="fill:var(--kmk-or); font-family:var(--police-corps); font-weight:500; font-size:10px">SERVICES DE CUISINE GASTRONOMIQUE</text>
+    </svg>
 
     <!-- Réseaux sociaux retirés du Footer (P7) — déjà bien visibles en Contact, doublon supprimé -->
 

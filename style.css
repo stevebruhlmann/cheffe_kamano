@@ -709,13 +709,13 @@ body {
   gap:            1.25rem;
 }
 
-/* Nom de la marque */
-.site-footer__brand {
-  font-family:    var(--police-titres);
-  font-size:      1.4rem;
-  letter-spacing: 0.16em;
-  color:          var(--kmk-texte-fort);
-  margin:         0;
+/* Lockup du pied de page — SVG inline, 320 px, jamais un PNG.
+   width en min() : ne déborde jamais sous 368 px de large. */
+.site-footer__logo {
+  display:   block;
+  width:     min(320px, 100%);
+  height:    auto;
+  margin:    0 auto;
 }
 
 /* Mentions légales */

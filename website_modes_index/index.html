@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Cheffe Kamano — Le site arrive bientôt</title>
+<meta name="description" content="Cheffe Kamano, cuisine à domicile et traiteur à Lausanne. Le site est en cours de préparation.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Quicksand:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --noir:        #1C1714;
+    --blanc:       #FFFFFF;
+    --bordeaux:    #6E1F2A;
+    --or:          #A88A5A;
+    --texte-secondaire: rgba(255, 255, 255, 0.55);
+    --bordure:          rgba(255, 255, 255, 0.12);
+    --police-titres: "Poiret One", system-ui, sans-serif;
+    --police-corps:  "Quicksand", system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height:       100vh;
+    display:          flex;
+    align-items:      center;
+    justify-content:  center;
+    background-color: var(--noir);
+    color:            var(--blanc);
+    font-family:      var(--police-corps);
+    font-weight:      300;
+    text-align:       center;
+    padding:          32px;
+    overflow:         hidden;
+    position:         relative;
+  }
+
+  /* Lueur ambiante discrète derrière le titre — même esprit que la section
+     Devise du site principal, pour que cette page ne soit pas un simple
+     écran d'attente générique mais déjà "de la maison" */
+  .lueur {
+    position: absolute;
+    inset:    0;
+    background: radial-gradient(
+      ellipse 60% 45% at 50% 45%,
+      rgba(232, 120, 10, 0.16) 0%,
+      rgba(168, 138, 90, 0.08) 50%,
+      transparent              80%
+    );
+    animation: lueur-pulse 5s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+
+  @keyframes lueur-pulse {
+    from { opacity: 0.6; }
+    to   { opacity: 1;   }
+  }
+
+  .contenu {
+    position:  relative;
+    z-index:   1;
+    max-width: 640px;
+  }
+
+  h1 {
+    font-family:    var(--police-titres);
+    font-size:      clamp(2.4rem, 8vw, 4.5rem);
+    font-weight:    400;
+    letter-spacing: 0.08em;
+    line-height:    1.15;
+    margin-bottom:  0.6rem;
+
+    background: linear-gradient(
+      135deg,
+      var(--or)       0%,
+      #E8780A         20%,
+      var(--bordeaux) 40%,
+      var(--or)       60%,
+      #E8780A         80%,
+      var(--bordeaux) 100%
+    );
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip:         text;
+    color:                   transparent;
+    animation: flamme-mouvante 7s ease-in-out infinite;
+  }
+
+  /* Déplacement du dégradé à des paliers irréguliers (pas 0/25/50/75/100)
+     pour éviter l'effet "va-et-vient" mécanique et donner une impression
+     plus organique, proche du mouvement d'une flamme */
+  @keyframes flamme-mouvante {
+    0%   { background-position: 0%   50%; }
+    22%  { background-position: 65%  25%; }
+    47%  { background-position: 100% 75%; }
+    68%  { background-position: 30%  100%; }
+    89%  { background-position: 80%  15%; }
+    100% { background-position: 0%   50%; }
+  }
+
+  .soustitre {
+    font-family:    var(--police-corps);
+    font-weight:    300;
+    font-size:      clamp(0.95rem, 2.5vw, 1.1rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color:          var(--texte-secondaire);
+    margin-bottom:  3rem;
+  }
+
+  .filet {
+    width:         60px;
+    height:        1px;
+    background:    var(--or);
+    margin:        0 auto 2.5rem;
+    opacity:       0.5;
+  }
+
+  .message {
+    font-size:     clamp(1rem, 3vw, 1.2rem);
+    line-height:   1.8;
+    color:         rgba(255, 255, 255, 0.85);
+    margin-bottom: 2.5rem;
+  }
+
+  .contact {
+    font-family:     var(--police-corps);
+    font-weight:     300;
+    font-size:       0.9rem;
+    color:           var(--or);
+    text-decoration: none;
+    border-bottom:   1px solid rgba(168, 138, 90, 0.35);
+    padding-bottom:  2px;
+    transition:      opacity 0.2s ease;
+  }
+
+  .contact:hover { opacity: 0.7; }
+
+  @media (max-width: 480px) {
+    body { padding: 24px; }
+    .filet { margin-bottom: 2rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lueur { animation: none; opacity: 0.8; }
+    h1     { animation: none; background-position: 0% 50%; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="lueur"></div>
+
+  <div class="contenu">
+    <h1>Cheffe Kamano</h1>
+    <p class="soustitre">Cuisine à domicile &amp; traiteur — Lausanne</p>
+
+    <div class="filet"></div>
+
+    <p class="message">
+      Le site se prépare avec la même exigence qu'en cuisine.<br>
+      Il arrive très bientôt.
+    </p>
+
+    <a href="mailto:contact@cheffekamano.ch" class="contact">contact@cheffekamano.ch</a>
+  </div>
+
+</body>
+</html>

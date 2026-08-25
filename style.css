@@ -345,7 +345,7 @@ body {
   display:         inline-block;
   font-family:     var(--police-corps);
   font-size:       0.95rem;
-  font-weight:     15px;
+  font-weight:     400;
   letter-spacing:  0.15em;
   text-transform:  uppercase;
   text-decoration: none;
@@ -379,7 +379,7 @@ body {
 
 .histoire__inner {
   max-width:  860px;            /* élargie (P7) : évite le mot seul en fin de paragraphe */
-  text-align: center;
+  text-align: left;
 }
 
 /* Titre de section — partagé par toutes les sections (agrandi P7) */
@@ -403,7 +403,7 @@ body {
 
 /* Texte complémentaire — parcours */
 .histoire__corps {
-  font-size:     clamp(0.9rem, 1.8vw, 1.05rem);
+  font-size:     clamp(1.0625rem, 1.8vw, 1.2rem);
   font-weight:   300;
   color:         var(--kmk-texte);     /* texte d'appui, s'adapte au fond via data-fond */
   line-height:   1.9;
@@ -413,20 +413,12 @@ body {
 /* Ligne signature — résumé mis en valeur, accent or (nouveau, P7) */
 .histoire__signature {
   font-family:    var(--police-titres);       /* Poiret One, cohérent avec les titres */
-  font-size:      clamp(1.5rem, 2vw, 1.4rem);   /* taille sûre par défaut, ne déborde jamais */
+  font-size:      1.5rem;   /* 24px fixe — titre de bloc */
   font-weight:    400;
   letter-spacing: 0.03em;
   color:          var(--kmk-accent);
   line-height:    1.7;
   margin-bottom:  4rem;
-
-  /* Desktop : sur une seule ligne, centrée indépendamment de la largeur
-     de la colonne .histoire__inner (860px) — casse volontairement la
-     contrainte du parent pour tenir sur une ligne (P7) */
-  white-space:    nowrap;
-  width:          max-content;
-  margin-left:    50%;
-  transform:      translateX(-50%);
 }
 
 /* Saut de ligne forcé dans la signature — masqué sur desktop (une seule ligne),
@@ -479,7 +471,7 @@ body {
 
 /* Texte d'accroche, au-dessus du bloc scrollytelling */
 .specialites__texte p {
-  font-size:     clamp(1rem, 2vw, 1.15rem);
+  font-size:     clamp(1.0625rem, 2vw, 1.2rem);
   font-weight:   300;
   color:         var(--kmk-texte);
   line-height:   1.9;
@@ -645,16 +637,16 @@ body {
 /* Libellé (dt) — discret */
 .services__pratique-item dt {
   font-family:  var(--police-corps);
-  font-weight:  300;
-  font-size:    0.85rem;
+  font-weight:  400;
+  font-size:    0.8125rem;
   color:        var(--kmk-texte-second);
 }
 
 /* Valeur (dd) — lisible */
 .services__pratique-item dd {
   font-family:  var(--police-corps);
-  font-weight:  300;
-  font-size:    0.85rem;
+  font-weight:  400;
+  font-size:    0.8125rem;
   color:        var(--kmk-texte-second);
   margin:       0;                   /* reset du margin-left natif du dd */
   text-align:   right;
@@ -689,8 +681,8 @@ body {
 /* Mentions légales */
 .site-footer__mentions {
   font-family:  var(--police-corps);
-  font-weight:  300;
-  font-size:    0.78rem;
+  font-weight:  400;
+  font-size:    0.8125rem;
   color:        var(--kmk-texte-faible);
   margin:       0;
   letter-spacing: 0.04em;
@@ -836,15 +828,15 @@ body {
 
 .contact__pratique-item dt {
   font-family:  var(--police-corps);
-  font-weight:  300;
-  font-size:    0.82rem;
+  font-weight:  400;
+  font-size:    0.8125rem;
   color:        var(--kmk-texte-second);
 }
 
 .contact__pratique-item dd {
   font-family:  var(--police-corps);
-  font-weight:  300;
-  font-size:    0.82rem;
+  font-weight:  400;
+  font-size:    0.8125rem;
   color:        var(--kmk-texte-second);
   margin:       0;              /* reset du margin-left natif du dd */
   text-align:   right;
@@ -916,8 +908,8 @@ body {
 /* Occasion — discret, en or */
 .temoignage__occasion {
   font-family:  var(--police-corps);
-  font-weight:  300;
-  font-size:    0.8rem;
+  font-weight:  400;
+  font-size:    0.8125rem;
   color:        var(--kmk-texte-faible);
 }
 
@@ -989,8 +981,8 @@ body {
   align-items: center;
   justify-content: center;
   font-family: var(--police-corps);
-  font-weight: 300;
-  font-size:   0.75rem;
+  font-weight: 400;
+  font-size:   0.8125rem;
   color:       var(--kmk-texte-faible);
   letter-spacing: 0.12em;
   pointer-events: none;
@@ -1197,15 +1189,15 @@ body {
 
 .avis-champ-aide {
   font-family: var(--police-corps);
-  font-weight: 300;
-  font-size:   0.85rem;
+  font-weight: 400;
+  font-size:   0.8125rem;
   color:       var(--kmk-texte-second);
 }
 
 .avis-champ-compteur {
   font-family: var(--police-corps);
-  font-weight: 300;
-  font-size:   0.75rem;
+  font-weight: 400;
+  font-size:   0.8125rem;
   color:       var(--kmk-texte-second);
   text-align:  right;
 }

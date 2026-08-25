@@ -72,18 +72,20 @@ document.addEventListener("DOMContentLoaded", () => {
      ------------------------------------------------------------------ */
   const intro       = document.querySelector('.intro');
   const introBgNb   = document.querySelector('.intro__bg--nb');
+  const introVoile  = document.querySelector('.intro__voile');
   const introHero   = document.querySelector('.intro__hero');
   const introDevise = document.querySelector('.intro__devise');
 
   const motionOff = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (intro && introBgNb && introHero && introDevise) {
+  if (intro && introBgNb && introVoile && introHero && introDevise) {
 
     if (motionOff) {
-      /* Accessibilité : pas d'anim au scroll → on montre la Devise, état statique */
-      introDevise.style.opacity = '1';
+      /* Accessibilité : état final direct, la mise en forme est dans le CSS */
     } else {
       const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
+      /* Segment normalisé : 0 avant a, 1 après b, progression linéaire entre */
+      const seg   = (p, a, b) => clamp((p - a) / (b - a), 0, 1);
       let ticking = false;
 
       const updateIntro = () => {
@@ -93,17 +95,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const scrolled   = -intro.getBoundingClientRect().top;
         const p          = clamp(scrolled / scrollable, 0, 1);
 
-        /* Phase 1 — Hero fond + crossfade N&B, synchronisés (0 → 0.3).
-           La couche N&B (pré-calculée au chargement) monte en opacity pendant
-           que le Hero s'efface → aucun recalcul de filtre à chaque frame. */
-        const p1 = clamp(p / 0.3, 0, 1);
-        introHero.style.opacity  = String(1 - p1);
-        introBgNb.style.opacity  = String(p1);        /* crossfade vers la couche N&B */
-        
+        /* Seuils repris de la référence exécutable, à ne pas redeviner.
+           Temps 2 — Effacement  : le hero s'efface        (0,32 → 0,56)
+           Temps 3 — Embrasement : couleur, voile, devise  (0,48 → 0,76)
+           Les deux se chevauchent volontairement entre 0,48 et 0,56. */
+        const sortieHero   = seg(p, 0.32, 0.56);
+        const entreeDevise = seg(p, 0.48, 0.76);
 
-        /* Phase 2 — Devise en fondu (0.25 → 0.5), puis PAUSE jusqu'au recouvrement */
-        const p2 = clamp((p - 0.25) / 0.25, 0, 1);
-        introDevise.style.opacity = String(p2);
+        introHero.style.opacity   = String(1 - sortieHero);
+        introBgNb.style.opacity   = String(1 - entreeDevise);   /* le N&B s'efface, la couleur paraît */
+        introVoile.style.opacity  = String(0.58 + 0.06 * entreeDevise);
+        introDevise.style.opacity = String(entreeDevise);
 
         ticking = false;
       };

@@ -49,7 +49,6 @@
          migrées. --or part au lot 1B, les polices au lot 4. ------------- */
   --police-titres: var(--kmk-font-titre);
   --police-corps:  var(--kmk-font-texte);
-  --bordeaux:      var(--kmk-bordeaux);
 }
 
 /* =========================================================================
@@ -186,7 +185,7 @@ body {
 
 .intro {
   position: relative;
-  height:   400vh;        /* course : chorégraphie (début) + longue pause Devise + recouvrement */
+  height:   200vh;        /* course : quatre temps + recouvrement (charte v1.2) */
   z-index:  1;            /* sous « Histoire », qui recouvrira (couche C) */
 }
 
@@ -198,24 +197,30 @@ body {
 }
 
 /* Couche image partagée — fond + photo, commun aux deux variantes */
+/* Photographie nue — le voile est désormais un calque à part (.intro__voile),
+   seul moyen de l'animer en opacité. Le dégradé qui le portait disparaît. */
 .intro__bg {
   position:            absolute;
   inset:               0;
-  background-image:    linear-gradient(
-                         to top,
-                         rgba(28, 23, 20, 0.75) 0%,
-                         rgba(28, 23, 20, 0.15) 60%,
-                         rgba(28, 23, 20, 0.35) 100%
-                       ),
-                       url("photos/cheffe_k.png");
+  background-image:    url("photos/cheffe_k.png");
   background-size:     cover;
   background-position: center top;
 }
 
-/* Couche N&B — pré-calculée au chargement, crossfade au scroll via opacity */
+/* État de départ : le portrait arrive en noir et blanc. La couleur monte
+   au temps 3 quand ce calque s'efface et révèle .intro__bg--couleur. */
 .intro__bg--nb {
   filter:  grayscale(1) brightness(0.65) contrast(0.75);
-  opacity: 0;   /* piloté par JS au scroll */
+  opacity: 1;   /* piloté par JS au scroll : 1 → 0 */
+}
+
+/* Voile charbon — .58 au départ, .64 pendant l'embrasement.
+   Ne descend jamais sous .55 : la couleur reste feutrée, c'est voulu. */
+.intro__voile {
+  position:   absolute;
+  inset:      0;
+  background: var(--kmk-charbon);
+  opacity:    0.58;   /* piloté par JS au scroll */
 }
 
 /* Couche 2 — contenu Hero (ancrage géré par .hero__inner, inchangé) */
@@ -234,25 +239,14 @@ body {
   opacity:         0;   /* piloté par JS au scroll */
 }
 
-/* Lueur ambiante — pseudo-élément sur le conteneur plein écran,
-   jamais coupé, radial diffus sans blur artificiel */
-.intro__devise::before {
-  content:  '';
-  position: absolute;
-  inset:    0;
-  background: radial-gradient(
-    ellipse 65% 50% at center,
-    rgba(232, 120, 10, 0.22) 0%,
-    rgba(168, 138, 90, 0.12) 50%,
-    transparent              80%
-  );
-  animation: devise-lueur 4s ease-in-out infinite alternate;
-  pointer-events: none;
-}
-
-@keyframes devise-lueur {
-  from { opacity: 0.7; }
-  to   { opacity: 1;   }
+/* Accessibilité : pas de course de défilement. La scène s'affiche d'emblée
+   à son état final — devise lisible, hero effacé, couleur montée. */
+@media (prefers-reduced-motion: reduce) {
+  .intro          { height: 100vh; }
+  .intro__bg--nb  { opacity: 0; }
+  .intro__voile   { opacity: 0.64; }
+  .intro__hero    { opacity: 0; }
+  .intro__devise  { opacity: 1; }
 }
 
 .hero__inner {
@@ -296,32 +290,21 @@ body {
 }
 
 /* =========================================================================
-   SECTION DEVISE — « Du feu dans les saveurs »
-   Texte centré, grande typographie, gradient couleurs feu + lueur chaude.
-   min-height 60vh : présence visuelle forte sans occuper tout l'écran.
+   DEVISE — « Du feu dans les saveurs »
+   Couche 3 de la scène épinglée, centrée, révélée au temps 3.
    ========================================================================= */
 
-/* Texte feu : gradient or → orange brûlé → bordeaux, appliqué en clip sur le texte.
-   Aucune animation directe sur ce bloc — la lueur est portée par ::before (plus léger). */
+/* Devise — couleur plate, bas de casse. Le dégradé de texte, la couleur hors
+   palette et les capitales sur la phrase entière tombent tous les trois
+   (charte v1.2). Le contraste vient du voile à .64, plus d'un effet. */
 .devise__texte {
-  position:       relative;   /* contexte pour le ::before absolu */
   font-family:    var(--police-titres);
-  font-size:      clamp(2.4rem, 7vw, 6rem);
+  font-size:      clamp(2rem, 4.5vw, 3.375rem);   /* 32 → 54px, plafond de l'échelle */
   font-weight:    400;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.06em;
   line-height:    1.2;
-  text-transform: uppercase;
-
-  background: linear-gradient(
-    135deg,
-    var(--kmk-or)       0%,
-    #E8780A         40%,
-    var(--bordeaux) 80%,
-    var(--kmk-or)       100%
-  );
-  -webkit-background-clip: text;
-  background-clip:         text;
-  color:                   transparent;
+  text-align:     center;
+  color:          var(--kmk-texte);
 }
 
 
@@ -371,7 +354,9 @@ body {
   position:      relative;
   z-index:       2;                  /* passe AU-DESSUS de la scène intro (z-index:1) */
   background-color: var(--kmk-fond);     /* opaque : masque la scène qu'elle recouvre */
-  margin-top:    -100vh;             /* démarre 1 écran plus tôt → monte par-dessus la scène épinglée */
+  margin-top:    -33vh;              /* couplée à la hauteur de .intro (200vh) : place le début
+                                        du recouvrement à 0,67 de la course, après l'embrasement.
+                                        À -100vh, le recouvrement démarrerait au premier pixel. */
 }
 
 .histoire__inner {

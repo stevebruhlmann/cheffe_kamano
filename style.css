@@ -138,22 +138,20 @@ body {
    CSS-only, aucun JS requis.
    ========================================================================= */
 
-/* État initial : invisible + décalé vers le bas */
+/* État initial : invisible, apparaît en fondu simple.
+   Aucune translation : la charte ne tolère que couleur et opacité. */
 .hero-anim {
   opacity:   0;
-  transform: translateY(24px);
-  animation: hero-entree 1s ease forwards;
+  animation: hero-entree var(--kmk-transition) forwards;
 }
 
-/* Délais de cascade */
+/* Délais de cascade — conservés : ce sont des délais, pas des durées */
 .hero-anim--1 { animation-delay: 0.2s; }   /* titre  */
 .hero-anim--2 { animation-delay: 0.9s; }   /* bouton */
 
-/* Image-clé : monte en fondu jusqu'à la position naturelle */
 @keyframes hero-entree {
   to {
-    opacity:   1;
-    transform: none;
+    opacity: 1;
   }
 }
 
@@ -162,7 +160,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .hero-anim {
     opacity:   1;
-    transform: none;
   }
 }
 
@@ -352,7 +349,7 @@ body {
   padding:         0.75rem 1.75rem;
   border:          none;
   cursor:          pointer;
-  transition:      opacity 0.2s ease;
+  transition:      opacity var(--kmk-transition);
 }
 
 .btn--principal {
@@ -513,7 +510,7 @@ body {
   height:     100%;
   object-fit: cover;
   opacity:    0;
-  transition: opacity 0.6s ease;
+  transition: opacity var(--kmk-transition);
 }
 
 .specialites__image.is-active {
@@ -538,7 +535,7 @@ body {
   display:        flex;
   align-items:    center;
   opacity:        0.35;                      /* atténué par défaut (P7) */
-  transition:     opacity 0.4s ease;
+  transition:     opacity var(--kmk-transition);
 }
 
 /* Plat actif — celui affiché dans l'image sticky (P7) */
@@ -728,7 +725,7 @@ body {
   border-radius:   var(--kmk-rayon);
   text-decoration: none;
   margin-bottom:   1.25rem;
-  transition:      opacity 0.2s ease;
+  transition:      opacity var(--kmk-transition);
 }
 
 .contact__whatsapp:hover {
@@ -758,7 +755,7 @@ body {
   border-bottom:   1px solid var(--kmk-filet-appuye);
   padding-bottom:  4px;
   width:           fit-content;
-  transition:      opacity 0.2s ease;
+  transition:      opacity var(--kmk-transition);
 }
 
 .contact__email:hover {
@@ -793,7 +790,7 @@ body {
   color:           var(--kmk-accent);
   text-decoration: none;
   letter-spacing:  0.06em;
-  transition:      opacity 0.2s ease;
+  transition:      opacity var(--kmk-transition);
 
   /* Icône + texte alignés (P7) */
   display:     flex;
@@ -954,11 +951,6 @@ body {
   height:     100%;
   object-fit: cover;
   display:    block;
-  transition: transform 0.4s ease;
-}
-
-.galerie__item:hover .galerie__img {
-  transform: scale(1.04);            /* léger zoom au survol */
 }
 
 /* État placeholder — visible tant que src est vide */
@@ -1019,19 +1011,16 @@ body {
 
 .reveal {
   opacity:    0;
-  transform:  translateY(32px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition: opacity var(--kmk-transition);
 }
 
 .reveal.is-visible {
   opacity:   1;
-  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     opacity:    1;
-    transform:  none;
     transition: none;
   }
 }
@@ -1177,7 +1166,7 @@ body {
   border-bottom: 1px solid var(--kmk-filet);
   border-radius: var(--kmk-rayon);
   padding:       0.5rem 0.75rem;
-  transition:    border-color 0.2s ease, background-color 0.2s ease;
+  transition:    border-color var(--kmk-transition), background-color var(--kmk-transition);
   resize:        vertical;
 }
 
@@ -1250,7 +1239,7 @@ body {
   border:          none;
   border-radius:   var(--kmk-rayon);
   cursor:          pointer;
-  transition:      opacity 0.2s ease;
+  transition:      opacity var(--kmk-transition);
   align-self:      center;
   margin-top:      0.5rem;
 }
@@ -1259,38 +1248,8 @@ body {
   opacity: 0.85;
 }
 
-.avis-bouton {
-  position:         relative;
-  overflow:         hidden;
-  background-color: rgba(110, 31, 42, 0.35);   /* bordeaux atténué, recouvert par le remplissage plein */
-}
-
 .avis-bouton:disabled {
   cursor: not-allowed;
-}
-
-/* Texte au-dessus du remplissage, toujours lisible */
-.avis-bouton__texte {
-  position: relative;
-  z-index:  1;
-}
-
-/* Remplissage bordeaux, de gauche à droite, sur 3,5 s — indépendant de
-   l'état "disabled" pour que le bouton reste plein une fois activé
-   (sinon la disparition de l'attribut disabled ferait revenir à 0%). */
-.avis-bouton::before {
-  content:    '';
-  position:   absolute;
-  inset:      0;
-  width:      0%;
-  background: var(--kmk-accent);
-  z-index:    0;
-  animation:  avis-bouton-remplissage 3.5s linear forwards;
-}
-
-@keyframes avis-bouton-remplissage {
-  from { width: 0%; }
-  to   { width: 100%; }
 }
 
 .avis-bouton:disabled:hover {
@@ -1324,7 +1283,7 @@ body {
   padding-bottom:   4px;
   width:            fit-content;
   margin-inline:    auto;
-  transition:       opacity 0.2s ease;
+  transition:       opacity var(--kmk-transition);
 }
 
 .avis-retour:hover {

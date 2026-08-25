@@ -109,7 +109,7 @@ unset($_SESSION['avis_succes'], $_SESSION['avis_erreur'], $_SESSION['avis_nom'],
           <input type="hidden" name="horodatage" value="<?php echo time(); ?>">
 
           <button type="submit" class="avis-bouton" id="bouton-envoi" disabled>
-            <span class="avis-bouton__texte">Envoyer mon témoignage</span>
+            Envoyer mon témoignage
           </button>
 
         </form>

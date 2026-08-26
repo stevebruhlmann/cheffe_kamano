@@ -123,4 +123,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /* ------------------------------------------------------------------
+     En-tête collant — paraît sur les 100 derniers pixels du recouvrement.
+     Piloté sur la position réelle de .histoire plutôt que sur des seuils
+     en pixels : reste juste si la hauteur de la scène change.
+     ------------------------------------------------------------------ */
+  const entete   = document.querySelector('.entete');
+  const histoire = document.querySelector('.histoire');
+
+  if (entete && histoire && !motionOff) {
+    const clampBarre = (v) => Math.min(Math.max(v, 0), 1);
+    let tickingBarre = false;
+
+    const updateEntete = () => {
+      /* Distance restante avant que .histoire atteigne le haut de l'écran.
+         100 → barre absente ; 0 → barre pleinement opaque. */
+      const restant = histoire.getBoundingClientRect().top;
+      const entree  = clampBarre((100 - restant) / 100);
+
+      entete.style.opacity       = String(entree);
+      entete.style.pointerEvents = entree >= 0.99 ? 'auto' : 'none';
+
+      tickingBarre = false;
+    };
+
+    const onScrollBarre = () => {
+      if (!tickingBarre) {
+        window.requestAnimationFrame(updateEntete);
+        tickingBarre = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScrollBarre, { passive: true });
+    window.addEventListener('resize', onScrollBarre, { passive: true });
+    updateEntete();   /* fixe l'état correct dès le chargement */
+  }
+
 });

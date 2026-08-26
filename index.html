@@ -61,6 +61,37 @@
     </g>
   </defs></svg>
 
+  <!-- =====================================================================
+       EN-TÊTE COLLANT — absent pendant l'introduction, paraît en fondu sur
+       les 100 derniers pixels du recouvrement, puis reste jusqu'au pied de
+       page. margin-bottom négatif : la barre se superpose, elle ne pousse
+       rien. Opacité et pointer-events pilotés par script.js.
+       ===================================================================== -->
+  <header class="entete" data-fond="creme">
+    <a class="entete__logo" href="#intro" aria-label="Cheffe Kamano, accueil">
+      <!-- Lockup complet, à partir de 900 px -->
+      <svg class="entete__lockup" viewBox="-6 -6 526 96" aria-hidden="true">
+        <use href="#kmkK" style="color:var(--kmk-charbon)"></use>
+        <use href="#kmkM" style="color:var(--kmk-bordeaux)"></use>
+        <line x1="258" y1="0" x2="258" y2="96"
+              style="stroke:var(--kmk-charbon); stroke-width:0.9; stroke-opacity:.4"></line>
+        <text x="300" y="29.07"
+              style="fill:var(--kmk-charbon); font-family:var(--police-titres); font-size:38px; letter-spacing:.14em">CHEFFE</text>
+        <text x="300" y="73.07"
+              style="fill:var(--kmk-charbon); font-family:var(--police-titres); font-size:38px; letter-spacing:.14em">KAMANO</text>
+      </svg>
+      <!-- Monogramme seul, sous 900 px -->
+      <svg class="entete__monogramme" viewBox="-4 -4 224 104" aria-hidden="true">
+        <use href="#kmkK" style="color:var(--kmk-charbon)"></use>
+        <use href="#kmkM" style="color:var(--kmk-bordeaux)"></use>
+      </svg>
+    </a>
+
+    <a class="btn btn--principal" href="https://wa.me/41779784169">
+      Réserver une prestation
+    </a>
+  </header>
+
   <!-- Lien d'évitement (accessibilité clavier / lecteurs d'écran) -->
   <a class="skip-link" href="#hero">Aller au contenu</a>
 

@@ -171,6 +171,62 @@ body {
   }
 }
 
+/* =========================================================================
+   EN-TÊTE COLLANT — 68 px, fond crème, filet bas.
+   Invisible tant que l'introduction n'est pas recouverte : son apparition
+   signale que la scène est finie. z-index 3 : au-dessus de .histoire (2)
+   et de .intro (1).
+   ========================================================================= */
+.entete {
+  position:        sticky;
+  top:             0;
+  z-index:         3;
+  height:          68px;
+  margin-bottom:   -68px;   /* se superpose au flux, ne pousse rien */
+  box-sizing:      border-box;
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  gap:             24px;
+  padding-inline:  24px;
+  background:      var(--kmk-fond);
+  border-bottom:   1px solid var(--kmk-filet);
+
+  opacity:         0;      /* piloté par JS au scroll */
+  pointer-events:  none;   /* non cliquable tant qu'il n'est pas opaque */
+}
+
+.entete__logo {
+  display:    block;
+  flex:       none;
+  line-height: 0;
+}
+
+.entete__lockup {
+  display: block;
+  height:  27.38px;   /* lockup 150 px de large */
+  width:   150px;
+}
+
+/* Sous 900 px : monogramme seul, 32 px de haut */
+.entete__monogramme {
+  display: none;
+  height:  32px;
+  width:   68.9px;
+}
+
+@media (max-width: 900px) {
+  .entete__lockup     { display: none; }
+  .entete__monogramme { display: block; }
+}
+
+/* Accessibilité : sans course de défilement, la barre est là d'emblée */
+@media (prefers-reduced-motion: reduce) {
+  .entete {
+    opacity:        1;
+    pointer-events: auto;
+  }
+}
 
 /* =========================================================================
    HERO — plein écran, contenu ancré en bas à gauche
@@ -697,11 +753,14 @@ body {
   margin-bottom: 2rem;
 }
 
-/* Bouton WhatsApp — style proche du btn--principal */
+/* Bouton filet — le seul bouton plein du site est celui de l'en-tête. */
 .contact__whatsapp {
-  display:         inline-block;
-  background:      var(--kmk-accent);
-  color:           var(--kmk-accent-texte);
+  display:         inline-flex;
+  align-items:     center;
+  gap:             0.6rem;
+  background:      transparent;
+  color:           var(--kmk-accent);
+  border:          1px solid var(--kmk-accent);
   font-family:     var(--police-corps);
   font-weight:     400;
   font-size:       1.0625rem;
@@ -711,17 +770,6 @@ body {
   text-decoration: none;
   margin-bottom:   1.25rem;
   transition:      opacity var(--kmk-transition);
-}
-
-.contact__whatsapp:hover {
-  opacity: 0.85;
-}
-
-/* Bouton WhatsApp — icône + texte alignés (P7) */
-.contact__whatsapp {
-  display:      inline-flex;
-  align-items:  center;
-  gap:          0.6rem;
 }
 
 .contact__whatsapp-icone {

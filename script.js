@@ -1,3 +1,12 @@
+/* La position de scroll au rechargement suit le standard du navigateur —
+   on n'y touche pas. On s'assure seulement que la chorégraphie (intro,
+   en-tête) recalcule son état après une restauration depuis le cache
+   arrière/avant (bfcache), cas où aucun script ne se réexécute et où seul
+   l'événement "pageshow" en informe la page. */
+window.addEventListener('pageshow', () => {
+  window.dispatchEvent(new Event('scroll'));
+});
+
 /* ======================================================================
    Cheffe Kamano — Script du site
    ====================================================================== */

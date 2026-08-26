@@ -293,6 +293,7 @@ body {
   align-items:     center;
   justify-content: center;
   opacity:         0;   /* piloté par JS au scroll */
+  pointer-events:  none;   /* texte décoratif seul : ne doit jamais intercepter de clic */
 }
 
 /* Accessibilité : pas de course de défilement. La scène s'affiche d'emblée

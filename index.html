@@ -12,8 +12,8 @@
   <!-- Responsive : indispensable pour desktop / tablette / mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Cheffe Kamano — Cuisine à domicile & traiteur | Lausanne</title>
-  <meta name="description" content="Cheffe Kamano, cuisine à domicile et traiteur à Lausanne et environs. Gastronomie africaine et européenne, événements privés et professionnels sur mesure.">
+<title>Cheffe Kamano — Cuisine à domicile & traiteur | Lausanne et environs</title>
+<meta name="description" content="Cheffe Kamano, cuisine à domicile et traiteur à Lausanne et environs. Gastronomie africaine et européenne, événements privés et professionnels sur mesure.">
 
   <!-- Favicon — monogramme or sur charbon, SVG (jamais de PNG) -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -27,6 +27,19 @@
 
   <!-- Feuille de style du site -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- Données structurées — nom légal, zone de service uniquement.
+      Aucune adresse : elle n'apparaît nulle part avant les mentions légales. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schem1a.org",
+    "@type": "FoodEstablishment",
+    "name": "Kamano Marceline Koumba",
+    "alternateName": "Cheffe Kamano",
+    "areaServed": "Lausanne et environs",
+    "url": "https://cheffekamano.ch"
+  }
+  </script>
 </head>
 
 <body>
@@ -124,8 +137,8 @@
         <div class="intro__hero">
           <div class="container hero__inner">
             <h1 id="hero-titre" class="hero__titre hero-anim hero-anim--1">Cheffe Kamano</h1>
-            <a class="btn btn--principal hero-anim hero-anim--2" href="https://wa.me/XXXXXXXXXXX">
-              Réserver une prestation
+              <a class="btn btn--principal hero-anim hero-anim--2" href="https://wa.me/41779784169">
+                 Réserver une prestation
             </a>
           </div>
         </div>
@@ -403,6 +416,14 @@
               class="contact__email placeholder">
               contact@cheffekamano.ch
             </a>
+
+            <!-- Zone de prestation — réutilise un bloc CSS déjà écrit, jamais posé -->
+            <dl class="contact__pratique">
+              <div class="contact__pratique-item">
+                <dt>Zone de prestation</dt>
+                <dd>Lausanne &amp; environs</dd>
+              </div>
+            </dl>
           </div>
 
           <!-- Colonne droite : réseaux sociaux -->
@@ -410,11 +431,11 @@
 
             <p class="contact__reseaux-titre">Suivez-moi</p>
             <ul class="contact__reseaux">
-              <li><a href="https://www.instagram.com/________cheffe_kamano/"
+              <li><a href="https://www.instagram.com/cheffekamano/"
                     class="contact__reseau-lien"
                     target="_blank" rel="noopener">
                 <img src="logos/logo_ig_white.svg" alt="" class="contact__reseau-icone">
-                @CheffeKamano — Instagram
+                @cheffekamano — Instagram
               </a></li>
               <li><a href="https://www.facebook.com/profile.php?id=100066550612241"
                     class="contact__reseau-lien"
@@ -457,7 +478,7 @@
 
     <!-- Mentions — année injectée par script.js -->
     <p class="site-footer__mentions">
-      &copy; <span class="footer-annee"></span> Cheffe Kamano
+      &copy; <span class="footer-annee"></span> Kamano Marceline Koumba
       &nbsp;—&nbsp; Tous droits réservés
     </p>
 
@@ -465,7 +486,7 @@
 </footer>
 
   <!-- Bouton WhatsApp flottant (présent sur toute la page) -->
-  <a class="whatsapp-flottant" href="https://wa.me/XXXXXXXXXXX" aria-label="Contacter par WhatsApp">
+  <a class="whatsapp-flottant" href="https://wa.me/41779784169" aria-label="Contacter par WhatsApp">
     <!-- Icône WhatsApp à intégrer (SVG) -->
   </a>
 

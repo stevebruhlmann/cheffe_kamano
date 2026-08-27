@@ -6,6 +6,34 @@
    ========================================================================= */
 
 /* =========================================================================
+   POLICES — auto-hébergées (Lot 8), fini le CDN Google Fonts.
+   Fichiers dans site/polices/, licence SIL Open Font License.
+   ========================================================================= */
+@font-face {
+  font-family: 'Poiret One';
+  src:         url('polices/poiret-one-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style:  normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src:         url('polices/quicksand-300.woff2') format('woff2');
+  font-weight: 300;
+  font-style:  normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src:         url('polices/quicksand-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style:  normal;
+  font-display: swap;
+}
+
+/* =========================================================================
    JETONS — repris de tokens.css (charte v1.2).
    Décision du 24.08.2026 : le site passe en fond crème. Le charbon devient
    un fond de bandeau, plus le fond de la page.
@@ -113,10 +141,23 @@ body {
   line-height:      1.7;
 }
 
-/* Lien d'évitement — toujours invisible, hors écran */
+/* Lien d'évitement — hors écran par défaut, réapparaît au focus clavier.
+   Un lien invisible même au focus est inatteignable au clavier, donc
+   inutile : la charte v1.2 (Lot 7) impose la visibilité au focus. */
 .skip-link {
-  position: absolute;
-  left:     -100vw;
+  position:    fixed;
+  top:         0;
+  left:        -100vw;
+  z-index:     10;              /* au-dessus de l'en-tête (3) et de tout le reste */
+  padding:     12px 24px;
+  background:  var(--kmk-accent);       /* bordeaux plein */
+  color:       var(--kmk-accent-texte); /* crème, contraste fort */
+  font-family: var(--police-corps);
+  font-weight: 500;
+}
+
+.skip-link:focus {
+  left: 0;
 }
 
 /* =========================================================================
@@ -362,15 +403,6 @@ body {
   line-height:    1.2;
   text-align:     center;
   color:          var(--kmk-texte);
-}
-
-
-
-@media (max-width: 600px) {
-  .devise {
-    min-height:   40vh;
-    padding-block: 64px;
-  }
 }
 
 
@@ -695,6 +727,7 @@ body {
    PIED DE PAGE
    ========================================================================= */
 .site-footer {
+  position:     relative;   /* ancre le bandeau de motif (Lot 9) */
   border-top:   1px solid var(--kmk-filet-appuye);  /* filet or */
   padding-block: 3rem;
   text-align:   center;
@@ -885,6 +918,7 @@ body {
    SECTION TÉMOIGNAGES — grille de 3 cartes citation
    ========================================================================= */
 .temoignages {
+  position:      relative;   /* ancre le bandeau de motif (Lot 9) */
   padding-block: 120px;
   background-color: var(--kmk-fond);   /* bandeau charbon via data-fond */
 }
@@ -985,33 +1019,6 @@ body {
   height:     100%;
   object-fit: cover;
   display:    block;
-}
-
-/* État placeholder — visible tant que src est vide */
-.galerie__item.placeholder .galerie__img {
-  background:  var(--kmk-fond-alt);
-  border:      1px solid var(--kmk-filet-appuye);
-  border-radius: var(--kmk-rayon);
-}
-
-/* Texte de substitution sur les placeholders via pseudo-élément */
-.galerie__item.placeholder {
-  position: relative;
-}
-
-.galerie__item.placeholder::after {
-  content:     'Photo à venir';
-  position:    absolute;
-  inset:       0;
-  display:     flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--police-corps);
-  font-weight: 400;
-  font-size:   0.8125rem;
-  color:       var(--kmk-texte-faible);
-  letter-spacing: 0.12em;
-  pointer-events: none;
 }
 
 /* --- Responsive : tablette --- */
@@ -1322,4 +1329,18 @@ body {
 
 .avis-retour:hover {
   opacity: 0.7;
+}
+
+/* =========================================================================
+   MOTIF DE LOSANGES — bandeau décoratif (Lot 9), spec Claude Design.
+   Toujours en haut de section, jamais derrière un paragraphe : hauteur
+   fixe, contenue dans le padding existant de la section.
+   ========================================================================= */
+.motif-bandeau {
+  position:       absolute;
+  top:            0;
+  left:           0;
+  width:          100%;
+  height:         48px;
+  pointer-events: none;
 }

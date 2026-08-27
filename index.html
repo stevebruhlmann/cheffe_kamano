@@ -18,12 +18,8 @@
   <!-- Favicon — monogramme or sur charbon, SVG (jamais de PNG) -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-<!-- TEMPORAIRE — pour prévisualiser Poiret One + Quicksand en local.
-     À REMPLACER au build par des polices auto-hébergées (woff2, pleine propriété).
-     Poiret One : 1 seul poids (400). Quicksand : Light 300 pour le corps. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Quicksand:wght@300&display=swap" rel="stylesheet">
+<!-- Polices auto-hébergées (woff2), voir @font-face dans style.css.
+     Poiret One : 1 seul poids (400). Quicksand : 300 (corps) et 400 (mentions). -->
 
   <!-- Feuille de style du site -->
   <link rel="stylesheet" href="style.css">
@@ -74,12 +70,36 @@
     </g>
   </defs></svg>
 
+  <!-- Motif de losanges — maille 36×48, spec Claude Design (LOGO-KMK.md §6),
+       valeurs reprises telles quelles. Défini une fois, réutilisé en fond
+       sur Témoignages et Footer. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <pattern id="kmkMaille" width="36" height="48" patternUnits="userSpaceOnUse" patternTransform="translate(6,24)">
+        <rect x="0" y="0" width="36" height="48" fill="#1C1714"></rect>
+        <g stroke="#A88A5A" stroke-width="0.45" stroke-opacity=".14" fill="none">
+          <polygon points="2.5,24 18,3.5 33.5,24 18,44.5"></polygon>
+          <polygon points="-15.5,0 0,-20.5 15.5,0 0,20.5"></polygon>
+          <polygon points="20.5,0 36,-20.5 51.5,0 36,20.5"></polygon>
+          <polygon points="-15.5,48 0,27.5 15.5,48 0,68.5"></polygon>
+          <polygon points="20.5,48 36,27.5 51.5,48 36,68.5"></polygon>
+        </g>
+      </pattern>
+    </defs>
+  </svg>
+
   <!-- =====================================================================
        EN-TÊTE COLLANT — absent pendant l'introduction, paraît en fondu sur
        les 100 derniers pixels du recouvrement, puis reste jusqu'au pied de
        page. margin-bottom négatif : la barre se superpose, elle ne pousse
        rien. Opacité et pointer-events pilotés par script.js.
        ===================================================================== -->
+
+  <!-- Lien d'évitement (accessibilité clavier / lecteurs d'écran) —
+       toujours le tout premier élément tabulable de la page, avant
+       l'en-tête, pour pouvoir sauter par-dessus logo + bouton réservation. -->
+  <a class="skip-link" href="#intro" tabindex="0">Aller au contenu</a>
+
   <header class="entete" data-fond="creme">
     <a class="entete__logo" href="#intro" aria-label="Cheffe Kamano, accueil">
       <!-- Lockup complet, à partir de 900 px -->
@@ -104,9 +124,6 @@
       Réserver une prestation
     </a>
   </header>
-
-  <!-- Lien d'évitement (accessibilité clavier / lecteurs d'écran) -->
-  <a class="skip-link" href="#hero">Aller au contenu</a>
 
   <!-- =====================================================================
        EN-TÊTE — nom seul, pas de menu de navigation visible (choix validé).
@@ -229,7 +246,7 @@
     </section>
 
     <!-- ============================================================
-        5 · SERVICES — prestations proposées + infos pratiques
+        4 · SERVICES — prestations proposées + infos pratiques
         ============================================================ -->
     <section id="services" class="services reveal" aria-labelledby="services-titre">
       <div class="container">
@@ -294,7 +311,7 @@
     </section>
 
     <!-- =================================================================
-        4 · GALERIE — photos de plats et d'événements
+        5 · GALERIE — photos de plats et d'événements
             7 photos dans photos/ — remplacer les alt au besoin.
             Item 1 et 7 : format large (2 colonnes).
         ================================================================= -->
@@ -340,6 +357,9 @@
         6 · TÉMOIGNAGES — avis clients
         ================================================================= -->
     <section id="temoignages" class="temoignages reveal" data-fond="charbon" aria-labelledby="temoignages-titre">
+      <svg class="motif-bandeau" aria-hidden="true">
+        <rect width="100%" height="100%" fill="url(#kmkMaille)"></rect>
+      </svg>
       <div class="container">
         <h2 id="temoignages-titre" class="section__titre">Témoignages</h2>
 
@@ -456,6 +476,9 @@
      PIED DE PAGE — réseaux, nom, mentions
      ===================================================================== -->
 <footer class="site-footer" data-fond="charbon">
+  <svg class="motif-bandeau" aria-hidden="true">
+    <rect width="100%" height="100%" fill="url(#kmkMaille)"></rect>
+  </svg>
   <div class="container site-footer__inner">
 
     <!-- Lockup complet 320 px, version couleur sur charbon : K or, M bordeaux clair.
@@ -484,11 +507,6 @@
 
   </div>
 </footer>
-
-  <!-- Bouton WhatsApp flottant (présent sur toute la page) -->
-  <a class="whatsapp-flottant" href="https://wa.me/41779784169" aria-label="Contacter par WhatsApp">
-    <!-- Icône WhatsApp à intégrer (SVG) -->
-  </a>
 
   <!-- Script du site (révélation au scroll, etc.) -->
   <script src="script.js" defer></script>

@@ -43,8 +43,8 @@
 
 :root {
   /* --- Primitives : couleurs de marque, valeurs exactes ---------------- */
-  --kmk-creme:        #FBF8F3;  /* fond de page par défaut */
-  --kmk-creme-papier: #F2EFEA;  /* blocs posés sur le crème */
+  --kmk-creme:        #F4EDE1;  /* fond de page par défaut — Lot 11, 27.08.2026 */
+  --kmk-creme-papier: #EAE1D1;  /* blocs posés sur le crème — Lot 11, 27.08.2026 */
   --kmk-charbon:      #1C1714;  /* texte courant, fonds sombres */
   --kmk-charbon-doux: #4a423c;  /* paragraphes sur fond clair */
   --kmk-bordeaux:     #6E1F2A;  /* sur crème uniquement */
@@ -89,19 +89,19 @@
 
 :root,
 [data-fond="creme"] {
-  --kmk-fond:         #FBF8F3;
-  --kmk-fond-alt:     #F2EFEA;
+  --kmk-fond:         #F4EDE1;               /* Lot 11, 27.08.2026 */
+  --kmk-fond-alt:     #EAE1D1;               /* Lot 11, 27.08.2026 */
 
   --kmk-texte-fort:   #1C1714;               /* titres            17,0:1 */
   --kmk-texte:        #1C1714;               /* texte courant     17,0:1 */
   --kmk-texte-second: #4a423c;               /* textes d'appui     9,3:1 */
-  --kmk-texte-faible: #7A6A58;               /* mentions 12–13px   4,9:1 */
+  --kmk-texte-faible: #75634F;               /* mentions 12–13px   4,88:1 — Lot 11 */
 
-  --kmk-filet:        rgba(28, 23, 20, .14);
+  --kmk-filet:        rgba(28, 23, 20, .16); /* Lot 11 */
   --kmk-filet-appuye: #A88A5A;
 
   --kmk-accent:       #6E1F2A;               /* bordeaux plein sur crème */
-  --kmk-accent-texte: #FBF8F3;               /* texte posé sur l'accent */
+  --kmk-accent-texte: #F4EDE1;               /* texte sur l'accent — Lot 11, reste un texte */
   --kmk-voile-photo:  rgba(28, 23, 20, .58); /* jamais sous .55 */
 }
 
@@ -274,135 +274,208 @@ body {
    ========================================================================= */
 
 /* =========================================================================
-   SCÈNE D'INTRODUCTION — Hero + Devise épinglés, chorégraphie au scroll
-   .intro      : conteneur haut (250vh) = course de scroll de la scène
-   .intro__pin : cadre collé en haut (sticky) — tout se joue dans 100vh
-   Couches en absolute empilées : bg (dessous) < hero < devise (dessus)
+   SCÈNE D'INTRODUCTION — Lot 10, Claude Design.
+   .kmk-intro  : piste de scroll (340vh / 300vh mobile)
+   .kmk-scene  : cadre collé (sticky), 100vh
+   Régime A (auto, 3.4s) : portrait N&B → tracé monogramme → texte → invite.
+   Régime B (scroll) : couleur → maille → devise 96px → recouvrement.
    ========================================================================= */
 
-.intro {
-  position: relative;
-  height:   200vh;        /* course : quatre temps + recouvrement (charte v1.2) */
-  z-index:  1;            /* sous « Histoire », qui recouvrira (couche C) */
+.kmk-intro { position: relative; height: 240vh; }
+.kmk-scene {
+  position:  sticky;
+  top:       0;
+  height:    100vh;
+  overflow:  hidden;
+  background: var(--kmk-charbon);
 }
 
-.intro__pin {
-  position: sticky;
-  top:      0;
-  height:   100vh;
-  overflow: hidden;       /* rien ne déborde du cadre épinglé */
-}
-
-/* Couche image partagée — fond + photo, commun aux deux variantes */
-/* Photographie nue — le voile est désormais un calque à part (.intro__voile),
-   seul moyen de l'animer en opacité. Le dégradé qui le portait disparaît. */
-.intro__bg {
+.kmk-photo {
   position:            absolute;
   inset:               0;
+  opacity:             0;
   background-image:    url("photos/cheffe_k.png");
   background-size:     cover;
-  background-position: center top;
+  background-position: 72% 0;
 }
+.kmk-photo--nb   { filter: grayscale(1) brightness(1.75) contrast(.75); }
+.kmk-photo--coul { filter: brightness(1.12) saturate(1.06); }
 
-/* État de départ : le portrait arrive en noir et blanc. La couleur monte
-   au temps 3 quand ce calque s'efface et révèle .intro__bg--couleur. */
-.intro__bg--nb {
-  filter:  grayscale(1) brightness(0.65) contrast(0.75);
-  opacity: 1;   /* piloté par JS au scroll : 1 → 0 */
-}
-
-/* Voile charbon — .58 au départ, .64 pendant l'embrasement.
-   Ne descend jamais sous .55 : la couleur reste feutrée, c'est voulu. */
-.intro__voile {
+.kmk-voile {
   position:   absolute;
   inset:      0;
   background: var(--kmk-charbon);
-  opacity:    0.58;   /* piloté par JS au scroll */
+}
+.kmk-scrim {
+  position:   absolute;
+  inset:      0;
+  opacity:    1;
+  /* Deux couches : un renfort ciblé en bas-gauche (pour le lockup),
+     posé par-dessus le vignettage général de l'image. */
+  background:
+    radial-gradient(ellipse 65% 55% at 0% 100%,
+      rgba(28,23,20,.75) 0%, rgba(28,23,20,0) 100%),
+    radial-gradient(ellipse at center,
+      rgba(28,23,20,0) 15%, rgba(28,23,20,.92) 100%);
+  pointer-events: none;
+}
+/* Grillage confiné au coin gauche, disparition en dégradé (pas de bord net).
+   Ajuste les pourcentages pour déplacer/étendre la zone visible. */
+.kmk-maille {
+  position:   absolute;
+  inset:      0;
+  width:      100%;
+  height:     100%;
+  opacity:    0;
+  mask-image:         radial-gradient(circle at 0% 0%, black 0%, black 18%, transparent 42%);
+  -webkit-mask-image: radial-gradient(circle at 0% 0%, black 0%, black 18%, transparent 42%);
 }
 
-/* Couche 2 — contenu Hero (ancrage géré par .hero__inner, inchangé) */
-.intro__hero {
-  position: absolute;
-  inset:    0;
-  /* opacity pilotée par JS en couche B : 1 → 0 */
-}
+.kmk-hero   { position: absolute; left: 56px; right: 56px; bottom: 56px; }
 
-.intro__devise {
-  position:        absolute;
-  inset:           0;
+/* Côte à côte sur desktop — zone de protection du lockup (16px min,
+   charte) respectée avec une marge large. Empilé sous 768px. */
+/* Empilé par défaut — le côte à côte n'est activé qu'à partir de 1600px,
+   seuil trouvé en pratique (au-delà, le bouton croise l'invite à défiler). */
+.kmk-hero__ligne {
   display:         flex;
+  flex-direction:  column;
+  align-items:     flex-start;
+  gap:             26px;
+}
+
+@media (min-width: 1600px) {
+  .kmk-hero__ligne {
+    flex-direction: row;
+    align-items:    center;
+    gap:            32px;
+  }
+}
+
+.kmk-lockup { display: block; width: 330px; height: auto; margin: 0; }
+.kmk-mot    {
+  font-family:    var(--police-titres);
+  font-size:      38px;
+  letter-spacing: .14em;
+  fill:           #F2EFEA;
+}
+.kmk-sous {
+  font-family: var(--police-corps);
+  font-size:   11px;
+  fill:        #A88A5A;
+}
+.kmk-surtitre {
+  opacity:        0;
+  margin:         0 0 18px;
+  font-family:    var(--police-corps);
+  font-weight:    500;
+  font-size:      11px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color:          #A88A5A;
+}
+.kmk-cta {
+  opacity:         0;
+  display:         inline-block;
+  padding:         14px 26px;
+  min-height:      44px;
+  background:      #8E2A36;
+  color:           #F2EFEA;
+  font-family:     var(--police-corps);
+  font-weight:     500;
+  font-size:       11px;
+  letter-spacing:  .16em;
+  text-transform:  uppercase;
+  text-decoration: none;
+}
+
+.kmk-invite {
+  position:        absolute;
+  left:            0;
+  right:           0;
+  bottom:          26px;
+  opacity:         0;
+  display:         flex;
+  flex-direction:  column;
   align-items:     center;
+  gap:             9px;
+  transition:      opacity .5s ease;
+}
+
+.kmk-invite svg {
+  animation: kmk-rebond 1.6s ease-in-out infinite;
+}
+
+@keyframes kmk-rebond {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(6px); }
+}
+.kmk-invite span {
+  font-family:    var(--police-corps);
+  font-weight:    500;
+  font-size:      10px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color:          #A88A5A;
+  text-shadow:    0 1px 12px rgba(28,23,20,.95), 0 0 4px rgba(28,23,20,.8);
+}
+
+/* Voile de la devise : uniforme. Aucun dégradé, aucune vignette, aucune ombre de bord. */
+.kmk-aplat {
+  position:   absolute;
+  inset:      0;
+  opacity:    0;
+  background: rgba(28,23,20,.55);
+}
+.kmk-devise {
+  position:        absolute;
+  left:            56px;             /* même marge que .kmk-hero */
+  right:           56px;
+  top:             58%;
+  transform:       translateY(-50%);
+  opacity:         0;
+  display:         flex;
   justify-content: center;
-  opacity:         0;   /* piloté par JS au scroll */
-  pointer-events:  none;   /* texte décoratif seul : ne doit jamais intercepter de clic */
 }
-
-/* Accessibilité : pas de course de défilement. La scène s'affiche d'emblée
-   à son état final — devise lisible, hero effacé, couleur montée. */
-@media (prefers-reduced-motion: reduce) {
-  .intro          { height: 100vh; }
-  .intro__bg--nb  { opacity: 0; }
-  .intro__voile   { opacity: 0.64; }
-  .intro__hero    { opacity: 0; }
-  .intro__devise  { opacity: 1; }
-}
-
-.hero__inner {
-  position:      absolute;
-  left:          200px;
-  top:           160px;
-  max-width:     800px;
-  margin-inline: 0;
-  padding-inline: 0;             /* annule le padding-inline: 24px de .container */
-  /*border:        2px solid red;  /* DEBUG — à supprimer après vérif */
-  text-align:    left;
-}
-
-/* Tablette */
-@media (max-width: 1024px) {
-  .hero__inner {
-    left: 60px;
-    top:  130px;
-  }
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-  .hero__inner {
-    left:      24px;
-    top:       110px;
-    max-width: calc(100vw - 48px);
-  }
-}
-
-.hero__titre {
-  font-family:    var(--police-titres);
-  /* clamp(min, fluide, max) : la taille s'adapte à la largeur d'écran */
-  font-size:      clamp(2.125rem, 5vw, 3.375rem);  /* 34 → 54px, spec charte */
-  font-weight:    400;          /* Poiret One — 1 seul poids disponible */
-  letter-spacing: 0.08em;
-  line-height:    1.1;
-  color:          var(--kmk-texte-fort);
-  margin-bottom:  0.3em;
-  white-space:    nowrap;   /* Cheffe Kamano reste sur une seule ligne */
-}
-
-/* =========================================================================
-   DEVISE — « Du feu dans les saveurs »
-   Couche 3 de la scène épinglée, centrée, révélée au temps 3.
-   ========================================================================= */
-
-/* Devise — couleur plate, bas de casse. Le dégradé de texte, la couleur hors
-   palette et les capitales sur la phrase entière tombent tous les trois
-   (charte v1.2). Le contraste vient du voile à .64, plus d'un effet. */
-.devise__texte {
-  font-family:    var(--police-titres);
-  font-size:      clamp(2rem, 4.5vw, 3.375rem);   /* 32 → 54px, plafond de l'échelle */
-  font-weight:    400;
-  letter-spacing: 0.06em;
-  line-height:    1.2;
+.kmk-devise p {
+  margin:         0;
   text-align:     center;
-  color:          var(--kmk-texte);
+  color:          #A88A5A;
+  font-family:    var(--police-titres);
+  font-size:      96px;          /* plafond desktop — jamais dépassé, voir JS */
+  letter-spacing: .04em;
+  line-height:    1.1;
+  white-space:    nowrap;        /* ne se met jamais sur 2 lignes */
+  text-shadow:    0 2px 24px rgba(28,23,20,.95), 0 0 8px rgba(28,23,20,.85);
+}
+
+/* Verrou du défilement pendant le régime automatique */
+html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
+
+@media (max-width: 1024px) {
+  .kmk-hero   { left: 32px; right: 32px; bottom: 32px; }
+  .kmk-devise { left: 32px; right: 32px; }
+  .kmk-photo  { background-position: 70% 0; }
+}
+@media (max-width: 900px) {
+  .kmk-lockup   { width: 280px; }
+  .kmk-photo    { background-position: 68% 0; }
+  .kmk-devise p { font-size: 72px; }
+}
+@media (max-width: 768px)  {
+  /* bottom relevé pour que le bloc (empilé : logo + bouton) reste
+     entièrement au-dessus de l'invite à défiler — estimation, à
+     ajuster si ça touche encore, voir note ci-dessous. */
+  .kmk-hero     { left: 24px; right: 24px; bottom: 96px; }
+  .kmk-devise   { left: 24px; right: 24px; }
+  .kmk-lockup   { width: 240px; }
+  .kmk-photo    { background-position: 64% 0; }
+}
+@media (max-width: 600px)  {
+  .kmk-lockup   { width: 200px; }
+  .kmk-photo    { background-position: 62% 0; }
+  .kmk-devise p { font-size: 42px; }
+  .kmk-intro    { height: 200vh; }
 }
 
 

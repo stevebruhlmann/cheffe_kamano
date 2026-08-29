@@ -68,6 +68,11 @@
         <polyline points="70.475,-3.2 108,46.83 145.525,-3.2" stroke-width="5.4"></polyline>
       </g>
     </g>
+    <!-- Motif de losanges du hero — Lot 10, distinct du motif kmkMaille
+         (Témoignages/Footer). Un seul losange par tuile 36×48. -->
+    <pattern id="kmkLosangesHero" width="36" height="48" patternUnits="userSpaceOnUse">
+      <path d="M18 0 L36 24 L18 48 L0 24 Z" fill="none" stroke="#A88A5A" stroke-width="1"></path>
+    </pattern>
   </defs></svg>
 
   <!-- Motif de losanges — maille 36×48, spec Claude Design (LOGO-KMK.md §6),
@@ -132,41 +137,73 @@
   <main>
 
 <!-- =================================================================
-         1 · SCÈNE D'INTRODUCTION — Hero + Devise superposés, épinglés
-         La scène mesure 250vh : cette hauteur donne la « course » de
-         scroll qui pilotera la chorégraphie (Hero N&B → Devise en fondu).
-         3 couches empilées dans un cadre collé en haut (.intro__pin) :
-           .intro__bg     → image de fond (le N&B s'appliquera ICI seul)
-           .intro__hero   → « Cheffe Kamano » + bouton (fondu sortie)
-           .intro__devise → texte feu (fondu entrée, par-dessus)
+         1 · SCÈNE D'INTRODUCTION — Lot 10, Claude Design.
+         Régime A (auto, 3,4s, défilement verrouillé) : portrait N&B,
+         tracé du monogramme, texte, invite à défiler.
+         Régime B (piloté scroll) : couleur, maille, devise 96px.
          ================================================================= -->
-    <section id="intro" class="intro" data-fond="charbon" aria-labelledby="hero-titre">
-      <div class="intro__pin">
+    <div class="kmk-intro" id="intro">
+      <div class="kmk-scene" data-fond="charbon">
 
-        <!-- Couche 1a : image couleur — révélée quand le N&B s'efface -->
-        <div class="intro__bg intro__bg--couleur" aria-hidden="true"></div>
-        <!-- Couche 1b : image N&B — état de départ, opacity 1→0 au scroll -->
-        <div class="intro__bg intro__bg--nb" aria-hidden="true"></div>
-        <!-- Couche 1c : voile charbon, .58 → .64 au scroll. Jamais sous .55. -->
-        <div class="intro__voile" aria-hidden="true"></div>
+        <div class="kmk-photo kmk-photo--nb"   data-r="photoNb"   aria-hidden="true"></div>
+        <div class="kmk-photo kmk-photo--coul" data-r="photoCoul" aria-hidden="true"></div>
+        <div class="kmk-voile" data-r="voile" aria-hidden="true"></div>
+        <div class="kmk-scrim" data-r="scrim" aria-hidden="true"></div>
+        <svg class="kmk-maille" data-r="maille" aria-hidden="true">
+          <rect width="100%" height="100%" fill="url(#kmkLosangesHero)"></rect>
+        </svg>
 
-        <!-- Couche 2 : contenu Hero (cascade N8 au chargement conservée) -->
-        <div class="intro__hero">
-          <div class="container hero__inner">
-            <h1 id="hero-titre" class="hero__titre hero-anim hero-anim--1">Cheffe Kamano</h1>
-              <a class="btn btn--principal hero-anim hero-anim--2" href="https://wa.me/41779784169">
-                 Réserver une prestation
-            </a>
+        <div class="kmk-hero" data-r="heroBloc">
+          <p class="kmk-surtitre" data-r="surtitre">Table d'hôtes · Traiteur · Lausanne</p>
+
+          <div class="kmk-hero__ligne">
+            <svg class="kmk-lockup" viewBox="-6 -6 526 108"
+                 role="img" aria-label="Cheffe Kamano, cuisine gastronomique">
+              <g data-r="traceG" fill="none" stroke-linecap="butt"
+                 stroke-linejoin="miter" stroke-miterlimit="1.5">
+                <line x1="0"   y1="0" x2="0"   y2="96" stroke-width="5" stroke="#A88A5A"></line>
+                <line x1="216" y1="0" x2="216" y2="96" stroke-width="5" stroke="#A88A5A"></line>
+                <line x1="72"  y1="0" x2="72"  y2="96" stroke-width="5" stroke="#8E2A36"></line>
+                <line x1="144" y1="0" x2="144" y2="96" stroke-width="5" stroke="#8E2A36"></line>
+                <g clip-path="url(#kmkCut)">
+                  <line x1="38.4"  y1="-3.2" x2="0"   y2="48"   stroke-width="5.4" stroke="#A88A5A"></line>
+                  <line x1="0"     y1="48"   x2="38.4" y2="99.2" stroke-width="5.4" stroke="#A88A5A"></line>
+                  <line x1="177.6" y1="-3.2" x2="216" y2="48"   stroke-width="5.4" stroke="#A88A5A"></line>
+                  <line x1="216"   y1="48"   x2="177.6" y2="99.2" stroke-width="5.4" stroke="#A88A5A"></line>
+                  <polyline points="70.475,-3.2 108,46.83 145.525,-3.2"
+                            stroke-width="5.4" stroke="#8E2A36"></polyline>
+                </g>
+              </g>
+              <g data-r="mots" opacity="0">
+                <line x1="258" y1="0" x2="258" y2="96"
+                      stroke="#A88A5A" stroke-width="0.9" stroke-opacity=".55"></line>
+                <text x="300" y="29.07" class="kmk-mot">CHEFFE</text>
+                <text x="300" y="73.07" class="kmk-mot">KAMANO</text>
+                <text x="300" y="96" textLength="196" lengthAdjust="spacing"
+                      class="kmk-sous">CUISINE GASTRONOMIQUE</text>
+              </g>
+            </svg>
+
+            <a class="kmk-cta" data-r="cta" href="https://wa.me/41779784169">Réserver une prestation</a>
           </div>
         </div>
 
-        <!-- Couche 3 : Devise — apparaît par-dessus le Hero N&B -->
-        <div class="intro__devise">
-          <p class="devise__texte">Du feu dans les saveurs</p>
+        <div class="kmk-invite" data-r="invite" aria-hidden="true">
+          <span>Défiler pour allumer le feu</span>
+          <svg width="13" height="22" viewBox="0 0 13 22" fill="none"
+               stroke="#A88A5A" stroke-width="1.1">
+            <line x1="6.5" y1="0" x2="6.5" y2="17"></line>
+            <polyline points="1.5,12 6.5,17.6 11.5,12"></polyline>
+          </svg>
         </div>
 
-      </div><!-- /.intro__pin -->
-    </section>
+        <div class="kmk-aplat" data-r="aplat" aria-hidden="true"></div>
+        <div class="kmk-devise" data-r="devise">
+          <p>Du feu dans les saveurs</p>
+        </div>
+
+      </div>
+    </div>
 
     <!-- =================================================================
          2 · HISTOIRE — parcours, CFC, distinctions, texte de présentation

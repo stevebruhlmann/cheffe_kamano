@@ -116,6 +116,131 @@ document.addEventListener("DOMContentLoaded", () => {
     updateEntete();   /* fixe l'état correct dès le chargement */
   }
 
+  /* ------------------------------------------------------------------
+     Menu — section active (Lot 12). Ne pilote pas le scroll : les
+     liens sont des ancres HTML natives, déjà fluides via
+     scroll-behavior (CSS). Ici, on marque juste quelle entrée du menu
+     correspond à la section actuellement lue.
+     ------------------------------------------------------------------ */
+  const ordreSections = ['histoire', 'specialites', 'services', 'galerie', 'temoignages', 'contact'];
+  const sectionsMenu  = ordreSections
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+  if (sectionsMenu.length) {
+    const liensMenu = document.querySelectorAll('.entete__nav a, .entete__rideau-nav a');
+    const visible   = {};
+
+    const activerLien = (id) => {
+      liensMenu.forEach(a => {
+        if (a.getAttribute('href') === '#' + id) a.setAttribute('aria-current', 'true');
+        else a.removeAttribute('aria-current');
+      });
+    };
+
+    const choisirActive = () => {
+      /* La section active est la dernière de l'ordre de la page encore
+         marquée visible — celle qu'on est en train de lire. */
+      let actif = null;
+      ordreSections.forEach(id => { if (visible[id]) actif = id; });
+      if (actif) activerLien(actif);
+    };
+
+    const menuObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        visible[entry.target.id] = entry.isIntersecting;
+      });
+      choisirActive();
+    }, {
+      root:       null,
+      /* Bande utile : sous la barre collante (80px), sur les 40% hauts
+         de l'écran — une section "compte" dès que son début y entre. */
+      rootMargin: '-80px 0px -60% 0px',
+      threshold:  0
+    });
+
+    sectionsMenu.forEach(section => menuObserver.observe(section));
+  }
+
+    /* ------------------------------------------------------------------
+     Rideau mobile — ouverture/fermeture via le hamburger (Lot 12).
+     ------------------------------------------------------------------ */
+  const burger = document.querySelector('.entete__burger');
+  const rideau = document.getElementById('rideau');
+
+  if (burger && rideau) {
+    let scrollAvantOuverture = 0;
+
+    const ouvrirRideau = () => {
+      /* Fige <body> à sa position de scroll actuelle plutôt que
+         overflow:hidden — cette dernière technique casse position:sticky
+         sur .entete (elle recalcule la barre par rapport à <body>, qui
+         ne bouge jamais, au lieu de la page qu'on vient de scroller). */
+      scrollAvantOuverture = window.scrollY;
+      const largeurScrollbar = window.innerWidth - document.documentElement.clientWidth;
+
+      document.body.style.position = 'fixed';
+      document.body.style.top      = `-${scrollAvantOuverture}px`;
+      document.body.style.left     = '0';
+      document.body.style.right    = '0';
+      if (largeurScrollbar > 0) document.body.style.paddingRight = largeurScrollbar + 'px';
+
+      rideau.removeAttribute('inert');
+      rideau.classList.add('is-ouvert');
+      burger.setAttribute('aria-expanded', 'true');
+
+      /* Focus sur la première entrée, une fois le mouvement entamé. */
+      const premierLien = rideau.querySelector('a');
+      if (premierLien) window.setTimeout(() => premierLien.focus({ preventScroll: true }), 60);
+    };
+
+    /* rendreFocus=false : utilisé après un clic sur une entrée, pour ne
+       pas ramener le focus (et donc la vue) en haut de page alors que
+       l'ancre vient de faire défiler ailleurs. */
+    const fermerRideau = (rendreFocus = true) => {
+      rideau.classList.remove('is-ouvert');
+      rideau.setAttribute('inert', '');
+      burger.setAttribute('aria-expanded', 'false');
+
+      document.body.style.position     = '';
+      document.body.style.top          = '';
+      document.body.style.left         = '';
+      document.body.style.right        = '';
+      document.body.style.paddingRight = '';
+      window.scrollTo(0, scrollAvantOuverture);
+
+      if (rendreFocus) burger.focus({ preventScroll: true });
+    };
+
+    burger.addEventListener('click', () => {
+      const estOuvert = burger.getAttribute('aria-expanded') === 'true';
+      if (estOuvert) fermerRideau(); else ouvrirRideau();
+    });
+
+    rideau.querySelectorAll('a').forEach(lien => {
+      lien.addEventListener('click', () => fermerRideau(false));
+    });
+
+    document.addEventListener('keydown', (evenement) => {
+      if (evenement.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') {
+        fermerRideau();
+      }
+    });
+
+    /* Si la fenêtre s'élargit au-dessus de 900px pendant que le rideau
+       est ouvert, il disparaît via la media query — mais sans ça, le
+       scroll de la page restait bloqué malgré tout. */
+    const seuilBureau = window.matchMedia('(min-width: 900px)');
+    seuilBureau.addEventListener('change', (evenement) => {
+      if (evenement.matches && burger.getAttribute('aria-expanded') === 'true') {
+        fermerRideau(false);
+      }
+    });
+
+    /* inert gère nativement le blocage du focus et du clic pendant que
+       le rideau est fermé — plus besoin de piéger Tab à la main. */
+  }
+
 });
 
 /* ==========================================================================

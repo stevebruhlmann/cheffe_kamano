@@ -12,7 +12,7 @@
   <!-- Responsive : indispensable pour desktop / tablette / mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cheffe Kamano — Cuisine à domicile & traiteur | Lausanne et environs</title>
+<title>Cheffe Kamano — Cuisine à domicile & traiteur</title>
 <meta name="description" content="Cheffe Kamano, cuisine à domicile et traiteur à Lausanne et environs. Gastronomie africaine et européenne, événements privés et professionnels sur mesure.">
 
   <!-- Favicon — monogramme or sur charbon, SVG (jamais de PNG) -->
@@ -125,14 +125,53 @@
       </svg>
     </a>
 
-    <a class="btn btn--principal" href="https://wa.me/41779784169">
-      Réserver une prestation
-    </a>
+    <!-- Menu à ancres — table des matières de la page (site mono-page,
+         aucune navigation entre pages). Section active gérée par
+         script.js, IntersectionObserver (Lot 12, Passe D1). -->
+    <nav class="entete__nav" aria-label="Sections de la page">
+      <a href="#histoire">Mon histoire</a>
+      <a href="#specialites">Spécialités</a>
+      <a href="#services">Services</a>
+      <a href="#galerie">Galerie</a>
+      <a href="#temoignages">Témoignages</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <!-- Bouton de réservation — silhouette biseautée (Lot 12), filet au
+         repos, rempli au survol seulement. Libellé raccourci en tablette
+         via .entete__cta-suite masqué (Passe C5), texte complet conservé
+         dans le DOM pour lecteurs d'écran et indexation. -->
+    <span class="entete__cta">
+      <a href="https://wa.me/41779784169"><span class="entete__cta-label">Réserver<span class="entete__cta-suite"> une prestation</span></span></a>
+    </span>
+
+    <!-- Hamburger — visible sous 900 px seulement (Passe C5).
+         aria-expanded piloté par script.js (Passe D2). -->
+    <button type="button" class="entete__burger"
+            aria-expanded="false" aria-controls="rideau" aria-label="Ouvrir le menu">
+      <span class="entete__burger-trait entete__burger-trait--1"></span>
+      <span class="entete__burger-trait entete__burger-trait--2"></span>
+      <span class="entete__burger-trait entete__burger-trait--3"></span>
+    </button>
   </header>
 
   <!-- =====================================================================
-       EN-TÊTE — nom seul, pas de menu de navigation visible (choix validé).
+       RIDEAU MOBILE — panneau plein écran ouvert par le hamburger.
+       Piège du focus + fermeture par Échap : script.js (Lot 12, Passe D3).
        ===================================================================== -->
+  <div id="rideau" class="entete__rideau" role="dialog" aria-modal="true"
+       aria-label="Menu de navigation" inert>
+    <nav class="entete__rideau-nav" aria-label="Sections de la page">
+      <a href="#histoire">Mon histoire</a>
+      <a href="#specialites">Spécialités</a>
+      <a href="#services">Services</a>
+      <a href="#galerie">Galerie</a>
+      <a href="#temoignages">Témoignages</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="entete__rideau-cta" href="https://wa.me/41779784169">Réserver une prestation</a>
+    <p class="entete__rideau-pied">Lausanne et environs · sur réservation</p>
+  </div>
 
   <main>
 

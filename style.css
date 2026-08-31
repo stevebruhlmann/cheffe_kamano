@@ -103,6 +103,11 @@
   --kmk-accent:       #6E1F2A;               /* bordeaux plein sur crème */
   --kmk-accent-texte: #F4EDE1;               /* texte sur l'accent — Lot 11, reste un texte */
   --kmk-voile-photo:  rgba(28, 23, 20, .58); /* jamais sous .55 */
+
+  /* --- Lot 12 : en-tête avec menu --------------------------------------- */
+  --kmk-barre:        #F4EDE1;                              /* fond de l'en-tête, distinct du fond de page */
+  --kmk-ombre:        0 10px 30px -22px rgba(28, 23, 20, .75); /* ombre permanente sous la barre */
+  --kmk-bouton-texte: #6b5433;                              /* libellé du bouton d'en-tête, au repos */
 }
 
 /* Fond charbon — bandeaux seulement : scène d'intro, témoignages, pied de
@@ -133,6 +138,24 @@
   padding: 0;
 }
 
+/* =========================================================================
+   BARRE DE DÉFILEMENT — piste transparente, curseur couleur or.
+   scrollbar-color pour Firefox ; ::-webkit-scrollbar pour Chrome/Safari/Edge.
+   ========================================================================= */
+html {
+  scrollbar-width:  thin;
+  scrollbar-color:  var(--kmk-or) transparent;
+  scrollbar-gutter: stable;   /* réserve l'espace de la scrollbar dès le début,
+                                  évite le décalage du contenu quand elle apparaît */
+}
+
+::-webkit-scrollbar       { width: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background-color: var(--kmk-or);
+  border-radius:     0;   /* charte : aucun rayon, nulle part */
+}
+
 body {
   font-family:      var(--police-corps);
   font-weight:      300;             /* Quicksand Light pour tout le corps */
@@ -148,7 +171,7 @@ body {
   position:    fixed;
   top:         0;
   left:        -100vw;
-  z-index:     10;              /* au-dessus de l'en-tête (3) et de tout le reste */
+  z-index:     100;             /* au-dessus de l'en-tête (50) et du rideau mobile (60), Lot 12 */
   padding:     12px 24px;
   background:  var(--kmk-accent);       /* bordeaux plein */
   color:       var(--kmk-accent-texte); /* crème, contraste fort */
@@ -213,34 +236,36 @@ body {
 }
 
 /* =========================================================================
-   EN-TÊTE COLLANT — 68 px, fond crème, filet bas.
+   EN-TÊTE COLLANT — 80 px, fond --kmk-barre, ombre permanente (Lot 12).
    Invisible tant que l'introduction n'est pas recouverte : son apparition
-   signale que la scène est finie. z-index 3 : au-dessus de .histoire (2)
-   et de .intro (1).
+   signale que la scène est finie. z-index 70 : au-dessus de .histoire (2),
+   .intro (1) et du rideau mobile (60) — la barre reste visible par-dessus
+   le rideau ouvert. En-dessous du skip-link (100) seulement.
    ========================================================================= */
 .entete {
   position:        sticky;
   top:             0;
-  z-index:         3;
-  height:          68px;
-  margin-bottom:   -68px;   /* se superpose au flux, ne pousse rien */
+  z-index:         70;
+  min-height:      80px;
+  margin-bottom:   -80px;   /* se superpose au flux, ne pousse rien */
   box-sizing:      border-box;
   display:         flex;
   align-items:     center;
-  justify-content: space-between;
   gap:             24px;
-  padding-inline:  24px;
-  background:      var(--kmk-fond);
+  padding-inline:  34px;
+  background:      var(--kmk-barre);
   border-bottom:   1px solid var(--kmk-filet);
+  box-shadow:      var(--kmk-ombre);   /* permanente, jamais animée */
 
-  opacity:         0;      /* piloté par JS au scroll */
+  opacity:         0;      /* piloté par JS au scroll — fondu simple, jamais de glissement */
   pointer-events:  none;   /* non cliquable tant qu'il n'est pas opaque */
 }
 
 .entete__logo {
-  display:    block;
-  flex:       none;
-  line-height: 0;
+  display:      block;
+  flex:         none;
+  line-height:  0;
+  margin-right: auto;   /* pousse le menu, le bouton et le burger à droite */
 }
 
 .entete__lockup {
@@ -256,9 +281,281 @@ body {
   width:   68.9px;
 }
 
-@media (max-width: 900px) {
-  .entete__lockup     { display: none; }
-  .entete__monogramme { display: block; }
+/* --- Menu à ancres --------------------------------------------------------
+   Losange de 5px, position absolue (jamais dans le flux, sinon il pousse
+   le texte et casse le centrage vertical). Apparaît au survol ET en
+   permanence sur la section active (aria-current, posé par script.js). --- */
+.entete__nav { display: flex; align-items: center; gap: 22px; }
+
+.entete__nav a {
+  position:        relative;
+  box-sizing:      border-box;
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  min-height:      52px;
+  font-family:     var(--police-corps);
+  font-weight:     500;
+  font-size:       11px;
+  letter-spacing:  .18em;
+  text-transform:  uppercase;
+  text-decoration: none;
+  color:           var(--kmk-texte-second);
+  transition:      color var(--kmk-transition);
+}
+
+.entete__nav a::after {
+  content:      "";
+  position:     absolute;
+  left:         50%;
+  bottom:       8px;
+  width:        6px;
+  height:       8px;    /* ratio 3:4 — le vrai losange de la maille, pas un carré à 45° */
+  margin-left:  -3px;
+  background:   var(--kmk-or);
+  clip-path:    polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  opacity:      0;
+  transition:   opacity var(--kmk-transition);
+}
+
+.entete__nav a:hover,
+.entete__nav a:focus-visible,
+.entete__nav a[aria-current="true"]        { color: var(--kmk-texte-fort); }
+.entete__nav a:hover::after,
+.entete__nav a:focus-visible::after,
+.entete__nav a[aria-current="true"]::after { opacity: 1; }
+
+/* --- Bouton d'en-tête — silhouette biseautée, filet au repos (Lot 12) ---
+   Aucun remplissage tant qu'on ne survole pas : le filet + le texte foncé
+   suffisent à le lire comme un bouton, grâce à sa silhouette. clip-path
+   retire le contour de focus natif : on le repose sur l'enveloppe,
+   jamais sur le lien intérieur. -------------------------------------- */
+.entete__cta {
+  display:    inline-block;
+  flex:       none;
+  padding:    1px;                 /* épaisseur du filet bordeaux */
+  background: var(--kmk-accent);
+  clip-path:  polygon(15px 0, calc(100% - 15px) 0, 100% 50%,
+                      calc(100% - 15px) 100%, 15px 100%, 0 50%);
+  transition: box-shadow var(--kmk-transition);
+}
+
+.entete__cta a {
+  box-sizing:      border-box;
+  display:         inline-flex;
+  align-items:     center;
+  min-height:      46px;
+  padding:         13px 30px;
+  background:      var(--kmk-barre);   /* même fond que la barre, au repos */
+  color:           var(--kmk-bouton-texte);
+  font-family:     var(--police-corps);
+  font-weight:     500;
+  font-size:       11px;
+  letter-spacing:  .2em;
+  text-transform:  uppercase;
+  text-decoration: none;
+  outline:         none;   /* le focus se voit sur l'enveloppe, pas ici */
+  clip-path:       polygon(14px 0, calc(100% - 14px) 0, 100% 50%,
+                           calc(100% - 14px) 100%, 14px 100%, 0 50%);
+  transition:      background var(--kmk-transition), color var(--kmk-transition);
+}
+
+.entete__cta a:hover,
+.entete__cta a:focus-visible {
+  background: var(--kmk-accent);
+  color:      var(--kmk-accent-texte);
+}
+
+/* Anneau de focus posé sur l'enveloppe entière (le clip-path empêche le
+   contour natif du navigateur de suivre la silhouette biseautée). */
+.entete__cta:focus-within {
+  box-shadow: 0 0 0 2px var(--kmk-fond), 0 0 0 4px var(--kmk-accent);
+}
+
+/* =========================================================================
+   HAMBURGER (Lot 12) — visible seulement sous 900px (Passe C5).
+   Trois traits alignés à droite, celui du milieu plus court. À
+   l'ouverture : le milieu disparaît, les deux autres se croisent à ±37°
+   — l'angle du losange de la maille, pas 45°.
+   ========================================================================= */
+.entete__burger {
+  display:          none;   /* affiché sous 900px — voir Passe C5 */
+  flex-direction:   column;
+  align-items:      flex-end;
+  justify-content:  center;
+  gap:              6px;
+  flex:             none;
+  width:            48px;
+  height:           48px;
+  margin:           0;
+  background:       none;
+  border:           none;
+  border-radius:    0;
+  box-shadow:       none;
+  padding:          0;
+  cursor:           pointer;
+  appearance:       none;   /* neutralise le style natif du bouton */
+  -webkit-appearance: none; /* Safari en a besoin explicitement */
+}
+
+.entete__burger-trait {
+  display:    block;
+  height:     1.5px;
+  background: var(--kmk-or);
+  transition: transform 280ms ease, width 280ms ease, opacity 200ms ease;
+}
+
+.entete__burger-trait--1,
+.entete__burger-trait--3 { width: 24px; }
+.entete__burger-trait--2 { width: 18px; }   /* trait du milieu, plus court */
+
+/* État ouvert — piloté par aria-expanded, posé en JS (Passe D2) */
+.entete__burger[aria-expanded="true"] .entete__burger-trait--1 {
+  transform: translateY(7.5px) rotate(37deg);
+}
+.entete__burger[aria-expanded="true"] .entete__burger-trait--2 {
+  width:   0;
+  opacity: 0;
+}
+.entete__burger[aria-expanded="true"] .entete__burger-trait--3 {
+  transform: translateY(-7.5px) rotate(-37deg);
+}
+
+/* =========================================================================
+   RIDEAU MOBILE (Lot 12) — panneau plein écran, ouvert par le hamburger.
+   Écart assumé avec la charte : transition à 340ms au lieu du plafond de
+   150ms — un changement d'état de page, pas un survol (spec Claude Design,
+   à documenter dans la charte au prochain passage).
+   ========================================================================= */
+.entete__rideau {
+  position:        fixed;
+  inset:           0;
+  z-index:         60;   /* au-dessus de l'en-tête (50), sous le skip-link (100) */
+  display:         flex;
+  flex-direction:  column;
+  align-items:     flex-start;
+  justify-content: center;
+  gap:             40px;
+  padding:         32px;
+  background:      var(--kmk-barre);
+  transform:       translateY(-100%);
+  opacity:         0;
+  transition:      transform 340ms cubic-bezier(.22,.61,.36,1),
+                    opacity 300ms ease;
+}
+
+.entete__rideau.is-ouvert {
+  transform: translateY(0);
+  opacity:   1;
+}
+
+.entete__rideau-nav {
+  display:        flex;
+  flex-direction: column;
+  gap:            18px;
+}
+
+.entete__rideau-nav a {
+  position:        relative;
+  padding-left:    18px;   /* place pour le losange devant l'entrée active */
+  font-family:     var(--police-titres);
+  font-size:       30px;
+  color:           var(--kmk-texte);
+  text-decoration: none;
+  opacity:         0;
+  transform:       translateY(14px);
+  transition:      opacity 280ms ease, transform 280ms ease;
+}
+
+.entete__rideau.is-ouvert .entete__rideau-nav a {
+  opacity:   1;
+  transform: translateY(0);
+}
+
+/* Cascade — chaque entrée démarre un peu après la précédente */
+.entete__rideau-nav a:nth-child(1) { transition-delay: 90ms;  }
+.entete__rideau-nav a:nth-child(2) { transition-delay: 130ms; }
+.entete__rideau-nav a:nth-child(3) { transition-delay: 170ms; }
+.entete__rideau-nav a:nth-child(4) { transition-delay: 210ms; }
+.entete__rideau-nav a:nth-child(5) { transition-delay: 250ms; }
+.entete__rideau-nav a:nth-child(6) { transition-delay: 290ms; }
+
+.entete__rideau-nav a::before {
+  content:    "";
+  position:   absolute;
+  left:       0;
+  top:        50%;
+  width:      6px;
+  height:     8px;      /* même ratio 3:4 que le losange de l'en-tête */
+  margin-top: -4px;
+  background: var(--kmk-or);
+  clip-path:  polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  opacity:    0;
+}
+
+.entete__rideau-nav a[aria-current="true"]::before { opacity: 1; }
+
+.entete__rideau-cta {
+  display:         block;
+  width:           100%;
+  box-sizing:      border-box;
+  padding:         16px;
+  background:      var(--kmk-accent);
+  color:           var(--kmk-accent-texte);
+  font-family:     var(--police-corps);
+  font-weight:     500;
+  font-size:       12px;
+  letter-spacing:  .2em;
+  text-transform:  uppercase;
+  text-decoration: none;
+  text-align:      center;
+  clip-path:       polygon(15px 0, calc(100% - 15px) 0, 100% 50%,
+                           calc(100% - 15px) 100%, 15px 100%, 0 50%);
+}
+
+.entete__rideau-pied {
+  font-family: var(--police-corps);
+  font-size:   13px;
+  color:       var(--kmk-texte-faible);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entete__rideau,
+  .entete__rideau-nav a {
+    transition: opacity 150ms ease !important;
+    transform:  none !important;
+  }
+}
+
+/* =========================================================================
+   PALIERS RESPONSIVE DE L'EN-TÊTE (Lot 12)
+   Bureau ≥ 1180px : tout affiché, en entier.
+   Tablette 900-1180px : on comprime (interlettrage, écarts, libellé court),
+   on ne cache rien tant que ça tient sur une ligne.
+   Mobile < 900px : menu + bouton disparaissent, le hamburger prend le relais.
+   ========================================================================= */
+@media (min-width: 900px) and (max-width: 1180px) {
+  .entete            { min-height: 72px; padding-inline: 22px; }
+  .entete__nav       { gap: 14px; }
+  .entete__nav a     { font-size: 10px; letter-spacing: .08em; min-height: 48px; }
+  .entete__cta-suite { display: none; }   /* « une prestation » disparaît, « Réserver » reste */
+  .entete__cta a     { padding: 11px 22px; min-height: 42px; }
+}
+
+@media (max-width: 899px) {
+  .entete__nav    { display: none; }
+  .entete__cta    { display: none; }
+  .entete__burger { display: flex; }
+}
+
+/* Défilement fluide vers l'ancre visée au clic sur le menu, sauf
+   préférence de réduction de mouvement — dans ce cas, saut sec. */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }
 
 /* Accessibilité : sans course de défilement, la barre est là d'emblée */

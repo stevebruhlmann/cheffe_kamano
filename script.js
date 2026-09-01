@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.style.left         = '';
       document.body.style.right        = '';
       document.body.style.paddingRight = '';
-      window.scrollTo(0, scrollAvantOuverture);
+      window.scrollTo({ top: scrollAvantOuverture, behavior: 'instant' });
 
       if (rendreFocus) burger.focus({ preventScroll: true });
     };
@@ -239,6 +239,220 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* inert gère nativement le blocage du focus et du clic pendant que
        le rideau est fermé — plus besoin de piéger Tab à la main. */
+  }
+
+  /* ------------------------------------------------------------------
+     Galerie (Lot 13) — données. Pour ajouter une photo : dupliquer une
+     ligne, déposer le fichier dans images/galerie/, renseigner la
+     légende réelle, passer placeholder à false. Rien d'autre à toucher.
+     ------------------------------------------------------------------ */
+  const PHOTOS = [
+    { categorie: "Dressage",  fichier: "dressage-01.jpg",  legende: "Légende à venir", placeholder: true },
+    { categorie: "Dressage",  fichier: "dressage-02.jpg",  legende: "Légende à venir", placeholder: true },
+    { categorie: "Dressage",  fichier: "dressage-03.jpg",  legende: "Légende à venir", placeholder: true },
+    { categorie: "Réception", fichier: "reception-01.jpg", legende: "Légende à venir", placeholder: true },
+    { categorie: "Réception", fichier: "reception-02.jpg", legende: "Légende à venir", placeholder: true },
+    { categorie: "Réception", fichier: "reception-03.jpg", legende: "Légende à venir", placeholder: true },
+    { categorie: "Coulisses", fichier: "coulisses-01.jpg", legende: "Légende à venir", placeholder: true },
+    { categorie: "Coulisses", fichier: "coulisses-02.jpg", legende: "Légende à venir", placeholder: true },
+    { categorie: "Coulisses", fichier: "coulisses-03.jpg", legende: "Légende à venir", placeholder: true },
+    { categorie: "Cours",     fichier: "cours-01.jpg",     legende: "Légende à venir", placeholder: true },
+    { categorie: "Cours",     fichier: "cours-02.jpg",     legende: "Légende à venir", placeholder: true },
+    { categorie: "Cours",     fichier: "cours-03.jpg",     legende: "Légende à venir", placeholder: true },
+  ];
+
+  /* ------------------------------------------------------------------
+     Galerie (Lot 13) — rendu.
+     ------------------------------------------------------------------ */
+  const CATEGORIES = ["Dressage", "Réception", "Coulisses", "Cours"];
+  let filtreActif  = "Tout";
+  let indexOuvert  = -1;   /* -1 = visionneuse fermée ; utilisé en Passe D2 */
+
+  const galerieFiltres = document.querySelector('.galerie__filtres');
+  const galerieGrille  = document.querySelector('.galerie__grille');
+  const galerieCompteur = document.querySelector('.galerie__compteur');
+
+  if (galerieFiltres && galerieGrille) {
+
+    const listeFiltree = () =>
+      filtreActif === 'Tout' ? PHOTOS : PHOTOS.filter(p => p.categorie === filtreActif);
+
+    const rendreFiltres = () => {
+      /* Une catégorie n'apparaît que si elle a au moins une photo —
+         règle de la charte : jamais de filtre qui mène à une grille vide. */
+      const categoriesPresentes = CATEGORIES.filter(cat => PHOTOS.some(p => p.categorie === cat));
+      const toutes = ['Tout', ...categoriesPresentes];
+
+      galerieFiltres.innerHTML = toutes.map(cat => `
+        <button type="button" class="galerie__filtre" data-categorie="${cat}" aria-pressed="${cat === filtreActif}">${cat}</button>
+      `).join('');
+    };
+
+    const rendreCompteur = () => {
+      if (!galerieCompteur) return;
+      const n = listeFiltree().length;
+      galerieCompteur.textContent = `${n} photographie${n > 1 ? 's' : ''}`;
+    };
+
+    const rendreGrille = () => {
+      const photos = listeFiltree();
+      galerieGrille.innerHTML = photos.map((photo, i) => `
+        <figure class="galerie__item">
+          <button type="button" class="galerie__cadre" data-index="${i}" aria-label="Agrandir : ${photo.legende}">
+            ${photo.placeholder
+              ? `<span class="galerie__cadre-nom">${photo.fichier}</span>`
+              : `<img src="images/galerie/${photo.fichier}" alt="${photo.legende}"
+                     loading="${i < 4 ? 'eager' : 'lazy'}" decoding="async">`}
+          </button>
+        </figure>
+      `).join('');
+    };
+
+    const rafraichirGalerie = () => {
+      rendreFiltres();
+      rendreCompteur();
+      rendreGrille();
+    };
+
+    galerieFiltres.addEventListener('click', (evenement) => {
+      const bouton = evenement.target.closest('.galerie__filtre');
+      if (!bouton) return;
+      filtreActif = bouton.dataset.categorie;
+      indexOuvert = -1;   /* évite d'ouvrir la mauvaise photo si la visionneuse rouvre ensuite */
+      rafraichirGalerie();
+    });
+
+    rafraichirGalerie();   /* premier rendu, filtre "Tout" */
+
+    /* ------------------------------------------------------------------
+       Visionneuse — ouverture, fermeture, navigation précédent/suivant.
+       ------------------------------------------------------------------ */
+    const visionneuse   = document.getElementById('visionneuse');
+    const vImage        = visionneuse.querySelector('.galerie__visionneuse-image');
+    const vCategorie     = visionneuse.querySelector('.galerie__visionneuse-categorie');
+    const vLegende       = visionneuse.querySelector('.galerie__visionneuse-legende');
+    const vCompteur      = visionneuse.querySelector('.galerie__visionneuse-compteur');
+    const boutonFermer   = visionneuse.querySelector('.galerie__visionneuse-fermer');
+    const boutonPrecedent = visionneuse.querySelector('.galerie__visionneuse-precedent');
+    const boutonSuivant  = visionneuse.querySelector('.galerie__visionneuse-suivant');
+    let vignetteOrigine  = null;   /* pour rendre le focus au bon endroit à la fermeture */
+    let scrollAvantVisionneuse = 0;
+
+    const afficherPhoto = () => {
+      const photos = listeFiltree();
+      const photo  = photos[indexOuvert];
+      if (!photo) return;
+
+      vImage.innerHTML = photo.placeholder
+        ? ''   /* le fond hachuré de .galerie__visionneuse-image suffit */
+        : `<img src="images/galerie/${photo.fichier}" alt="${photo.legende}">`;
+
+      vCategorie.textContent = photo.categorie;
+      vLegende.textContent   = photo.legende;
+      vCompteur.textContent  = `${indexOuvert + 1} sur ${photos.length}`;
+    };
+
+    const ouvrirVisionneuse = (i, origine) => {
+      indexOuvert     = i;
+      vignetteOrigine = origine;
+      afficherPhoto();
+
+      /* Même technique que le rideau (Lot 12) : position:fixed plutôt
+         qu'overflow:hidden, qui casse position:sticky sur la barre. */
+      scrollAvantVisionneuse = window.scrollY;
+      const largeurScrollbar = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.position = 'fixed';
+      document.body.style.top      = `-${scrollAvantVisionneuse}px`;
+      document.body.style.left     = '0';
+      document.body.style.right    = '0';
+      if (largeurScrollbar > 0) document.body.style.paddingRight = largeurScrollbar + 'px';
+
+      visionneuse.removeAttribute('inert');
+      visionneuse.classList.add('is-ouvert');
+      boutonFermer.focus({ preventScroll: true });
+    };
+
+    const fermerVisionneuse = () => {
+      visionneuse.classList.remove('is-ouvert');
+      visionneuse.setAttribute('inert', '');
+      indexOuvert = -1;
+
+      document.body.style.position     = '';
+      document.body.style.top          = '';
+      document.body.style.left         = '';
+      document.body.style.right        = '';
+      document.body.style.paddingRight = '';
+      window.scrollTo({ top: scrollAvantVisionneuse, behavior: 'instant' });
+
+      if (vignetteOrigine) vignetteOrigine.focus({ preventScroll: true });
+    };
+
+    const decalerPhoto = (delta) => {
+      const n = listeFiltree().length;
+      indexOuvert = (indexOuvert + delta + n) % n;   /* circulaire */
+      afficherPhoto();
+    };
+
+    galerieGrille.addEventListener('click', (evenement) => {
+      const cadre = evenement.target.closest('.galerie__cadre');
+      if (!cadre) return;
+      ouvrirVisionneuse(Number(cadre.dataset.index), cadre);
+    });
+
+    boutonFermer.addEventListener('click', fermerVisionneuse);
+    boutonPrecedent.addEventListener('click', () => decalerPhoto(-1));
+    boutonSuivant.addEventListener('click', () => decalerPhoto(1));
+
+    /* Clic sur le voile ferme ; clic sur l'image ou les contrôles ne
+       ferme pas (evenement.target === visionneuse exclut tout enfant). */
+    visionneuse.addEventListener('click', (evenement) => {
+      if (evenement.target === visionneuse) fermerVisionneuse();
+    });
+
+    /* Clavier — actif seulement visionneuse ouverte. inert (posé sur
+       #visionneuse) gère déjà le blocage du focus au repos, donc pas
+       besoin d'un piège de Tab manuel ici non plus. */
+    document.addEventListener('keydown', (evenement) => {
+      if (!visionneuse.classList.contains('is-ouvert')) return;
+
+      if (evenement.key === 'Escape')     fermerVisionneuse();
+      if (evenement.key === 'ArrowLeft')  decalerPhoto(-1);
+      if (evenement.key === 'ArrowRight') decalerPhoto(1);
+
+      /* Piège du focus — inert ne bloque que la visionneuse FERMÉE
+         (empêche d'y entrer), pas l'inverse. Tant qu'elle est ouverte,
+         Tab ne doit jamais en sortir vers le reste de la page cachée
+         derrière. */
+      if (evenement.key === 'Tab') {
+        const focusables = visionneuse.querySelectorAll('button');
+        if (!focusables.length) return;
+
+        const premier = focusables[0];
+        const dernier  = focusables[focusables.length - 1];
+
+        if (evenement.shiftKey && document.activeElement === premier) {
+          evenement.preventDefault();
+          dernier.focus();
+        } else if (!evenement.shiftKey && document.activeElement === dernier) {
+          evenement.preventDefault();
+          premier.focus();
+        }
+      }
+    });
+
+    /* Balayage mobile — seuil de 40px pour ignorer les scrolls verticaux
+       involontaires interprétés comme un balayage. */
+    let xDepart = null;
+    visionneuse.addEventListener('touchstart', (evenement) => {
+      xDepart = evenement.touches[0].clientX;
+    }, { passive: true });
+
+    visionneuse.addEventListener('touchend', (evenement) => {
+      if (xDepart === null) return;
+      const delta = evenement.changedTouches[0].clientX - xDepart;
+      if (Math.abs(delta) > 40) decalerPhoto(delta > 0 ? -1 : 1);
+      xDepart = null;
+    }, { passive: true });
   }
 
 });

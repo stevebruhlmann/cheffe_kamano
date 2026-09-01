@@ -387,47 +387,45 @@
     </section>
 
     <!-- =================================================================
-        5 · GALERIE — photos de plats et d'événements
-            7 photos dans photos/ — remplacer les alt au besoin.
-            Item 1 et 7 : format large (2 colonnes).
+        5 · GALERIE — Lot 13. Filtres + grille générés par script.js à
+            partir du tableau PHOTOS. Aucune figure écrite à la main ici :
+            pour ajouter/modifier une photo, tout se passe dans script.js.
         ================================================================= -->
     <section id="galerie" class="galerie reveal" aria-labelledby="galerie-titre">
       <div class="container">
         <h2 id="galerie-titre" class="section__titre">Galerie</h2>
 
-        <div class="galerie__grille">
+        <!-- Filtres — remplis par script.js (Passe D1) à partir des
+             catégories présentes dans PHOTOS. "Tout" actif par défaut. -->
+        <div class="galerie__filtres" role="group" aria-label="Filtrer par catégorie"></div>
 
-          <figure class="galerie__item galerie__item--large">
-            <img src="photos/galerie_01.jpg" alt="Photo Instagram — Cheffe Kamano" class="galerie__img">
-          </figure>
+        <p class="galerie__compteur" aria-live="polite"></p>
 
-          <figure class="galerie__item">
-            <img src="photos/galerie_02.jpg" alt="Photo Instagram — Cheffe Kamano" class="galerie__img">
-          </figure>
+        <!-- Grille — remplie par script.js (Passe D1). -->
+        <div class="galerie__grille"></div>
 
-          <figure class="galerie__item">
-            <img src="photos/galerie_03.jpg" alt="Photo Instagram — Cheffe Kamano" class="galerie__img">
-          </figure>
-
-          <figure class="galerie__item">
-            <img src="photos/galerie_04.jpg" alt="Photo Instagram — Cheffe Kamano" class="galerie__img">
-          </figure>
-
-          <figure class="galerie__item">
-            <img src="photos/galerie_05.jpg" alt="Photo Instagram — Cheffe Kamano" class="galerie__img">
-          </figure>
-
-          <figure class="galerie__item">
-            <img src="photos/galerie_06.jpg" alt="Photo Instagram — Cheffe Kamano" class="galerie__img">
-          </figure>
-
-          <figure class="galerie__item galerie__item--large">
-            <img src="photos/galerie_07.jpg" alt="Photo Instagram — Cheffe Kamano" class="galerie__img">
-          </figure>
-
-        </div><!-- /.galerie__grille -->
       </div>
     </section>
+
+    <!-- Visionneuse plein écran — fermée par défaut (inert). Contenu
+         (image, légende, compteur) rempli par script.js à l'ouverture. -->
+    <div id="visionneuse" class="galerie__visionneuse" role="dialog"
+         aria-modal="true" aria-label="Galerie, vue agrandie" inert>
+      <button type="button" class="galerie__visionneuse-fermer" aria-label="Fermer la visionneuse">✕</button>
+      <button type="button" class="galerie__visionneuse-precedent" aria-label="Photo précédente">‹</button>
+      <button type="button" class="galerie__visionneuse-suivant" aria-label="Photo suivante">›</button>
+
+      <div class="galerie__visionneuse-cadre">
+        <div class="galerie__visionneuse-image"></div>
+      </div>
+
+      <div class="galerie__visionneuse-info">
+        <p class="galerie__visionneuse-categorie"></p>
+        <p class="galerie__visionneuse-legende"></p>
+      </div>
+
+      <p class="galerie__visionneuse-compteur"></p>
+    </div>
 
     <!-- =================================================================
         6 · TÉMOIGNAGES — avis clients

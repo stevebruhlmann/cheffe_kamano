@@ -1356,39 +1356,231 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
 }
 
 /* =========================================================================
-   SECTION GALERIE — grille 3 colonnes, 1 item featured
+   SECTION GALERIE (Lot 13) — filtres, grille, visionneuse.
+   Rayon 0, aucune ombre (règle de la charte). Vignettes en placeholder
+   hachuré tant que les vraies photos ne sont pas fournies (voir PHOTOS,
+   script.js — champ placeholder).
    ========================================================================= */
 .galerie {
   padding-block: 120px;
 }
 
-/* Grille principale */
+/* --- Filtres ------------------------------------------------------------ */
+.galerie__filtres {
+  display:     flex;
+  flex-wrap:   wrap;
+  gap:         10px;
+  margin-top:  2.5rem;
+}
+
+.galerie__filtre {
+  position:        relative;
+  box-sizing:      border-box;
+  display:         inline-flex;
+  align-items:     center;
+  height:          40px;
+  padding-inline:  18px;
+  padding-left:    26px;   /* place pour le losange, même vide */
+  background:      transparent;
+  border:          1px solid var(--kmk-filet);
+  color:           var(--kmk-texte-faible);
+  font-family:     var(--police-corps);
+  font-weight:     500;
+  font-size:       10.5px;
+  letter-spacing:  .16em;
+  text-transform:  uppercase;
+  cursor:          pointer;
+  transition:      color 150ms ease, border-color 150ms ease;
+}
+
+.galerie__filtre:hover { color: var(--kmk-texte); }
+
+.galerie__filtre[aria-pressed="true"] {
+  border-color: var(--kmk-or);
+  color:        var(--kmk-texte);
+}
+
+/* Losange devant le libellé actif — même forme que l'en-tête (ratio 3:4) */
+.galerie__filtre[aria-pressed="true"]::before {
+  content:    "";
+  position:   absolute;
+  left:       12px;
+  top:        50%;
+  width:      4px;
+  height:     5px;
+  margin-top: -2.5px;
+  background: var(--kmk-or);
+  clip-path:  polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+@media (max-width: 899px) {
+  .galerie__filtre { height: 44px; }
+}
+
+/* --- Compteur ------------------------------------------------------------ */
+.galerie__compteur {
+  margin-top:  0.75rem;
+  color:       var(--kmk-texte-faible);
+  font-family: var(--police-corps);
+  font-weight: 400;
+  font-size:   13px;
+}
+
+/* --- Grille --------------------------------------------------------------
+   4 colonnes ≥1180px, 3 colonnes 900-1179px, 2 colonnes en dessous —
+   jamais 1 seule colonne, même sur petit mobile. */
 .galerie__grille {
-  display:             grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows:      280px;        /* hauteur uniforme des rangées */
-  gap:                 0.75rem;
-  margin-top:          3rem;
+  display:               grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:                   14px;
+  margin-top:            2.5rem;
 }
 
-/* Item standard */
-.galerie__item {
-  margin:       0;                   /* reset natif <figure> */
-  overflow:     hidden;
-  border-radius: var(--kmk-rayon);
+@media (min-width: 900px) and (max-width: 1179px) {
+  .galerie__grille { grid-template-columns: repeat(3, 1fr); gap: 14px; }
 }
 
-/* Item featured — occupe 2 colonnes */
-.galerie__item--large {
-  grid-column: span 2;
+@media (min-width: 600px) and (max-width: 899px) {
+  .galerie__grille { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 }
 
-/* Image : couvre tout l'item sans déformation */
-.galerie__img {
+@media (max-width: 599px) {
+  .galerie__grille { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+}
+
+.galerie__item { margin: 0; }   /* reset natif <figure> */
+
+/* Cadre cliquable — bouton, pas un lien (n'ouvre pas d'URL) */
+.galerie__cadre {
+  position:      relative;
+  display:       block;
+  width:         100%;
+  aspect-ratio:  4 / 5;
+  overflow:      hidden;
+  border-radius: 0;
+  border:        none;
+  padding:       0;
+  cursor:        pointer;
+  background:    repeating-linear-gradient(45deg, #6b5f52 0 12px, #5f544a 12px 24px);
+}
+
+.galerie__cadre img {
   width:      100%;
   height:     100%;
   object-fit: cover;
   display:    block;
+}
+
+/* Nom de fichier attendu — visible seulement tant que la photo manque,
+   sert à commander les photographies à partir de la maquette. */
+.galerie__cadre-nom {
+  position:    absolute;
+  right:       8px;
+  bottom:      8px;
+  color:       rgba(244, 237, 225, .7);
+  font-family: var(--police-corps);
+  font-size:   11px;
+}
+
+/* --- Visionneuse ----------------------------------------------------------
+   Voile toujours sombre, dans les deux thèmes (règle de la charte, §7). */
+.galerie__visionneuse {
+  position:        fixed;
+  inset:           0;
+  z-index:         90;   /* au-dessus de la barre (70) et du rideau (60), sous le skip-link (100) */
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  gap:             20px;
+  background:      rgba(28, 23, 20, .94);
+  opacity:         0;
+  transition:      opacity 200ms ease;
+}
+
+.galerie__visionneuse.is-ouvert {
+  opacity: 1;
+}
+
+.galerie__visionneuse-cadre {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  max-width:       92vw;
+  max-height:      82vh;
+}
+
+.galerie__visionneuse-image {
+  width:      min(92vw, calc(82vh * 4 / 5));
+  height:     min(82vh, calc(92vw * 5 / 4));
+  background: repeating-linear-gradient(45deg, #6b5f52 0 14px, #5f544a 14px 28px);
+  transition: opacity 150ms ease;
+}
+
+.galerie__visionneuse-image img {
+  width:      100%;
+  height:     100%;
+  object-fit: contain;
+  display:    block;
+}
+
+.galerie__visionneuse-info {
+  text-align: center;
+  max-width:  92vw;
+}
+
+.galerie__visionneuse-categorie {
+  color:          var(--kmk-or);
+  font-family:    var(--police-corps);
+  font-weight:    500;
+  font-size:      11px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+}
+
+.galerie__visionneuse-legende {
+  margin-top:  6px;
+  color:       #F4EDE1;
+  font-family: var(--police-corps);
+  font-weight: 300;
+  font-size:   17px;
+}
+
+.galerie__visionneuse-compteur {
+  position: absolute;
+  top:      24px;
+  right:    76px;
+  color:    rgba(244, 237, 225, .6);
+  font-size: 13px;
+}
+
+.galerie__visionneuse-fermer,
+.galerie__visionneuse-precedent,
+.galerie__visionneuse-suivant {
+  position:        absolute;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           48px;
+  height:          48px;
+  background:      none;
+  border:          none;
+  color:           #F4EDE1;
+  font-size:       28px;
+  cursor:          pointer;
+  appearance:      none;
+  -webkit-appearance: none;
+}
+
+.galerie__visionneuse-fermer    { top: 16px;    right: 16px; }
+.galerie__visionneuse-precedent { left: 8px;    top: 50%; transform: translateY(-50%); }
+.galerie__visionneuse-suivant   { right: 8px;   top: 50%; transform: translateY(-50%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .galerie__visionneuse,
+  .galerie__visionneuse-image {
+    transition: opacity 150ms ease !important;
+  }
 }
 
 /* --- Responsive : tablette --- */

@@ -501,10 +501,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const mots    = seg(a, 0.74, 0.92);
     const texte   = seg(a, 0.82, 1.00);
 
-    const feu        = seg(p, 0.04, 0.34);
-    const sortieHero = seg(p, 0.10, 0.30);
-    const aplat      = seg(p, 0.38, 0.58);
-    const devise     = seg(p, 0.46, 0.68);
+    const feu         = seg(p, 0.04, 0.34);
+    const sortieHero  = seg(p, 0.10, 0.30);
+    const aplat       = seg(p, 0.38, 0.58);
+    const deviseEntree = seg(p, 0.46, 0.60);   /* apparition */
+    const deviseSortie = seg(p, 0.86, 1.00);   /* remonte et sort par le haut,
+                                                   se termine pile à p=1 —
+                                                   c'est-à-dire exactement quand
+                                                   le verrouillage se termine et
+                                                   que "Mon histoire" commence
+                                                   à arriver. Jamais recouverte :
+                                                   déjà partie avant. */
 
     if (!traits || !traits.length || !traits[0].n.isConnected) preparerTraits();
     if (traits) {
@@ -528,7 +535,10 @@ document.addEventListener("DOMContentLoaded", () => {
     op('cta', texte);
     op('heroBloc', 1 - sortieHero);
     op('aplat', 0);     /* désactivé temporairement — assombrissement uniforme jugé gênant */
-    op('devise', devise);
+    if (el.devise) {
+      el.devise.style.opacity   = String(deviseEntree * (1 - deviseSortie));
+      el.devise.style.transform = `translateY(calc(-50% - ${(deviseSortie * 70).toFixed(0)}vh))`;
+    }
   }
 
   /* Régime A : automatique, défilement verrouillé */

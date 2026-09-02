@@ -773,6 +773,12 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
   .kmk-photo    { background-position: 62% 0; }
   .kmk-devise p { font-size: 42px; }
   .kmk-intro    { height: 200vh; }
+  /* Même calcul que la règle desktop de .histoire : hauteur de .kmk-intro
+     (200vh ici) moins 100vh d'écran = 100vh de verrouillage à combler
+     exactement, sans trou. */
+  .histoire     { margin-top: -100vh; }   /* même valeur qu'en bureau — voir commentaire
+                                              dans la règle .histoire principale : toujours
+                                              -100vh, ne dépend pas de la hauteur de .kmk-intro */
 }
 
 
@@ -813,13 +819,16 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
   position:      relative;
   z-index:       2;                  /* passe AU-DESSUS de la scène intro (z-index:1) */
   background-color: var(--kmk-fond);     /* opaque : masque la scène qu'elle recouvre */
-  margin-top:    -33vh;              /* couplée à la hauteur de .intro (200vh) : place le début
-                                        du recouvrement à 0,67 de la course, après l'embrasement.
-                                        À -100vh, le recouvrement démarrerait au premier pixel. */
+  margin-top:    -100vh;             /* TOUJOURS -100vh (un écran), quelle que soit la
+                                        hauteur de .kmk-intro : le recouvrement dure par
+                                        nature une hauteur d'écran, et doit se terminer pile
+                                        quand le verrouillage de la scène se termine
+                                        (course = hauteur de .kmk-intro − 100vh, script.js).
+                                        Ne pas recalculer cette valeur si .kmk-intro change
+                                        de hauteur — elle ne dépend pas de cette hauteur. */
 }
 
 .histoire__inner {
-  max-width:  860px;            /* élargie (P7) : évite le mot seul en fin de paragraphe */
   text-align: left;
 }
 

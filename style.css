@@ -571,14 +571,14 @@ html {
    ========================================================================= */
 
 /* =========================================================================
-   SCÈNE D'INTRODUCTION — Lot 10, Claude Design.
-   .kmk-intro  : piste de scroll (340vh / 300vh mobile)
+   SCÈNE D'INTRODUCTION — Lot 10, Claude Design. Lot 15 : devise au scroll.
+   .kmk-intro  : piste de scroll (360vh / 300vh mobile)
    .kmk-scene  : cadre collé (sticky), 100vh
    Régime A (auto, 3.4s) : portrait N&B → tracé monogramme → texte → invite.
-   Régime B (scroll) : couleur → maille → devise 96px → recouvrement.
+   Régime B (scroll) : couleur → maille → devise (mots + filet) → sortie → recouvrement.
    ========================================================================= */
 
-.kmk-intro { position: relative; height: 240vh; }
+.kmk-intro { position: relative; height: 360vh; }
 .kmk-scene {
   position:  sticky;
   top:       0;
@@ -735,15 +735,27 @@ html {
   justify-content: center;
 }
 .kmk-devise p {
-  margin:         0;
-  text-align:     center;
-  color:          #A88A5A;
-  font-family:    var(--police-titres);
-  font-size:      96px;          /* plafond desktop — jamais dépassé, voir JS */
-  letter-spacing: .04em;
-  line-height:    1.1;
-  white-space:    nowrap;        /* ne se met jamais sur 2 lignes */
-  text-shadow:    0 2px 24px rgba(28,23,20,.95), 0 0 8px rgba(28,23,20,.85);
+  margin:          0;
+  display:         flex;
+  flex-wrap:       wrap;
+  justify-content: center;
+  gap:             0 0.3em;
+  color:           #A88A5A;
+  font-family:     var(--police-titres);
+  font-size:       96px;          /* plafond desktop — jamais dépassé, voir JS */
+  letter-spacing:  .04em;
+  line-height:     1.1;
+  text-shadow:     0 2px 24px rgba(28,23,20,.95), 0 0 8px rgba(28,23,20,.85);
+}
+.kmk-devise__mot { display: inline-block; will-change: transform, opacity, filter; }
+
+.kmk-devise__filet       { margin-top: 26px; height: 1px; background: rgba(168,138,90,.28); }
+.kmk-devise__filet-trait { height: 1px; background: var(--kmk-or, #A88A5A);
+                           transform: scaleX(0); transform-origin: left center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kmk-devise__mot         { opacity: 1 !important; transform: none !important; filter: none !important; }
+  .kmk-devise__filet-trait { transform: scaleX(1) !important; }
 }
 
 /* Verrou du défilement pendant le régime automatique */
@@ -769,16 +781,17 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
   .kmk-photo    { background-position: 64% 0; }
 }
 @media (max-width: 600px)  {
-  .kmk-lockup   { width: 200px; }
-  .kmk-photo    { background-position: 62% 0; }
-  .kmk-devise p { font-size: 42px; }
-  .kmk-intro    { height: 200vh; }
+  .kmk-lockup       { width: 200px; }
+  .kmk-photo        { background-position: 62% 0; }
+  .kmk-devise p     { font-size: 42px; }
+  .kmk-devise__filet { margin-top: 16px; }
+  .kmk-intro        { height: 300vh; }
   /* Même calcul que la règle desktop de .histoire : hauteur de .kmk-intro
-     (200vh ici) moins 100vh d'écran = 100vh de verrouillage à combler
+     (300vh ici) moins 100vh d'écran = 200vh de verrouillage à combler
      exactement, sans trou. */
-  .histoire     { margin-top: -100vh; }   /* même valeur qu'en bureau — voir commentaire
-                                              dans la règle .histoire principale : toujours
-                                              -100vh, ne dépend pas de la hauteur de .kmk-intro */
+  .histoire         { margin-top: -100vh; }   /* même valeur qu'en bureau — voir commentaire
+                                                  dans la règle .histoire principale : toujours
+                                                  -100vh, ne dépend pas de la hauteur de .kmk-intro */
 }
 
 

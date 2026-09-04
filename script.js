@@ -472,8 +472,12 @@ document.addEventListener("DOMContentLoaded", () => {
     photoNb: $('photoNb'), photoCoul: $('photoCoul'), voile: $('voile'),
     scrim: $('scrim'), maille: $('maille'), traceG: $('traceG'), mots: $('mots'),
     surtitre: $('surtitre'), cta: $('cta'), heroBloc: $('heroBloc'),
-    invite: $('invite'), aplat: $('aplat'), devise: $('devise')
+    invite: $('invite'), aplat: $('aplat'), devise: $('devise'),
+    deviseFilet: $('deviseFilet')
   };
+  const motsDevise = el.devise
+    ? Array.prototype.slice.call(el.devise.querySelectorAll('.kmk-devise__mot'))
+    : [];
 
   const seg = (v, a, b) => Math.max(0, Math.min(1, (v - a) / (b - a)));
   const op  = (n, v) => { if (el[n]) el[n].style.opacity = String(v); };
@@ -504,14 +508,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const feu         = seg(p, 0.04, 0.34);
     const sortieHero  = seg(p, 0.10, 0.30);
     const aplat       = seg(p, 0.38, 0.58);
-    const deviseEntree = seg(p, 0.46, 0.60);   /* apparition */
-    const deviseSortie = seg(p, 0.86, 1.00);   /* remonte et sort par le haut,
-                                                   se termine pile à p=1 —
-                                                   c'est-à-dire exactement quand
-                                                   le verrouillage se termine et
-                                                   que "Mon histoire" commence
-                                                   à arriver. Jamais recouverte :
-                                                   déjà partie avant. */
+    const deviseEntree = seg(p, 0.24, 0.42);   /* entrée mot à mot */
+    const deviseTrace  = seg(p, 0.34, 0.56);   /* tracé du filet or */
+    const deviseSortie = seg(p, 0.64, 0.76);   /* sortie par le haut,
+                                                   se termine avant p=1 —
+                                                   c'est-à-dire avant que le
+                                                   verrouillage se termine et
+                                                   que "Mon histoire" arrive.
+                                                   Jamais recouverte : déjà
+                                                   partie avant. */
 
     if (!traits || !traits.length || !traits[0].n.isConnected) preparerTraits();
     if (traits) {
@@ -536,8 +541,17 @@ document.addEventListener("DOMContentLoaded", () => {
     op('heroBloc', 1 - sortieHero);
     op('aplat', 0);     /* désactivé temporairement — assombrissement uniforme jugé gênant */
     if (el.devise) {
-      el.devise.style.opacity   = String(deviseEntree * (1 - deviseSortie));
-      el.devise.style.transform = `translateY(calc(-50% - ${(deviseSortie * 70).toFixed(0)}vh))`;
+      el.devise.style.opacity   = String(Math.min(1, deviseEntree * 1.2) * (1 - deviseSortie));
+      el.devise.style.transform = `translateY(calc(-50% - ${(deviseSortie * 42).toFixed(1)}vh))`;
+    }
+    motsDevise.forEach(function (mot, i) {
+      const e = seg(deviseEntree, i * 0.11, i * 0.11 + 0.56);
+      mot.style.opacity   = String(e);
+      mot.style.transform = 'translateY(' + ((1 - e) * 26).toFixed(1) + 'px)';
+      mot.style.filter    = e < 1 ? 'blur(' + ((1 - e) * 7).toFixed(1) + 'px)' : 'none';
+    });
+    if (el.deviseFilet) {
+      el.deviseFilet.style.transform = 'scaleX(' + deviseTrace.toFixed(3) + ')';
     }
   }
 

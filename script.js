@@ -247,9 +247,14 @@ document.addEventListener("DOMContentLoaded", () => {
      légende réelle, passer placeholder à false. Rien d'autre à toucher.
      ------------------------------------------------------------------ */
   const PHOTOS = [
-    { categorie: "Dressage",  fichier: "dressage-01.jpg",  legende: "Légende à venir", placeholder: true },
-    { categorie: "Dressage",  fichier: "dressage-02.jpg",  legende: "Légende à venir", placeholder: true },
-    { categorie: "Dressage",  fichier: "dressage-03.jpg",  legende: "Légende à venir", placeholder: true },
+    { categorie: "Dressage",  fichier: "dressage-01.jpg",  legende: "Assiette 1", placeholder: false },
+    { categorie: "Dressage",  fichier: "dressage-02.jpg",  legende: "Assiette 2", placeholder: false },
+    { categorie: "Dressage",  fichier: "dressage-03.jpg",  legende: "Assiette 3", placeholder: false },
+    { categorie: "Dressage",  fichier: "dressage-04.jpg",  legende: "Assiette 4", placeholder: false },
+    { categorie: "Dressage",  fichier: "dressage-05.jpg",  legende: "Assiette 5", placeholder: false },
+    { categorie: "Dressage",  fichier: "dressage-06.jpg",  legende: "Assiette 6", placeholder: false },
+    { categorie: "Dressage",  fichier: "dressage-07.jpg",  legende: "Assiette 7", placeholder: false },
+    { categorie: "Dressage",  fichier: "dressage-08.jpg",  legende: "Assiette 8", placeholder: false },
     { categorie: "Réception", fichier: "reception-01.jpg", legende: "Légende à venir", placeholder: true },
     { categorie: "Réception", fichier: "reception-02.jpg", legende: "Légende à venir", placeholder: true },
     { categorie: "Réception", fichier: "reception-03.jpg", legende: "Légende à venir", placeholder: true },

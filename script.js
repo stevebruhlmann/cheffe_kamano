@@ -21,11 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ------------------------------------------------------------------
      Reveal au scroll — IntersectionObserver
      Ajoute .is-visible sur chaque .reveal quand il entre dans le viewport.
-     threshold 0.12 : l'animation se déclenche quand 12 % de l'élément
-     est visible — assez tôt pour paraître fluide sans partir trop tôt.
+     threshold 0.01 + rootMargin -14% : se déclenche quand le haut du bloc
+     atteint 86 % de la hauteur de l'écran, juste avant le champ de lecture.
      ------------------------------------------------------------------ */
   const observerOptions = {
-    threshold: 0.12
+    threshold: 0.01,
+    rootMargin: '0px 0px -14% 0px'
   };
 
   const revealObserver = new IntersectionObserver((entries) => {

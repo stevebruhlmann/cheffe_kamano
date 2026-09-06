@@ -1686,19 +1686,27 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
    Déclenché par IntersectionObserver dans script.js.
    ========================================================================= */
 
-.reveal {
-  opacity:    0;
-  transition: opacity var(--kmk-transition);
+.reveal > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 520ms cubic-bezier(.22,.61,.36,1),
+              transform 520ms cubic-bezier(.22,.61,.36,1);
 }
+.reveal.is-visible > * { opacity: 1; transform: none; }
 
-.reveal.is-visible {
-  opacity:   1;
-}
+/* Décalage entre éléments d'une même section, plafonné à quatre crans :
+   une grille de douze vignettes ne doit pas finir à plus d'une seconde. */
+.reveal.is-visible > *:nth-child(2) { transition-delay:  70ms; }
+.reveal.is-visible > *:nth-child(3) { transition-delay: 140ms; }
+.reveal.is-visible > *:nth-child(4) { transition-delay: 210ms; }
+.reveal.is-visible > *:nth-child(n+5) { transition-delay: 280ms; }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity:    1;
-    transition: none;
+  .reveal > *, .reveal.is-visible > * {
+    opacity:    1 !important;
+    transform:  none !important;
+    transition: none !important;
+    transition-delay: 0ms !important;
   }
 }
 

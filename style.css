@@ -1116,14 +1116,66 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
 }
 
 /* =========================================================================
-   PIED DE PAGE
+   PIED DE PAGE — Lot 16 : maille en losanges qui s'éteint en dégradé vers
+   le bas, au lieu de la bande 48px pleine du Lot 9. Valeurs arrêtées le
+   06.09.2026 (voir LOT-16-maille-pied-de-page.md), à reprendre telles
+   quelles. Ne partage plus .motif-bandeau avec Témoignages (voir Lot 14).
    ========================================================================= */
 .site-footer {
-  position:     relative;   /* ancre le bandeau de motif (Lot 9) */
-  border-top:   1px solid var(--kmk-filet-appuye);  /* filet or */
+  position:      relative;
+  isolation:     isolate;    /* le ::before ne remonte pas au-dessus du contenu */
+  overflow:      hidden;
+  border-top:    1px solid var(--kmk-filet-appuye);  /* filet or — même token que le reste du site */
   padding-block: 3rem;
-  text-align:   center;
+  text-align:    center;
   background-color: var(--kmk-fond);   /* bandeau charbon via data-fond */
+}
+.site-footer > * { position: relative; z-index: 1; }
+
+/* La maille : couche peinte en or, découpée par la tuile, puis éteinte par
+   un dégradé vertical. Les deux masques sont intersectés. */
+.site-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background: var(--kmk-or);
+
+  -webkit-mask-image: url("assets/motif-losanges-tuile-masque.svg"),
+                      linear-gradient(to bottom, #000 0%, rgba(0,0,0,.55) 36%, transparent 80%);
+          mask-image: url("assets/motif-losanges-tuile-masque.svg"),
+                      linear-gradient(to bottom, #000 0%, rgba(0,0,0,.55) 36%, transparent 80%);
+
+  -webkit-mask-size: 36px 48px, 100% 100%;
+          mask-size: 36px 48px, 100% 100%;
+  -webkit-mask-repeat: repeat, no-repeat;
+          mask-repeat: repeat, no-repeat;
+  -webkit-mask-position: 18px 0, 0 0;
+          mask-position: 18px 0, 0 0;
+
+  -webkit-mask-composite: source-in;   /* syntaxe WebKit */
+          mask-composite: intersect;   /* syntaxe standard */
+
+  opacity: .15;   /* plafond de la charte — trait sous 15 % */
+}
+
+/* Repli : masques multi-couches non pris en charge → maille uniforme très
+   discrète plutôt qu'une coupe franche. */
+@supports not ((mask-composite: intersect) or (-webkit-mask-composite: source-in)) {
+  .site-footer::before {
+    background: none;
+    -webkit-mask: none; mask: none;
+    background-image: url("assets/motif-losanges-tuile.svg");
+    background-repeat: repeat;
+    background-size: 36px 48px;
+    opacity: .08;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .site-footer::before { opacity: 0; }
 }
 
 .site-footer__inner {
@@ -1919,6 +1971,8 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
    MOTIF DE LOSANGES — bandeau décoratif (Lot 9), spec Claude Design.
    Toujours en haut de section, jamais derrière un paragraphe : hauteur
    fixe, contenue dans le padding existant de la section.
+   Depuis le Lot 16, le pied de page a sa propre texture (.site-footer::before,
+   dégradé + mask) et ne passe plus par .motif-bandeau.
    ========================================================================= */
 .motif-bandeau {
   position:       absolute;

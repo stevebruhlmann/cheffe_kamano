@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
      ------------------------------------------------------------------ */
   const observerOptions = {
     threshold: 0.01,
-    rootMargin: '0px 0px -14% 0px'
+    rootMargin: '0px 0px -40% 0px'   /* DEBUG — -14% normalement, décale le déclenchement plus haut à l'écran */
   };
 
   const revealObserver = new IntersectionObserver((entries) => {

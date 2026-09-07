@@ -645,3 +645,78 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener('scroll', auDefilement, { passive: true });
   window.addEventListener('resize', function () { preparerTraits(); ajusterDevise(); auDefilement(); });
 })();
+
+
+/* ── Témoignages : grille jusqu'à cinq, rail à accroche au-delà (LOT-17 §9) ── */
+(function () {
+  const rail = document.getElementById('temoignages-rail');
+  if (!rail) return;
+
+  const cartes = Array.prototype.slice.call(rail.querySelectorAll('.temoignage'));
+  const SEUIL = 6;
+  const PAS = 9000;
+
+  /* Ordre tiré au hasard une fois par visite, puis figé. */
+  (function melanger() {
+    for (let i = cartes.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      rail.insertBefore(cartes[j], cartes[i].nextSibling);
+    }
+  })();
+
+  if (cartes.length < SEUIL) return;   /* la grille suffit */
+
+  const barre = document.querySelector('.temoignages__barre');
+  const trait = document.querySelector('.temoignages__jauge-trait');
+  const btnPause = document.querySelector('.temoignages__pause');
+
+  rail.classList.add('est-rail');
+  rail.setAttribute('tabindex', '0');
+  rail.setAttribute('role', 'group');
+  rail.setAttribute('aria-label', 'Témoignages, ' + cartes.length + ' au total');
+  if (barre) barre.hidden = false;
+
+  const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let pause = false, manuel = false, horsEcran = false, t0 = performance.now();
+
+  const pasLargeur = () => rail.querySelector('.temoignage').getBoundingClientRect().width + 18;
+  const index = () => Math.min(cartes.length - 1, Math.round(rail.scrollLeft / pasLargeur()));
+  const aller = i => {
+    const n = (i + cartes.length) % cartes.length;
+    rail.scrollTo({ left: n * pasLargeur(), behavior: 'smooth' });
+    t0 = performance.now();
+  };
+
+  const arret = () => { manuel = true; };
+  const reprise = () => { manuel = false; t0 = performance.now(); };
+  rail.addEventListener('pointerenter', arret);
+  rail.addEventListener('pointerleave', reprise);
+  rail.addEventListener('focusin', arret);
+  rail.addEventListener('focusout', reprise);
+  rail.addEventListener('pointerdown', arret);
+  rail.addEventListener('scroll', () => { t0 = performance.now(); }, { passive: true });
+
+  new IntersectionObserver(e => { horsEcran = !e[0].isIntersecting; }, { threshold: 0.15 }).observe(rail);
+
+  document.querySelectorAll('.temoignages__fleche').forEach(b => {
+    b.addEventListener('click', () => aller(index() + Number(b.dataset.sens)));
+  });
+
+  if (btnPause) btnPause.addEventListener('click', () => {
+    pause = !pause;
+    t0 = performance.now();
+    btnPause.textContent = pause ? 'Reprendre' : 'Suspendre';
+    btnPause.setAttribute('aria-pressed', String(pause));
+  });
+
+  if (reduit) { if (trait) trait.style.width = '0'; return; }   /* rail manuel */
+
+  (function horloge(now) {
+    requestAnimationFrame(horloge);
+    if (pause || manuel || horsEcran) { if (trait) trait.style.width = '0'; return; }
+    const ecoule = now - t0;
+    if (trait) trait.style.width = Math.min(100, (ecoule / PAS) * 100).toFixed(1) + '%';
+    if (ecoule >= PAS) aller(index() + 1);
+  })(performance.now());
+})();

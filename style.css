@@ -1369,12 +1369,75 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
   background-color: var(--kmk-fond);   /* bandeau charbon via data-fond */
 }
 
-/* Grille 3 cartes — passe en 1 colonne sur tablette/mobile */
-.temoignages__grille {
+/* Grille jusqu'à 5 témoignages — état par défaut. À 6, script.js ajoute
+   .est-rail et bascule en rail horizontal à accroche (LOT-17 §9). */
+.temoignages__rail {
   display:               grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap:                   1.5rem;
   margin-top:            3rem;
+}
+
+.temoignages__rail.est-rail {
+  display:          flex;
+  overflow-x:       auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior:  smooth;
+  padding-bottom:   4px;
+  scrollbar-width:  none;
+}
+.temoignages__rail.est-rail::-webkit-scrollbar { display: none; }
+.temoignages__rail.est-rail .temoignage {
+  flex:              0 0 clamp(260px, 31%, 360px);
+  scroll-snap-align: start;
+}
+
+/* Barre de commande du rail — masquée tant qu'on est en grille */
+.temoignages__barre {
+  display:     flex;
+  align-items: center;
+  gap:         18px;
+  margin-top:  24px;
+}
+.temoignages__barre[hidden] { display: none; }
+
+.temoignages__fleche {
+  width:           42px;
+  height:          42px;
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  background:      transparent;
+  border:          1px solid var(--kmk-or);
+  color:           var(--kmk-texte);
+  cursor:          pointer;
+}
+
+.temoignages__pause {
+  min-height:     42px;
+  padding:        0 20px;
+  font-weight:    500;
+  font-size:      .656rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  background:     transparent;
+  border:         1px solid var(--kmk-or);
+  color:          var(--kmk-texte);
+  cursor:         pointer;
+}
+
+.temoignages__jauge {
+  flex:      1;
+  min-width: 80px;
+  height:    1px;
+  background: var(--kmk-filet);
+  position:  relative;
+}
+.temoignages__jauge-trait {
+  position:   absolute;
+  inset:      0 auto 0 0;
+  width:      0;
+  background: var(--kmk-or);
 }
 
 /* Carte individuelle */
@@ -1426,7 +1489,7 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
 
 /* --- Responsive : tablette et mobile --- */
 @media (max-width: 768px) {
-  .temoignages__grille {
+  .temoignages__rail {
     grid-template-columns: 1fr;
   }
 }

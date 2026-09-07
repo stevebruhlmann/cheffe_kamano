@@ -461,8 +461,10 @@
       <div class="container">
         <h2 id="temoignages-titre" class="section__titre">Témoignages</h2>
 
-        <!-- 3 témoignages génériques — à remplacer par vrais avis (accord clients requis) -->
-        <div class="temoignages__grille">
+        <!-- 3 témoignages génériques — à remplacer par vrais avis (accord clients requis).
+             Grille jusqu'à 5 cartes ; rail à accroche automatique au-delà (LOT-17 §9) —
+             rien à recoder ici quand un 6e témoignage sera ajouté. -->
+        <div class="temoignages__rail" id="temoignages-rail">
 
           <figure class="temoignage placeholder">
             <blockquote class="temoignage__citation">
@@ -500,7 +502,14 @@
             </figcaption>
           </figure>
 
-        </div><!-- /.temoignages__grille -->
+        </div><!-- /.temoignages__rail -->
+
+        <div class="temoignages__barre" hidden>
+          <button type="button" class="temoignages__fleche" data-sens="-1" aria-label="Témoignage précédent">←</button>
+          <button type="button" class="temoignages__fleche" data-sens="1" aria-label="Témoignage suivant">→</button>
+          <button type="button" class="temoignages__pause" aria-pressed="false">Suspendre</button>
+          <div class="temoignages__jauge"><div class="temoignages__jauge-trait"></div></div>
+        </div>
       </div>
     </section>
 

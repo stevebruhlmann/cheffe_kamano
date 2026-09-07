@@ -1363,6 +1363,7 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
    ========================================================================= */
 .temoignages {
   position:      relative;   /* ancre le bandeau de motif (Lot 9) */
+  border-top:    1px solid var(--kmk-filet-appuye);  /* filet or au joint crème → charbon, LOT-17 §2 */
   padding-block: 120px;
   background-color: var(--kmk-fond);   /* bandeau charbon via data-fond */
 }

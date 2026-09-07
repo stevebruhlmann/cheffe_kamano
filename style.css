@@ -1265,6 +1265,7 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
   text-decoration: none;
   border-bottom:   1px solid var(--kmk-filet-appuye);
   padding-bottom:  4px;
+  margin-bottom:   2rem;   /* évite le trait double avec le bloc pratique juste dessous, LOT-17 §7 */
   width:           fit-content;
   transition:      opacity var(--kmk-transition);
 }

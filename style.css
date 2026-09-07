@@ -1682,34 +1682,48 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
 }
 
 /* =========================================================================
-   REVEAL AU SCROLL — état initial + état visible
-   Déclenché par IntersectionObserver dans script.js.
+   REVEAL AU SCROLL — LOT-17 §1 (correctif du 07.09.2026)
+   L'état initial porte sur les enfants du .container, pas sur la section :
+   une section fait deux à trois hauteurs d'écran, son fondu est imperceptible.
+   Conditionné à html.js — sans JavaScript, rien n'est masqué.
    ========================================================================= */
 
-.reveal > * {
-  opacity: 0;
-  transform: translateY(40px);   /* DEBUG — 16px normalement */
-  transition: opacity 1400ms cubic-bezier(.22,.61,.36,1),   /* DEBUG — 520ms normalement */
-              transform 1400ms cubic-bezier(.22,.61,.36,1);  /* DEBUG — 520ms normalement */
+html.js .reveal > .container > * {
+  opacity:    0;
+  transform:  translateY(16px);
+  transition: opacity   520ms cubic-bezier(.22, .61, .36, 1),
+              transform 520ms cubic-bezier(.22, .61, .36, 1);
 }
-.reveal.is-visible > * { opacity: 1; transform: none; }
 
-/* Décalage entre éléments d'une même section, plafonné à quatre crans :
+html.js .reveal.is-visible > .container > * {
+  opacity:   1;
+  transform: none;
+}
+
+/* Cascade entre les blocs d'une même section, plafonnée à quatre crans :
    une grille de douze vignettes ne doit pas finir à plus d'une seconde. */
-.reveal.is-visible > *:nth-child(2) { transition-delay:  70ms; }
-.reveal.is-visible > *:nth-child(3) { transition-delay: 140ms; }
-.reveal.is-visible > *:nth-child(4) { transition-delay: 210ms; }
-.reveal.is-visible > *:nth-child(n+5) { transition-delay: 280ms; }
+html.js .reveal.is-visible > .container > *:nth-child(2)   { transition-delay:  70ms; }
+html.js .reveal.is-visible > .container > *:nth-child(3)   { transition-delay: 140ms; }
+html.js .reveal.is-visible > .container > *:nth-child(4)   { transition-delay: 210ms; }
+html.js .reveal.is-visible > .container > *:nth-child(n+5) { transition-delay: 280ms; }
+
+/* Échappatoire pour tout bloc qui ne doit pas être animé — voir modification 3. */
+html.js .reveal > .container > .reveal-exclu {
+  opacity:          1;
+  transform:        none;
+  transition:       none;
+  transition-delay: 0ms;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal > *, .reveal.is-visible > * {
-    opacity:    1 !important;
-    transform:  none !important;
-    transition: none !important;
-    transition-delay: 0ms !important;
+  html.js .reveal > .container > *,
+  html.js .reveal.is-visible > .container > * {
+    opacity:          1 !important;
+    transform:        none !important;
+    transition:       none !important;
+    transition-delay: 0ms   !important;
   }
 }
-
 
 
 

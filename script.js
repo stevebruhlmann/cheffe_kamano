@@ -19,27 +19,50 @@ document.addEventListener("DOMContentLoaded", () => {
     .forEach(el => el.textContent = new Date().getFullYear());
 
   /* ------------------------------------------------------------------
-     Reveal au scroll — IntersectionObserver
-     Ajoute .is-visible sur chaque .reveal quand il entre dans le viewport.
-     threshold 0.01 + rootMargin -14% : se déclenche quand le haut du bloc
-     atteint 86 % de la hauteur de l'écran, juste avant le champ de lecture.
+     Reveal au scroll — LOT-17 §1 (correctif du 07.09.2026).
+     Déclenche quand le haut du bloc atteint 86 % de la hauteur de l'écran,
+     juste avant qu'il entre dans le champ de lecture. Valeurs définitives :
+     ne pas remettre de marge de mise au point ici.
      ------------------------------------------------------------------ */
-  const observerOptions = {
-    threshold: 0.01,
-    rootMargin: '0px 0px -40% 0px'   /* DEBUG — -14% normalement, décale le déclenchement plus haut à l'écran */
-  };
+  const reveler = (bloc) => bloc.classList.add('is-visible');
+  const blocsReveal = document.querySelectorAll('.reveal');
 
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        revealObserver.unobserve(entry.target); /* déclenche une seule fois */
-      }
-    });
-  }, observerOptions);
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      || !('IntersectionObserver' in window)) {
+    blocsReveal.forEach(reveler);
+  } else {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        reveler(entry.target);
+        revealObserver.unobserve(entry.target);   /* déclenche une seule fois */
+      });
+    }, { threshold: 0.01, rootMargin: '0px 0px -14% 0px' });
 
-  document.querySelectorAll('.reveal')
-    .forEach(el => revealObserver.observe(el));
+    blocsReveal.forEach(el => revealObserver.observe(el));
+
+    /* Filet de sécurité. La dernière section peut ne jamais franchir le seuil :
+       arrivé en bas de page, la course de défilement est épuisée. On révèle
+       alors tout bloc dont le haut est déjà passé sous 92 % de l'écran. */
+    const balayageReveal = () => {
+      document.querySelectorAll('.reveal:not(.is-visible)').forEach(bloc => {
+        const r = bloc.getBoundingClientRect();
+        if (r.top < window.innerHeight * 0.92 && r.bottom > 0) {
+          reveler(bloc);
+          revealObserver.unobserve(bloc);
+        }
+      });
+    };
+
+    let attenteReveal = false;
+    window.addEventListener('scroll', () => {
+      if (attenteReveal) return;
+      attenteReveal = true;
+      requestAnimationFrame(() => { attenteReveal = false; balayageReveal(); });
+    }, { passive: true });
+
+    window.addEventListener('load', balayageReveal);
+  }
 
   /* ------------------------------------------------------------------
      Spécialités — scrollytelling image sticky + liste de plats (P7)

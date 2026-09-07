@@ -21,6 +21,10 @@
 <!-- Polices auto-hébergées (woff2), voir @font-face dans style.css.
      Poiret One : 1 seul poids (400). Quicksand : 300 (corps) et 400 (mentions). -->
 
+  <!-- Drapeau JS (LOT-17 §1) — non différé, avant tout rendu : garantit que le
+       contenu n'est jamais masqué si JavaScript ne s'exécute pas -->
+  <script>document.documentElement.classList.add('js');</script>
+
   <!-- Feuille de style du site -->
   <link rel="stylesheet" href="style.css">
 
@@ -309,8 +313,10 @@
           <p>Chaque assiette naît d'une sélection personnelle : marchés, producteurs locaux et commerces spécialisés, pour des produits de caractère.</p>
         </div>
 
-        <!-- Bloc scrollytelling : image sticky à gauche (crossfade), plats déclencheurs à droite (P7) -->
-        <div class="specialites__scroll">
+        <!-- Bloc scrollytelling : image sticky à gauche (crossfade), plats déclencheurs à droite (P7).
+             reveal-exclu : contient .specialites__image-wrap en position sticky — un transform
+             sur cet ancêtre pendant la transition peut perturber le comportement sticky. -->
+        <div class="specialites__scroll reveal-exclu">
 
           <!-- Colonne gauche : image sticky, 6 photos superposées, une seule visible à la fois -->
           <div class="specialites__image-wrap">

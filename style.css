@@ -1364,7 +1364,6 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
    ========================================================================= */
 .temoignages {
   position:      relative;   /* ancre le bandeau de motif (Lot 9) */
-  border-top:    1px solid var(--kmk-filet-appuye);  /* filet or au joint crème → charbon, LOT-17 §2 */
   padding-block: 120px;
   background-color: var(--kmk-fond);   /* bandeau charbon via data-fond */
 }
@@ -1682,6 +1681,16 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
     grid-column: span 1;
   }
 }
+
+/* Filet d'or à chaque frontière entre sections — l'alternance crème/charbon
+   remplace tout autre dispositif de séparation (LOT-17 §8). Le pied de page
+   a déjà le sien, posé au Lot 16. */
+.histoire,
+.specialites,
+.services,
+.galerie,
+.temoignages,
+.contact { border-top: 1px solid var(--kmk-filet-appuye); }
 
 /* =========================================================================
    REVEAL AU SCROLL — LOT-17 §1 (correctif du 07.09.2026)

@@ -19,38 +19,29 @@ document.addEventListener("DOMContentLoaded", () => {
     .forEach(el => el.textContent = new Date().getFullYear());
 
   /* ------------------------------------------------------------------
-     Reveal au scroll — LOT-17 §1 (correctif du 07.09.2026).
-     Déclenche quand le haut du bloc atteint 86 % de la hauteur de l'écran,
-     juste avant qu'il entre dans le champ de lecture. Valeurs définitives :
-     ne pas remettre de marge de mise au point ici.
+     Reveal au scroll — LOT-17 §1 v2 (07.09.2026).
+     L'état vit sur le bloc, pas sur la section : le seuil est mesuré sur
+     l'élément qu'on regarde, sinon l'animation se joue dans les 120 px de
+     padding de la section, hors écran.
      ------------------------------------------------------------------ */
-  const reveler = (bloc) => bloc.classList.add('is-visible');
-  const blocsReveal = document.querySelectorAll('.reveal');
+  const blocsReveal = document.querySelectorAll('.reveal > .container > *');
 
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      || !('IntersectionObserver' in window)) {
-    blocsReveal.forEach(reveler);
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    blocsReveal.forEach(el => el.classList.add('is-visible'));
   } else {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        reveler(entry.target);
-        revealObserver.unobserve(entry.target);   /* déclenche une seule fois */
-      });
-    }, { threshold: 0.01, rootMargin: '0px 0px -14% 0px' });
+    /* 78 % : le bloc est déjà dans le champ de lecture, les 520 ms se jouent
+       sous les yeux. Pas d'IntersectionObserver — ses marges en pourcentage
+       se résolvent selon le contexte (iframe, zoom, barre d'adresse mobile)
+       et le seuil devient imprévisible. Aucune condition sur le bas du bloc :
+       ce qui est au-dessus de l'écran est révélé sans animation, sinon un
+       rechargement en milieu de page laisse les sections précédentes vides. */
+    const SEUIL = 0.78;
 
-    blocsReveal.forEach(el => revealObserver.observe(el));
-
-    /* Filet de sécurité. La dernière section peut ne jamais franchir le seuil :
-       arrivé en bas de page, la course de défilement est épuisée. On révèle
-       alors tout bloc dont le haut est déjà passé sous 92 % de l'écran. */
     const balayageReveal = () => {
-      document.querySelectorAll('.reveal:not(.is-visible)').forEach(bloc => {
-        const r = bloc.getBoundingClientRect();
-        if (r.top < window.innerHeight * 0.92 && r.bottom > 0) {
-          reveler(bloc);
-          revealObserver.unobserve(bloc);
-        }
+      const h = window.innerHeight;
+      blocsReveal.forEach(el => {
+        if (el.classList.contains('is-visible')) return;
+        if (el.getBoundingClientRect().top < h * SEUIL) el.classList.add('is-visible');
       });
     };
 
@@ -61,7 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
       requestAnimationFrame(() => { attenteReveal = false; balayageReveal(); });
     }, { passive: true });
 
+    window.addEventListener('resize', balayageReveal, { passive: true });
     window.addEventListener('load', balayageReveal);
+    balayageReveal();
   }
 
   /* ------------------------------------------------------------------

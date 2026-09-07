@@ -1695,17 +1695,10 @@ html.js .reveal > .container > * {
               transform 520ms cubic-bezier(.22, .61, .36, 1);
 }
 
-html.js .reveal.is-visible > .container > * {
+html.js .reveal > .container > *.is-visible {
   opacity:   1;
   transform: none;
 }
-
-/* Cascade entre les blocs d'une même section, plafonnée à quatre crans :
-   une grille de douze vignettes ne doit pas finir à plus d'une seconde. */
-html.js .reveal.is-visible > .container > *:nth-child(2)   { transition-delay:  70ms; }
-html.js .reveal.is-visible > .container > *:nth-child(3)   { transition-delay: 140ms; }
-html.js .reveal.is-visible > .container > *:nth-child(4)   { transition-delay: 210ms; }
-html.js .reveal.is-visible > .container > *:nth-child(n+5) { transition-delay: 280ms; }
 
 /* Échappatoire pour tout bloc qui ne doit pas être animé — voir modification 3. */
 html.js .reveal > .container > .reveal-exclu {
@@ -1717,7 +1710,7 @@ html.js .reveal > .container > .reveal-exclu {
 
 @media (prefers-reduced-motion: reduce) {
   html.js .reveal > .container > *,
-  html.js .reveal.is-visible > .container > * {
+  html.js .reveal > .container > *.is-visible {
     opacity:          1 !important;
     transform:        none !important;
     transition:       none !important;

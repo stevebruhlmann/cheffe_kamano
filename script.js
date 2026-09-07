@@ -1,8 +1,14 @@
-/* La position de scroll au rechargement suit le standard du navigateur —
-   on n'y touche pas. On s'assure seulement que la chorégraphie (intro,
-   en-tête) recalcule son état après une restauration depuis le cache
-   arrière/avant (bfcache), cas où aucun script ne se réexécute et où seul
-   l'événement "pageshow" en informe la page. */
+/* On désactive la restauration automatique de la position de scroll par le
+   navigateur : elle peut survenir après notre vérification initiale du
+   reveal, sans déclencher d'événement "scroll" pour nous en informer — les
+   sections déjà vérifiées restent alors figées dans un état obsolète. */
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+/* On s'assure que la chorégraphie (intro, en-tête) recalcule son état après
+   une restauration depuis le cache arrière/avant (bfcache), cas où aucun
+   script ne se réexécute et où seul l'événement "pageshow" en informe la page. */
 window.addEventListener('pageshow', () => {
   window.dispatchEvent(new Event('scroll'));
 });

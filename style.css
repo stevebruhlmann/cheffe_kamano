@@ -1209,6 +1209,7 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
    ========================================================================= */
 .contact {
   padding-block: 120px;
+  background-color: var(--kmk-fond);   /* bandeau charbon via data-fond, LOT-17 §8 */
 }
 
 /* Grille 2 colonnes — passe en 1 colonne sur tablette/mobile */
@@ -1438,6 +1439,7 @@ html.kmk-verrou, html.kmk-verrou body { overflow: hidden; }
    ========================================================================= */
 .galerie {
   padding-block: 120px;
+  background-color: var(--kmk-fond);   /* bandeau charbon via data-fond, LOT-17 §8 */
 }
 
 /* --- Filtres ------------------------------------------------------------ */

@@ -72,7 +72,9 @@ if ($erreur !== null) {
 // Envoi de l'e-mail à Marceline (boîte contact, décision actée en P12)
 // -------------------------------------------------------------------------
 
-$destinataire = 'contact@cheffekamano.ch';
+//$destinataire = 'contact@cheffekamano.ch';
+$destinataire = 'steve.bru@gmail.com';
+
 $sujet        = 'Nouveau témoignage — ' . $nom;
 
 $corps  = "Nouveau témoignage reçu via le site :\n\n";

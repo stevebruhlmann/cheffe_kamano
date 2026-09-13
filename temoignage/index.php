@@ -94,7 +94,7 @@ unset($_SESSION['avis_succes'], $_SESSION['avis_erreur'], $_SESSION['avis_nom'],
             <label for="consentement">
               J'autorise Cheffe Kamano à publier mon témoignage et mon prénom sur son site internet.
               Je peux demander son retrait à tout moment en écrivant à
-              <a href="mailto:temoignages@cheffekamano.ch">temoignages@cheffekamano.ch</a>.
+              <a href="mailto:contact@cheffekamano.ch">contact@cheffekamano.ch</a>.
             </label>
           </div>
 

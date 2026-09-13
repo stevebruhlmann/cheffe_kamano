@@ -1,10 +1,13 @@
 <?php
 // =========================================================================
 // Traitement du formulaire de témoignage.
-// Ne fait AUCUN affichage : vérifie, envoie l'e-mail, puis redirige
+// Ne fait AUCUN affichage : vérifie, envoie l'e-é, puis redirige
 // toujours vers index.php (D3 — tout se passe sur la même page).
 // =========================================================================
 session_start();
+
+require __DIR__ . '/../_inc/config.php';
+require __DIR__ . '/../_inc/mailer.php';
 
 // Garde-fou : ce fichier ne doit jamais être ouvert directement dans un
 // navigateur, seulement recevoir les données du formulaire (D5).
@@ -66,25 +69,22 @@ if ($erreur !== null) {
 }
 
 // -------------------------------------------------------------------------
-// Envoi de l'e-mail à Marceline
-// Adresse dédiée (placeholder) — à remplacer par la vraie adresse Infomaniak.
+// Envoi de l'e-mail à Marceline (boîte contact, décision actée en P12)
 // -------------------------------------------------------------------------
 
-$destinataire = 'temoignages@cheffekamano.ch';
+$destinataire = 'contact@cheffekamano.ch';
 $sujet        = 'Nouveau témoignage — ' . $nom;
 
 $corps  = "Nouveau témoignage reçu via le site :\n\n";
 $corps .= "Prénom : $nom\n\n";
 $corps .= "Témoignage :\n$temoignage\n";
 
-$entetes = 'Content-Type: text/plain; charset=UTF-8' . "\r\n";
-
-$envoiOk = mail($destinataire, $sujet, $corps, $entetes);
+$envoiOk = envoyerMail($destinataire, $sujet, $corps, SMTP_TEMOIGNAGES_USER, SMTP_TEMOIGNAGES_PASS);
 
 if ($envoiOk) {
     $_SESSION['avis_succes'] = true;
 } else {
-    // L'envoi a échoué côté serveur (ex. mail() non configuré en local — attendu avant Infomaniak).
+    // L'envoi SMTP a échoué (ex. identifiants incorrects, serveur SMTP injoignable).
     $_SESSION['avis_erreur']     = 'Une erreur est survenue lors de l\'envoi. Merci de réessayer un peu plus tard.';
     $_SESSION['avis_nom']        = $nom;
     $_SESSION['avis_temoignage'] = $temoignage;

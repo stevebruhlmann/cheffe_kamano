@@ -16,3 +16,6 @@ Thumbs.db
 # Fichiers temporaires
 *.swp
 *.tmp
+
+# Secrets (jamais commités, jamais publics)
+_inc/config.php

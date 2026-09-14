@@ -1829,9 +1829,9 @@ html.js .reveal > .container > .reveal-exclu {
 .avis-page {
   min-height:     100vh;
   display:        flex;
-  align-items:    center;
+  align-items:    flex-start;
   justify-content: center;
-  padding-block:  80px;
+  padding-block:  48px;
 }
 
 .avis-conteneur {
@@ -1842,20 +1842,19 @@ html.js .reveal > .container > .reveal-exclu {
 
 .avis-titre {
   font-family:    var(--police-titres);
-  font-size:      clamp(2.125rem, 5vw, 3.375rem);
+  font-size:      clamp(2.4rem, 5.7vw, 3.85rem);
   font-weight:    400;
   letter-spacing: 0.08em;
   color:          var(--kmk-texte-fort);
   text-align:     center;
   margin-bottom:  0.75rem;
   line-height: 1.1;
-
 }
 
 .avis-intro {
   font-family: var(--police-corps);
   font-weight: 300;
-  font-size:   1.0625rem;
+  font-size:   1.1875rem;
   color:       var(--kmk-texte);
   text-align:  center;
   line-height: 1.8;
@@ -1906,7 +1905,14 @@ html.js .reveal > .container > .reveal-exclu {
 .avis-formulaire {
   display:        flex;
   flex-direction: column;
-  gap:            1.75rem;
+  gap:            1.25rem;
+}
+
+#bloc-particulier:not([hidden]),
+#bloc-societe:not([hidden]) {
+  display:        flex;
+  flex-direction: column;
+  gap:            1.25rem;
 }
 
 .avis-champ {
@@ -1916,11 +1922,16 @@ html.js .reveal > .container > .reveal-exclu {
 }
 
 .avis-champ label {
-  font-family:    var(--police-corps);
-  font-weight:    400;
-  font-size:      1rem;
-  letter-spacing: 0.06em;
-  color:          var(--kmk-texte-fort);
+  display:         flex;
+  justify-content: space-between;
+  align-items:     baseline;
+  flex-wrap:       wrap;
+  gap:             0.5rem;
+  font-family:     var(--police-corps);
+  font-weight:     400;
+  font-size:       1rem;
+  letter-spacing:  0.06em;
+  color:           var(--kmk-texte-fort);
 }
 
 .avis-champ input[type="text"],
@@ -1944,11 +1955,35 @@ html.js .reveal > .container > .reveal-exclu {
   border-color: var(--kmk-accent);
 }
 
+.avis-champ select {
+  font-family:   var(--police-corps);
+  font-weight:   300;
+  font-size:     1.0625rem;
+  color:         var(--kmk-texte);
+  background:    var(--kmk-fond-alt);
+  border:        none;
+  border-bottom: 1px solid var(--kmk-filet);
+  border-radius: var(--kmk-rayon);
+  padding:       0.5rem 0.75rem;
+  transition:    border-color var(--kmk-transition), background-color var(--kmk-transition);
+  appearance:    none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%231C1714' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat:   no-repeat;
+  background-position: right 0.75rem center;
+  background-size:     12px;
+}
+
+.avis-champ select:focus {
+  outline:      none;
+  border-color: var(--kmk-accent);
+}
+
 .avis-champ-aide {
   font-family: var(--police-corps);
   font-weight: 400;
   font-size:   0.8125rem;
   color:       var(--kmk-texte-second);
+  margin-top:  -0.75rem;
 }
 
 .avis-champ-compteur {
@@ -1957,6 +1992,44 @@ html.js .reveal > .container > .reveal-exclu {
   font-size:   0.8125rem;
   color:       var(--kmk-texte-second);
   text-align:  right;
+}
+
+.avis-champ--radio {
+  border:  none;
+  padding: 0;
+  margin:  0;
+}
+
+.avis-champ--radio legend {
+  font-family:    var(--police-corps);
+  font-weight:    400;
+  font-size:      1rem;
+  letter-spacing: 0.06em;
+  color:          var(--kmk-texte-fort);
+  padding:        0;
+  margin-bottom:  0.5rem;
+}
+
+.avis-choix-radio {
+  display: flex;
+  gap:     1.5rem;
+}
+
+.avis-radio-option {
+  display:     flex;
+  align-items: center;
+  gap:         0.5rem;
+  font-family: var(--police-corps);
+  font-weight: 300;
+  font-size:   1.0625rem;
+  color:       var(--kmk-texte);
+  cursor:      pointer;
+}
+
+.avis-radio-option input[type="radio"] {
+  accent-color: var(--kmk-accent);
+  width:        18px;
+  height:       18px;
 }
 
 /* --- Champ case à cocher (consentement) ---------------------------------- */
@@ -1971,14 +2044,28 @@ html.js .reveal > .container > .reveal-exclu {
   flex-shrink: 0;
   width:       18px;
   height:      18px;
-  margin-top:  0px;
+  margin-top:  3px;                  /* aligne la case sur la première ligne du texte */
   accent-color: var(--kmk-accent);   /* bordeaux : cohérent avec le focus, README section 08 */
 }
 
 .avis-champ--case label {
-  font-size:   1.0625rem;
-  line-height: 1.7;
-  color:       var(--kmk-texte);
+  display:         block;   /* annule le display:flex hérité de .avis-champ label */
+  font-size:       1.0625rem;
+  line-height:     1.7;
+  color:           var(--kmk-texte);
+  text-align:      justify;
+  text-align-last: left;
+}
+
+/* Variante : case à cocher avec texte secondaire (ex. consentement) */
+.avis-champ--case-secondaire label {
+  font-size:   0.8125rem;
+  line-height: 1.5;
+  color:       var(--kmk-texte-second);
+}
+
+.avis-champ--case-secondaire input[type="checkbox"] {
+  margin-top: 2px;                   /* nudge différent : texte plus petit, line-height plus serré */
 }
 
 .avis-champ--case label a {

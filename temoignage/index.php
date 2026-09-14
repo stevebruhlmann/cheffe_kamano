@@ -7,12 +7,27 @@ session_start();
 
 // On lit les infos laissées par traitement.php, puis on les efface aussitôt
 // (message "flash" : ne doit s'afficher qu'une seule fois).
-$envoiReussi       = $_SESSION['avis_succes']      ?? false;
-$messageErreur     = $_SESSION['avis_erreur']      ?? null;
-$ancienNom         = $_SESSION['avis_nom']         ?? '';
-$ancienTemoignage  = $_SESSION['avis_temoignage']  ?? '';
+$envoiReussi      = $_SESSION['avis_succes']      ?? false;
+$messageErreur    = $_SESSION['avis_erreur']      ?? null;
+$ancienNom        = $_SESSION['avis_nom']         ?? '';
+$ancienNomFamille = $_SESSION['avis_nom_famille'] ?? '';
+$ancienEstSociete = $_SESSION['avis_est_societe'] ?? false;
+$ancienNomSociete = $_SESSION['avis_nom_societe'] ?? '';
+$ancienVille      = $_SESSION['avis_ville']       ?? '';
+$ancienPrestation = $_SESSION['avis_prestation']  ?? '';
+$ancienTemoignage = $_SESSION['avis_temoignage']  ?? '';
 
-unset($_SESSION['avis_succes'], $_SESSION['avis_erreur'], $_SESSION['avis_nom'], $_SESSION['avis_temoignage']);
+unset(
+    $_SESSION['avis_succes'],
+    $_SESSION['avis_erreur'],
+    $_SESSION['avis_nom'],
+    $_SESSION['avis_nom_famille'],
+    $_SESSION['avis_est_societe'],
+    $_SESSION['avis_nom_societe'],
+    $_SESSION['avis_ville'],
+    $_SESSION['avis_prestation'],
+    $_SESSION['avis_temoignage']
+);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -60,36 +75,91 @@ unset($_SESSION['avis_succes'], $_SESSION['avis_erreur'], $_SESSION['avis_nom'],
       <?php else: ?>
 
         <p class="avis-intro">
-          Vous avez fait appel à la Cheffe Kamano.<br>
+          Vous avez par le passé fait appel à la Cheffe Kamano.<br>
           Partagez votre expérience en quelques mots.
         </p>
 
-        <div class="avis-message-zone">
-          <?php if ($messageErreur): ?>
+        <?php if ($messageErreur): ?>
+          <div class="avis-message-zone">
             <div class="avis-message avis-message--erreur">
               <?php echo htmlspecialchars($messageErreur); ?>
             </div>
-          <?php endif; ?>
-        </div>
+          </div>
+        <?php endif; ?>
 
         <form class="avis-formulaire" action="traitement.php" method="POST" novalidate>
 
-          <!-- Champ 1 : prénom -->
-          <div class="avis-champ">
-            <label for="nom">Votre prénom</label>
-            <input type="text" id="nom" name="nom" value="<?php echo htmlspecialchars($ancienNom); ?>" required>
+          <!-- Radio : particulier ou société (bascule les 2 blocs ci-dessous) -->
+          <fieldset class="avis-champ avis-champ--radio">
+            <legend>Vous répondez...</legend>
+            <div class="avis-choix-radio">
+              <label class="avis-radio-option">
+                <input type="radio" name="type_reponse" value="particulier" <?php echo !$ancienEstSociete ? 'checked' : ''; ?>>
+                ...en tant que particulier(s)
+              </label>
+              <label class="avis-radio-option">
+                <input type="radio" name="type_reponse" value="societe" <?php echo $ancienEstSociete ? 'checked' : ''; ?>>
+                ...au nom d'une société
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- Bloc particulier : prénom(s) + nom de famille -->
+          <div id="bloc-particulier">
+            <div class="avis-champ">
+              <label for="prenom">Prénom(s)</label>
+              <input type="text" id="prenom" name="prenom" value="<?php echo htmlspecialchars($ancienNom); ?>">
+            </div>
+
+            <div class="avis-champ">
+              <label for="nom_famille">
+                <span>Nom</span>
+                <span class="avis-champ-aide">(seule la première lettre du nom sera affichée -> ex. « B. »)</span>
+              </label>
+
+              <input type="text" id="nom_famille" name="nom_famille" value="<?php echo htmlspecialchars($ancienNomFamille); ?>">
+            </div>
           </div>
 
-          <!-- Champ 2 : témoignage -->
+          <!-- Bloc société : nom de la société (masqué par défaut) -->
+          <div id="bloc-societe" hidden>
+            <div class="avis-champ">
+              <label for="nom_societe">Nom de la société</label>
+              <input type="text" id="nom_societe" name="nom_societe" value="<?php echo htmlspecialchars($ancienNomSociete); ?>">
+            </div>
+          </div>
+
+          <!-- Champ : ville -->
           <div class="avis-champ">
-            <label for="temoignage">Votre témoignage</label>
-            <p class="avis-champ-aide">Quelques mots suffisent — l'essentiel, c'est votre ressenti.</p>
+            <label for="ville">Ville</label>
+            <input type="text" id="ville" name="ville" value="<?php echo htmlspecialchars($ancienVille); ?>" required>
+          </div>
+
+          <!-- Champ : type de prestation -->
+          <!-- Liste NON DÉFINITIVE — à mettre à jour ici si l'offre de Marceline évolue -->
+          <div class="avis-champ">
+            <label for="prestation">Prestation commandée</label>
+            <select id="prestation" name="prestation" required>
+              <option value="" disabled <?php echo $ancienPrestation === '' ? 'selected' : ''; ?>>Choisissez...</option>
+              <option value="Cheffe à domicile" <?php echo $ancienPrestation === 'Cheffe à domicile' ? 'selected' : ''; ?>>Cheffe à domicile</option>
+              <option value="Traiteur" <?php echo $ancienPrestation === 'Traiteur' ? 'selected' : ''; ?>>Traiteur</option>
+              <option value="Cours de cuisine" <?php echo $ancienPrestation === 'Cours de cuisine' ? 'selected' : ''; ?>>Cours de cuisine</option>
+            </select>
+          </div>
+
+          <!-- Champ : témoignage -->
+          <div class="avis-champ">
+            <label for="temoignage">
+              <span>Votre témoignage</span>
+              <span class="avis-champ-aide">(quelques mots suffisent, l'essentiel est votre ressenti)</span>
+            </label>
+
             <textarea id="temoignage" name="temoignage" maxlength="250" rows="4" required><?php echo htmlspecialchars($ancienTemoignage); ?></textarea>
             <p class="avis-champ-compteur"><span id="compteur-valeur"><?php echo strlen($ancienTemoignage); ?></span> / 250</p>
           </div>
 
-          <!-- Champ 3 : consentement (D2) -->
-          <div class="avis-champ avis-champ--case">
+          <!-- Champ : consentement (D2) -->
+          <div class="avis-champ avis-champ--case avis-champ--case-secondaire">
             <input type="checkbox" id="consentement" name="consentement" required>
             <label for="consentement">
               J'autorise Cheffe Kamano à publier mon témoignage et mon prénom sur son site internet.
@@ -137,17 +207,39 @@ unset($_SESSION['avis_succes'], $_SESSION['avis_erreur'], $_SESSION['avis_nom'],
       boutonEnvoi.disabled = false;
     }, 3500);
 
-    // Si on revient sur la page après une erreur, focus le premier champ vide
-    const champNom          = document.getElementById('nom');
+    // Bascule particulier / société : affiche le bon jeu de champs,
+    // et ajuste les champs obligatoires en conséquence.
+    const radiosTypeReponse = document.querySelectorAll('input[name="type_reponse"]');
+    const blocParticulier   = document.getElementById('bloc-particulier');
+    const blocSociete       = document.getElementById('bloc-societe');
+    const champPrenom       = document.getElementById('prenom');
+    const champNomFamille   = document.getElementById('nom_famille');
+    const champNomSociete   = document.getElementById('nom_societe');
+
+    function estModeSociete() {
+      return document.querySelector('input[name="type_reponse"]:checked').value === 'societe';
+    }
+
+    function basculerModeSociete() {
+      const estSociete = estModeSociete();
+      blocParticulier.hidden = estSociete;
+      blocSociete.hidden     = !estSociete;
+      champPrenom.required     = !estSociete;
+      champNomFamille.required = !estSociete;
+      champNomSociete.required = estSociete;
+    }
+
+    radiosTypeReponse.forEach(radio => radio.addEventListener('change', basculerModeSociete));
+    basculerModeSociete(); // état initial au chargement
+
+    // Si on revient sur la page après une erreur, focus le premier champ pertinent
     const champConsentement = document.getElementById('consentement');
-    if (champNom) {
-      if (champNom.value.trim() === '') {
-        champNom.focus();
-      } else if (champTemoignage.value.trim() === '') {
-        champTemoignage.focus();
-      } else if (champConsentement && !champConsentement.checked) {
-        champConsentement.focus();
-      }
+    if (!estModeSociete() && champPrenom.value.trim() === '') {
+      champPrenom.focus();
+    } else if (champTemoignage.value.trim() === '') {
+      champTemoignage.focus();
+    } else if (champConsentement && !champConsentement.checked) {
+      champConsentement.focus();
     }
   </script>
 
